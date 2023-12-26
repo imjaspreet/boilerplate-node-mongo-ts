@@ -1,6 +1,4 @@
-import { password } from './../validators/custom.validation';
 import httpStatus from 'http-status';
-import * as userService from '../services/users';
 import { Request, Response } from 'express';
 import {
       register,
