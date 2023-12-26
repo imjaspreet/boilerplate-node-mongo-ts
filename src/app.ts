@@ -39,11 +39,11 @@ app.use(ExpressMongoSanitize());
 // }
 
 // v1 api routes
-app.use('/v1', routes);
+app.use('/api', routes);
 
 // send back a 404 error for any unknown api request
 app.use((_req, _res, next) => {
-  next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
+      next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
 });
 
 // convert error to ApiError, if needed
