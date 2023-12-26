@@ -3,48 +3,97 @@ import { password, objectId } from './custom.validation';
 import { NewCreatedUser } from '../interfaces/user';
 
 const createUserBody: Record<keyof NewCreatedUser, any> = {
-  email: Joi.string().required().email(),
-  password: Joi.string().required().custom(password),
-  name: Joi.string().required(),
-  role: Joi.string().required().valid('user', 'admin'),
+      code: Joi.string(),
+      status: Joi.string().default(null),
+      email: Joi.string().required().email().lowercase(),
+      password: Joi.string().required().custom(password),
+      authMethod: Joi.string()
+            .required()
+            .valid('google', 'facebook', 'apple', 'email'),
+      name: Joi.string().required().lowercase(),
+      role: Joi.string().required().valid('user', 'admin', 'guest'),
+      language: Joi.string().default('english'),
 };
 
 export const createUser = {
-  body: Joi.object().keys(createUserBody),
+      body: Joi.object().keys(createUserBody),
 };
 
 export const getUsers = {
-  query: Joi.object().keys({
-    name: Joi.string(),
-    role: Joi.string(),
-    sortBy: Joi.string(),
-    projectBy: Joi.string(),
-    limit: Joi.number().integer(),
-    page: Joi.number().integer(),
-  }),
+      query: Joi.object().keys({
+            name: Joi.string(),
+            role: Joi.string(),
+            sortBy: Joi.string(),
+            projectBy: Joi.string(),
+            limit: Joi.number().integer(),
+            page: Joi.number().integer(),
+      }),
 };
 
 export const getUser = {
-  params: Joi.object().keys({
-    userId: Joi.string().custom(objectId),
-  }),
+      params: Joi.object().keys({
+            userId: Joi.string().custom(objectId),
+      }),
 };
 
 export const updateUser = {
-  params: Joi.object().keys({
-    userId: Joi.required().custom(objectId),
-  }),
-  body: Joi.object()
-    .keys({
-      email: Joi.string().email(),
-      password: Joi.string().custom(password),
-      name: Joi.string(),
-    })
-    .min(1),
+      params: Joi.object().keys({
+            userId: Joi.required().custom(objectId),
+      }),
+      body: Joi.object()
+            .keys({
+                  email: Joi.string().email(),
+                  password: Joi.string().custom(password),
+                  name: Joi.string(),
+            })
+            .min(1),
 };
 
 export const deleteUser = {
-  params: Joi.object().keys({
-    userId: Joi.string().custom(objectId),
-  }),
+      params: Joi.object().keys({
+            userId: Joi.string().custom(objectId),
+      }),
+};
+
+export const login = {
+      body: Joi.object().keys({
+            email: Joi.string().lowercase(),
+            password: Joi.string(),
+      }),
+};
+export const verify = {
+      body: Joi.object().keys({
+            id: Joi.string().lowercase(),
+            code: Joi.string(),
+      }),
+};
+
+export const forgot = {
+      body: Joi.object().keys({
+            email: Joi.string().lowercase(),
+      }),
+};
+
+export const resendOtp = {
+      body: Joi.object().keys({
+            id: Joi.string().custom(objectId),
+      }),
+};
+
+export const reset = {
+      params: Joi.object().keys({
+            id: Joi.string().custom(objectId),
+      }),
+      body: Joi.object().keys({
+            password: Joi.string().required(),
+      }),
+};
+export const updatePassword = {
+      params: Joi.object().keys({
+            id: Joi.string().custom(objectId),
+      }),
+      body: Joi.object().keys({
+            password: Joi.string().required(),
+            newPassword: Joi.string().required(),
+      }),
 };

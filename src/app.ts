@@ -1,4 +1,4 @@
-import express, { Express } from 'express';
+import express, { Express, Request, Response } from 'express';
 import helmet from 'helmet';
 import ExpressMongoSanitize from 'express-mongo-sanitize';
 import cors from 'cors';
@@ -38,6 +38,9 @@ app.use(ExpressMongoSanitize());
 //   app.use('/v1/auth', authLimiter);
 // }
 
+app.get('/', async (_req: Request, res: Response) => {
+      return res.send({ isSuccess: true, title: 'API WORKING' });
+});
 // v1 api routes
 app.use('/api', routes);
 
