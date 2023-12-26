@@ -4,10 +4,10 @@ import {
       IUserDoc,
       IUserWithPassword,
 } from 'interfaces/user';
-import User from 'models/user';
-import { ApiError } from 'utils/error';
+import User from '../models/user';
+import ApiError from '../utils/error/ApiError';
 import bcrypt from 'bcrypt';
-import { randomPin } from 'utils/number';
+import {randomPin}  from '../utils/number';
 export const register = async (
       userBody: NewRegisteredUser,
 ): Promise<IUserDoc> => {
