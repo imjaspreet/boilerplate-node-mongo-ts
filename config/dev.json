@@ -1,0 +1,10 @@
+{
+    "env": "dev",
+    "mongodb": {
+        "database": "boilerplate-node-mongo-ts",
+        "host": "mongodb://bcoderAdmin:bcoderAdmin123@199.192.21.220:27017/boilerplate-node-mongo-ts?authSource=admin"
+    },
+    "webServer": {
+        "port": 3000
+    }
+}
