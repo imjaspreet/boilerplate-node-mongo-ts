@@ -13,7 +13,7 @@ winston.level = logConfig.level || 'info';
 const transports: winston.transport[] = [];
 
 for (const type of Object.getOwnPropertyNames(logConfig)) {
-  if (typeof logConfig[type] === 'function' || type === 'util') {
+  if (typeof logConfig[type] === 'function' || type === 'level') {
     continue;
   }
 

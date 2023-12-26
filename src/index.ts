@@ -1,6 +1,9 @@
 import { setGlobalEnvironment } from './global';
 import app from './app';
 import Environment from './environments/environment';
+import createLogger from './helpers/logger';
+
+const logger = createLogger('Index.ts');
 
 const env: Environment = new Environment();
 setGlobalEnvironment(env);
@@ -10,7 +13,7 @@ setGlobalEnvironment(env);
 let server: any;
 
 server = app.listen(env.port, () => {
-    console.log(`Listening to port ${env.port}`);
+  logger.info(`Listening to port ${env.port}`);
 });
 
 const exitHandler = () => {
