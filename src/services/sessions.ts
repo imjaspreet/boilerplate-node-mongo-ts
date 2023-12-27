@@ -3,7 +3,7 @@ import { setGlobalEnvironment } from '../global'
 import * as jwt from '../utils/jwt'
 import moment from 'moment'
 import { IUserDoc } from '../interfaces/user'
-import Session from 'models/session'
+import Session from '../models/session'
 import Environment from '../environments/environment'
 const env: Environment = new Environment()
 setGlobalEnvironment(env)

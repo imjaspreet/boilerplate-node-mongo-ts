@@ -4,7 +4,7 @@ import httpStatus from 'http-status'
 import { verifyAccessToken, verifyRefreshToken } from '../utils/jwt'
 import { get } from '../services/sessions'
 import ApiError from '../utils/error/ApiError'
-import User from 'models/user'
+import User from '../models/user'
 import { ISession } from 'interfaces/session'
 import { IUserDoc } from 'interfaces/user'
 
@@ -58,7 +58,7 @@ interface ReqModel extends Request {
   user: IUserDoc
 }
 
-export const validate = async (
+export const validateToken = async (
   req: ReqModel,
   res: Response,
   next: NextFunction,
@@ -66,7 +66,7 @@ export const validate = async (
   try {
     const token =
       req.body.token || req.query.token || req.headers['x-access-token']
-    if (!token) throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid Access')
+    if (!token) throw new ApiError(httpStatus.UNAUTHORIZED, 'token Required')
 
     const claims = await tokenValidator(token)
     req.sessionId = claims.session
@@ -93,7 +93,7 @@ export const validateTokenOptional = (
 ) => {
   const token =
     req.body.token || req.query.token || req.headers['x-access-token']
-  if (!token) return validate(req, res, next)
+  if (!token) return validateToken(req, res, next)
 
   req.sessionId = null
   req.userId = null
