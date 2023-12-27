@@ -33,8 +33,7 @@ router
 router
   .route('/:id')
   .delete(validate(userValidation.deleteUser), userController.remove)
-router
-  .route('/')
-  .get(validate(userValidation.getUsers), validateToken, userController.search)
+
+router.route('/').get(validate(userValidation.getUsers), userController.search)
 
 export default router

@@ -20,7 +20,7 @@ mongoose.connect(env.mongodb.url).then(() => {
 const exitHandler = () => {
   if (server) {
     server.close(() => {
-      // logger.info('Server closed');
+      logger.info('Server closed')
       process.exit(1)
     })
   } else {
@@ -29,7 +29,7 @@ const exitHandler = () => {
 }
 
 const unexpectedErrorHandler = (error: string) => {
-  // logger.error(error);
+  logger.error(error)
   exitHandler()
 }
 
@@ -37,7 +37,7 @@ process.on('uncaughtException', unexpectedErrorHandler)
 process.on('unhandledRejection', unexpectedErrorHandler)
 
 process.on('SIGTERM', () => {
-  // logger.info('SIGTERM received');
+  logger.info('SIGTERM received')
   if (server) {
     server.close()
   }

@@ -54,6 +54,7 @@
     "mongoose": "^8.0.3",
     "underscore": "^1.13.6",
     "validator": "^13.11.0",
+    "winston": "^3.11.0",
     "xss-clean": "^0.1.4"
   }
 }

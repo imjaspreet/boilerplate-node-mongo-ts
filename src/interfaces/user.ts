@@ -1,4 +1,5 @@
 import mongoose, { Model, Document } from 'mongoose'
+import { QueryResult } from '../helpers/paginate'
 
 export interface IUser {
   name: string
@@ -21,6 +22,10 @@ export interface IUserModel extends Model<IUserDoc> {
     email: string,
     excludeUserId?: mongoose.Types.ObjectId,
   ): Promise<boolean>
+  paginate(
+    filter: Record<string, any>,
+    options: Record<string, any>,
+  ): Promise<QueryResult>
 }
 
 export type UpdateUserBody = Partial<IUser>

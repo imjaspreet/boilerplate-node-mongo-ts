@@ -2,11 +2,13 @@ import httpStatus from 'http-status'
 import User from '../models/user'
 import ApiError from '../utils/error/ApiError'
 import { NewCreatedUser, IUserDoc, UpdateUserBody } from '../interfaces/user'
+import { IOptions, QueryResult } from '../helpers/paginate'
 
 const set = <T>(model: T, entity: T): T => {
   Object.assign(entity, model)
   return entity
 }
+
 /**
  * Create a user
  * @param {NewCreatedUser} userBody
@@ -20,6 +22,7 @@ export const createUser = async (
   }
   return await User.create(userBody)
 }
+
 /**
  *
  * @param id
@@ -68,39 +71,17 @@ export const get = async (
 
   return null
 }
-interface SearchResults {
-  count: number
-  items: IUserDoc[]
-}
 
-interface PageOptions {
-  skip: number | 0
-  limit: number | 10
-  sort: { createdAt: -1 }
-}
+/**
+ * Query for users
+ * @param {Object} filter - Mongo filter
+ * @param {Object} options - Query options
+ * @returns {Promise<QueryResult>}
+ */
 export const search = async (
-  query: any,
-  user: IUserDoc,
-  page: PageOptions,
-): Promise<SearchResults> => {
-  let where = {
-    _id: { $ne: user && user.id },
-  }
-
-  const count: number = await User.countDocuments(where)
-
-  let items: IUserDoc[]
-  if (page) {
-    items = await User.find(where)
-      .sort(page.sort)
-      .skip(page.skip)
-      .limit(page.limit)
-  } else {
-    items = await User.find(where).sort({ createdAt: -1 })
-  }
-
-  return {
-    count,
-    items,
-  }
+  filter: Record<string, any>,
+  options: IOptions,
+): Promise<QueryResult> => {
+  const users = await User.paginate(filter, options)
+  return users
 }

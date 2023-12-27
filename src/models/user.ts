@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
+import paginate from '../helpers/paginate'
+import toJSON from '../helpers/toJSON'
 import { IUserDoc, IUserModel } from './../interfaces/user'
 
 const userSchema = new mongoose.Schema<IUserDoc, IUserModel>(
@@ -39,8 +41,8 @@ const userSchema = new mongoose.Schema<IUserDoc, IUserModel>(
 )
 
 // // add plugin that converts mongoose to json
-// userSchema.plugin(toJSON);
-// userSchema.plugin(paginate);
+userSchema.plugin(toJSON)
+userSchema.plugin(paginate)
 
 /**
  * Check if email is taken
@@ -54,11 +56,21 @@ userSchema.static(
     email: string,
     excludeUserId: mongoose.ObjectId,
   ): Promise<boolean> {
-    const user = await this.findOne({
-      email,
-      _id: { $ne: excludeUserId },
-    })
+    const user = await this.findOne({ email, _id: { $ne: excludeUserId } })
     return !!user
+  },
+)
+
+/**
+ * Check if password matches the user's password
+ * @param {string} password
+ * @returns {Promise<boolean>}
+ */
+userSchema.method(
+  'isPasswordMatch',
+  async function (password: string): Promise<boolean> {
+    const user = this
+    return bcrypt.compare(password, user.password)
   },
 )
 
