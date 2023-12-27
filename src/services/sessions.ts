@@ -32,8 +32,11 @@ const createSession = async (
   entity.accessToken = jwt.getAccessToken(user, entity as ISession)
   entity.refreshToken = jwt.getRefreshToken(user)
 
-  entity.accessTokenExpires = `${moment().add(env.secretPeriod, 'minutes')}`
-  entity.refreshTokenExpires = `${moment().add(env.refreshPeriod, 'days')}`
+  entity.accessTokenExpires = `${moment().add(
+    env.auth.secretPeriod,
+    'minutes',
+  )}`
+  entity.refreshTokenExpires = `${moment().add(env.auth.refreshPeriod, 'days')}`
 
   return (await entity.save()) as ISession
 }

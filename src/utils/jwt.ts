@@ -24,8 +24,8 @@ export const getAccessToken = (user: User, session: Session): string => {
     session: session.id,
     user: user.id,
   }
-  return jwt.sign(claims, env.secretKey, {
-    expiresIn: `${env.secretPeriod}m`,
+  return jwt.sign(claims, env.auth.secretKey, {
+    expiresIn: `${env.auth.secretPeriod}m`,
   })
 }
 
@@ -34,15 +34,15 @@ export const getRefreshToken = (user: User): string => {
     user: user.id,
     session: '',
   }
-  return jwt.sign(claims, env.refreshKey, {
-    expiresIn: `${env.refreshPeriod}d`,
+  return jwt.sign(claims, env.auth.refreshKey, {
+    expiresIn: `${env.auth.refreshPeriod}d`,
   })
 }
 
 export const verifyAccessToken = (token: string): any => {
-  return jwt.verify(token, env.secretKey)
+  return jwt.verify(token, env.auth.secretKey)
 }
 
 export const verifyRefreshToken = (token: string): IUserDoc['id'] => {
-  return jwt.verify(token, env.refreshKey)
+  return jwt.verify(token, env.auth.refreshKey)
 }

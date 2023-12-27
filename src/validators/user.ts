@@ -11,7 +11,7 @@ const createUserBody: Record<keyof NewCreatedUser, any> = {
     .required()
     .valid('google', 'facebook', 'apple', 'email'),
   name: Joi.string().required().lowercase(),
-  role: Joi.string().required().valid('user', 'admin', 'guest'),
+  role: Joi.string().valid('user', 'admin', 'guest'),
   language: Joi.string().default('english'),
 }
 

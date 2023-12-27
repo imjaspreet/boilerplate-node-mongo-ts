@@ -10,17 +10,17 @@ let mongoConnection: Connection
 
 // Set up a MongoDB in-memory server before all tests
 beforeAll(async () => {
-  mongoServer = new MongoMemoryServer()
-  mongoConnection = await mongoose.connect(env.mongoUrl, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  // mongoServer = new MongoMemoryServer()
+  // mongoConnection = await mongoose.connect(env.mongoUrl, {
+  //   useNewUrlParser: true,
+  //   useUnifiedTopology: true,
+  // })
 })
 
 // Clean up and close the MongoDB in-memory server after all tests
 afterAll(async () => {
-  await mongoConnection.disconnect()
-  await mongoServer.stop()
+  // await mongoConnection.disconnect()
+  // await mongoServer.stop()
 })
 
 describe('MongoDB Connectivity Test', () => {

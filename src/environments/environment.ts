@@ -6,24 +6,35 @@ import IEnvironment from './environment.interface'
 
 class Environment implements IEnvironment {
   public port: number
-  public mongoUrl: string
-  public secretKey: string
-  public secretPeriod: string
-  public refreshKey: string
-  public refreshPeriod: string
-  public sessionType: string
+
+  public auth: {
+    secretKey: string
+    secretPeriod: string
+    refreshKey: string
+    refreshPeriod: string
+    sessionType: string
+  }
+  public mongodb: {
+    url: string
+  }
 
   constructor(NODE_ENV?: string) {
     const env: string = NODE_ENV || process.env.NODE_ENV || Environments.DEV
     const port: string | undefined | number = process.env.PORT || 3000
     this.setEnvironment(env)
     this.port = Number(port)
-    this.mongoUrl = String(process.env.MONGO_URL)
-    this.secretKey = String(process.env.SECRET_KEY)
-    this.secretPeriod = String(process.env.SECRET_PERIOD)
-    this.refreshKey = String(process.env.REFRESH_KEY)
-    this.refreshPeriod = String(process.env.REFRESH_PERIOD)
-    this.sessionType = String(process.env.SESSION_TYPE)
+
+    this.mongodb = {
+      url: String(process.env.MONGO_URL),
+    }
+
+    this.auth = {
+      secretKey: String(process.env.SECRET_KEY),
+      secretPeriod: String(process.env.SECRET_PERIOD),
+      refreshKey: String(process.env.REFRESH_KEY),
+      refreshPeriod: String(process.env.REFRESH_PERIOD),
+      sessionType: String(process.env.SESSION_TYPE),
+    }
   }
 
   public getCurrentEnvironment(): string {

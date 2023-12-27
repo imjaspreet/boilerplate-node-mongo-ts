@@ -1,15 +1,18 @@
-import { setGlobalEnvironment } from './global'
+import mongoose from 'mongoose'
 import app from './app'
+
+import { setGlobalEnvironment } from './global'
 import Environment from './environments/environment'
-import database from './database/database'
+
 const env: Environment = new Environment()
 setGlobalEnvironment(env)
 
-database(env.mongoUrl)
 let server: any
-
-server = app.listen(env.port, () => {
-  console.log(`Listening to port ${env.port}`)
+mongoose.connect(env.mongodb.url).then(() => {
+  console.log('Connected to MongoDB')
+  server = app.listen(env.port, () => {
+    console.log(`Listening to port ${env.port}`)
+  })
 })
 
 const exitHandler = () => {
