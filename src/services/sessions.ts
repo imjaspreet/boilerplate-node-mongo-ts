@@ -10,7 +10,7 @@ interface userModel {
   fcmToken: string
 }
 
-const createSession = async (
+export const createSession = async (
   user: IUserDoc['id'],
   body: userModel,
 ): Promise<ISession> => {
@@ -21,9 +21,9 @@ const createSession = async (
     deviceType: body.deviceType,
   }
 
-  //   if (sessionType == 'single') {
-  //         await expireSessions(user.id);
-  //   }
+  if (global.environment.auth.refreshPeriod == 'single') {
+    await expireSessions(user.id)
+  }
   const entity = await Session.create(model)
   entity.accessToken = jwt.getAccessToken(user, entity as ISession)
   entity.refreshToken = jwt.getRefreshToken(user)
@@ -40,12 +40,10 @@ const createSession = async (
   return (await entity.save()) as ISession
 }
 
-const expireSessions = async (userId: IUserDoc['_id']) => {
+export const expireSessions = async (userId: IUserDoc['_id']) => {
   await Session.updateMany({ user: userId }, { status: 'expired' })
 }
 
-const get = async (id: string) => {
+export const get = async (id: string) => {
   return await Session.findById(id)
 }
-
-export { createSession, expireSessions, get }
