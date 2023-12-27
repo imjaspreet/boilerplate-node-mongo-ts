@@ -4,6 +4,7 @@ import User from '../models/user'
 import ApiError from '../utils/error/ApiError'
 import bcrypt from 'bcrypt'
 import { randomPin } from '../utils/number'
+import { createSession } from '../services/sessions'
 export const register = async (
   userBody: NewRegisteredUser,
 ): Promise<IUserDoc> => {
@@ -15,7 +16,7 @@ export const register = async (
 
 export const accountLogin = async (
   userBody: IUserWithPassword,
-): Promise<any> => {
+): Promise<unknown> => {
   const user: IUserDoc = await User.findOne({ email: userBody.email })
   if (!user) throw new ApiError(httpStatus.NOT_FOUND, 'account not found')
   if (!user.isEmailVerified || user.status == 'pending') {
@@ -24,10 +25,20 @@ export const accountLogin = async (
   const isPasswordMatch = bcrypt.compareSync(userBody.password, user.password)
   if (!isPasswordMatch)
     throw new ApiError(httpStatus.NOT_FOUND, 'Invalid email and password')
-  return user
+  const userModelData = {
+    deviceId: userBody.deviceId,
+    deviceType: userBody.deviceType,
+    fcmToken: userBody.fcmToken,
+  }
+  const session = await createSession(user, userModelData)
+
+  return { ...user, ...session }
 }
 
-export const verification = async (id: string, code: string): Promise<any> => {
+export const verification = async (
+  id: string,
+  code: string,
+): Promise<string> => {
   const user: IUserDoc = await User.findById(id)
   if (!user) throw new ApiError(httpStatus.NOT_FOUND, 'account not found')
   if (user.code !== code.toString()) {
@@ -40,14 +51,14 @@ export const verification = async (id: string, code: string): Promise<any> => {
   return 'account verified sucessfully'
 }
 
-export const forgotPassword = async (userBody: IUserDoc): Promise<any> => {
+export const forgotPassword = async (userBody: IUserDoc): Promise<IUserDoc> => {
   const user: IUserDoc = await User.findOne({ email: userBody.email })
   if (!user) throw new ApiError(httpStatus.NOT_FOUND, 'account not found')
   user.code = String(randomPin())
   return await user.save()
 }
 
-export const resendCode = async (userBody: IUserDoc): Promise<any> => {
+export const resendCode = async (userBody: IUserDoc): Promise<string> => {
   const user: IUserDoc = await User.findById(userBody.id)
   if (!user) throw new ApiError(httpStatus.NOT_FOUND, 'user not found')
   user.code = String(randomPin())
@@ -58,7 +69,7 @@ export const resendCode = async (userBody: IUserDoc): Promise<any> => {
 export const resetPassword = async (
   id: string,
   password: string,
-): Promise<any> => {
+): Promise<string> => {
   const user: IUserDoc = await User.findById(id)
   if (!user) throw new ApiError(httpStatus.NOT_FOUND, 'user not found')
   user.password = password
@@ -70,7 +81,7 @@ export const changePassword = async (
   id: string,
   password: string,
   newPassword: string,
-): Promise<any> => {
+): Promise<string> => {
   const user: IUserDoc = await User.findById(id)
   if (!user) throw new ApiError(httpStatus.NOT_FOUND, 'user not found')
   const isPasswordMatch = bcrypt.compareSync(password, user.password)

@@ -1,5 +1,5 @@
-import { IUserModel } from './user'
-
+import { IUserModel, IUserDoc } from './user'
+import moment from 'moment'
 export interface ISession {
   id: string
   deviceId: string
@@ -10,4 +10,15 @@ export interface ISession {
   accessTokenExpires: string
   refreshTokenExpires: string
   user: IUserModel
+}
+
+export interface ISessionModel {
+  user: IUserDoc['id']
+  fcmToken: string
+  deviceType: string
+  deviceId: string
+  accessToken?: string
+  refreshToken?: string
+  accessTokenExpires?: moment.Moment
+  refreshTokenExpires?: moment.Moment
 }

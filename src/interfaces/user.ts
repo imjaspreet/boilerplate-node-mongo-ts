@@ -1,4 +1,3 @@
-import { password } from './../validators/custom.validation'
 import mongoose, { Model, Document } from 'mongoose'
 
 export interface IUser {
@@ -32,9 +31,12 @@ export type NewCreatedUser = Omit<IUser, 'isEmailVerified'>
 
 export interface IUserWithTokens {
   user: IUserDoc
-  accessToken: String
+  accessToken: string
 }
 
 export interface IUserWithPassword extends IUser {
   password: string
+  deviceId: string
+  deviceType: string
+  fcmToken: string
 }

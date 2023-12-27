@@ -11,6 +11,7 @@ class Environment implements IEnvironment {
   public secretPeriod: string
   public refreshKey: string
   public refreshPeriod: string
+  public sessionType: string
 
   constructor(NODE_ENV?: string) {
     const env: string = NODE_ENV || process.env.NODE_ENV || Environments.DEV
@@ -22,6 +23,7 @@ class Environment implements IEnvironment {
     this.secretPeriod = String(process.env.SECRET_PERIOD)
     this.refreshKey = String(process.env.REFRESH_KEY)
     this.refreshPeriod = String(process.env.REFRESH_PERIOD)
+    this.sessionType = String(process.env.SESSION_TYPE)
   }
 
   public getCurrentEnvironment(): string {
