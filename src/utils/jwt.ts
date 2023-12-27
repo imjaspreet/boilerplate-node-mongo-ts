@@ -1,15 +1,10 @@
+import { ISession } from './../interfaces/session'
 import { setGlobalEnvironment } from '../global'
 import * as jwt from 'jsonwebtoken'
 import Environment from '../environments/environment'
+import { IUserDoc } from 'interfaces/user'
 const env: Environment = new Environment()
 setGlobalEnvironment(env)
-
-interface AuthConfig {
-  secret: string
-  tokenPeriod: number
-  refreshSecret: string
-  refreshPeriod: number
-}
 
 interface User {
   id: string
@@ -48,6 +43,6 @@ export const verifyAccessToken = (token: string): any => {
   return jwt.verify(token, env.secretKey)
 }
 
-export const verifyRefreshToken = (token: string): any => {
-  return jwt.verify(token, env.secretKey)
+export const verifyRefreshToken = (token: string): IUserDoc['id'] => {
+  return jwt.verify(token, env.refreshKey)
 }

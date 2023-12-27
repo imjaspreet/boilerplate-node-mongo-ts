@@ -14,6 +14,7 @@ const sessionSchema = new mongoose.Schema<ISession>(
     fcmToken: String,
     accessTokenExpires: String,
     refreshTokenExpires: String,
+    status: { type: String, default: 'active', enum: ['active', 'expired'] },
     user: {
       type: mongoose.Types.ObjectId,
       ref: 'user',

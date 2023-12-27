@@ -7,6 +7,7 @@ export interface ISession {
   accessToken: string
   refreshToken: string
   fcmToken: string
+  status: string
   accessTokenExpires: string
   refreshTokenExpires: string
   user: IUserModel
@@ -21,4 +22,8 @@ export interface ISessionModel {
   refreshToken?: string
   accessTokenExpires?: moment.Moment
   refreshTokenExpires?: moment.Moment
+}
+
+export interface ISessionDoc extends ISessionModel {
+  id: string
 }
