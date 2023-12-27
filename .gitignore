@@ -1,5 +1,5 @@
 .idea/
-.vscode/
+# .vscode/
 node_modules/
 dist/
 tmp/
@@ -12,5 +12,4 @@ logs/
 .env.prod
 .env.staging
 .env.test
-*.env
 **/.DS_Store

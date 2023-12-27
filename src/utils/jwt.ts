@@ -1,4 +1,3 @@
-import { ISession } from './../interfaces/session'
 import { setGlobalEnvironment } from '../global'
 import * as jwt from 'jsonwebtoken'
 import Environment from '../environments/environment'
@@ -24,8 +23,8 @@ export const getAccessToken = (user: User, session: Session): string => {
     session: session.id,
     user: user.id,
   }
-  return jwt.sign(claims, env.auth.secretKey, {
-    expiresIn: `${env.auth.secretPeriod}m`,
+  return jwt.sign(claims, global.environment.auth.secretKey, {
+    expiresIn: `${global.environment.auth.secretPeriod}m`,
   })
 }
 
@@ -35,14 +34,14 @@ export const getRefreshToken = (user: User): string => {
     session: '',
   }
   return jwt.sign(claims, env.auth.refreshKey, {
-    expiresIn: `${env.auth.refreshPeriod}d`,
+    expiresIn: `${global.environment.auth.refreshPeriod}d`,
   })
 }
 
-export const verifyAccessToken = (token: string): any => {
-  return jwt.verify(token, env.auth.secretKey)
+export const verifyAccessToken = (token: string): unknown => {
+  return jwt.verify(token, global.environment.auth.refreshKey)
 }
 
 export const verifyRefreshToken = (token: string): IUserDoc['id'] => {
-  return jwt.verify(token, env.auth.refreshKey)
+  return jwt.verify(token, global.environment.auth.refreshKey)
 }
