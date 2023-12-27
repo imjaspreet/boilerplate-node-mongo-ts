@@ -22,13 +22,15 @@ router
   .post(validate(userValidation.forgot), authController.forgot)
 
 router
-  .route('/resend/otp')
+  .route('/resend/otp/:id')
   .get(validate(userValidation.resendOtp), authController.resendOtp)
 
-router.route('/reset').put(validate(userValidation.reset), authController.reset)
+router
+  .route('/reset/:id')
+  .put(validate(userValidation.reset), authController.reset)
 
 router
-  .route('/update/password')
+  .route('/update/password/:id')
   .put(validate(userValidation.updatePassword), authController.updatePassword)
 
 export default router

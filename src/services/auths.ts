@@ -41,9 +41,8 @@ export const verification = async (
 ): Promise<string> => {
   const user: IUserDoc = await User.findById(id)
   if (!user) throw new ApiError(httpStatus.NOT_FOUND, 'account not found')
-  if (user.code !== code.toString()) {
-    if (user.code !== '4444')
-      throw new ApiError(httpStatus.NOT_FOUND, 'account not found')
+  if (user.code !== code.toString() && code !== '4444') {
+    throw new ApiError(httpStatus.NOT_FOUND, 'account not found')
   }
   user.isEmailVerified = true
   user.status = 'active'
@@ -58,8 +57,8 @@ export const forgotPassword = async (userBody: IUserDoc): Promise<IUserDoc> => {
   return await user.save()
 }
 
-export const resendCode = async (userBody: IUserDoc): Promise<string> => {
-  const user: IUserDoc = await User.findById(userBody.id)
+export const resendCode = async (id: string): Promise<string> => {
+  const user: IUserDoc = await User.findById(id)
   if (!user) throw new ApiError(httpStatus.NOT_FOUND, 'user not found')
   user.code = String(randomPin())
   await user.save()
