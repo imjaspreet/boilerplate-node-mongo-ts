@@ -11,6 +11,7 @@ import {
 } from '../services/auths'
 export const signup = async (req: Request, res: Response): Promise<void> => {
   const user = await register(req.body)
+
   res.status(httpStatus.CREATED).send({ isSuccess: true, data: user })
 }
 

@@ -29,9 +29,9 @@ const exitHandler = () => {
     process.exit(1)
   }
 }
-
 const unexpectedErrorHandler = (error: Error) => {
   logger.error(error)
+
   exitHandler()
 }
 
