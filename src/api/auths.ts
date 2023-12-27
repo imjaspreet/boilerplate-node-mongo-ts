@@ -11,6 +11,7 @@ import {
 } from '../services/auths'
 export const signup = async (req: Request, res: Response): Promise<void> => {
   const user = await register(req.body)
+
   res.status(httpStatus.CREATED).send({ isSuccess: true, data: user })
 }
 
@@ -20,7 +21,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 }
 
 export const verify = async (req: Request, res: Response): Promise<void> => {
-  const user = await verification(req.body.id, req.body.code)
+  const user = await verification(req.body.userId, req.body.code)
   res.status(httpStatus.OK).send({ isSuccess: true, data: user })
 }
 
@@ -30,7 +31,7 @@ export const forgot = async (req: Request, res: Response): Promise<void> => {
 }
 
 export const resendOtp = async (req: Request, res: Response): Promise<void> => {
-  const entity = await resendCode(req.body)
+  const entity = await resendCode(req.params.id)
   res.status(httpStatus.OK).send({ isSuccess: true, message: entity })
 }
 export const reset = async (req: Request, res: Response): Promise<void> => {

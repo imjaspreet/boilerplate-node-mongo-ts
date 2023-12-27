@@ -59,11 +59,14 @@ export const login = {
   body: Joi.object().keys({
     email: Joi.string().lowercase(),
     password: Joi.string(),
+    deviceId: Joi.string(),
+    deviceType: Joi.string().default('ios'),
+    fcmToken: Joi.string(),
   }),
 }
 export const verify = {
   body: Joi.object().keys({
-    id: Joi.string().lowercase(),
+    userId: Joi.string().lowercase(),
     code: Joi.string(),
   }),
 }
@@ -75,7 +78,7 @@ export const forgot = {
 }
 
 export const resendOtp = {
-  body: Joi.object().keys({
+  params: Joi.object().keys({
     id: Joi.string().custom(objectId),
   }),
 }

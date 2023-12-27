@@ -1,20 +1,22 @@
+import * as http from 'http'
 import { setGlobalEnvironment } from './global'
 import app from './app'
 import Environment from './environments/environment'
 import createLogger from './helpers/logger'
 import mongoose from 'mongoose'
-
 const logger = createLogger('Index.ts')
 
 const env: Environment = new Environment()
 setGlobalEnvironment(env)
 
-let server: any
+let server: http.Server | undefined
 
 mongoose.connect(env.mongodb.url).then(() => {
   server = app.listen(env.port, () => {
     logger.info(`Listening to port ${env.port}`)
+    console.log(`Listening to port ${env.port}`)
   })
+  console.log('mongodb Connected successfully')
 })
 
 const exitHandler = () => {
@@ -27,9 +29,9 @@ const exitHandler = () => {
     process.exit(1)
   }
 }
-
-const unexpectedErrorHandler = (error: string) => {
+const unexpectedErrorHandler = (error: Error) => {
   logger.error(error)
+
   exitHandler()
 }
 
@@ -37,7 +39,7 @@ process.on('uncaughtException', unexpectedErrorHandler)
 process.on('unhandledRejection', unexpectedErrorHandler)
 
 process.on('SIGTERM', () => {
-  logger.info('SIGTERM received')
+  // logger.info('SIGTERM received');
   if (server) {
     server.close()
   }
