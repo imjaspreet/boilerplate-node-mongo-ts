@@ -13,6 +13,6 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "./src" /* Skip type checking all .d.ts files. */
   },
-  "include": ["src/**/*.ts", "index.js", "config/*.config.js"],
+  "include": ["src/**/*.ts", "index.js", "config/*.config.js", "jest.setup.ts"],
   "exclude": ["node_modules"]
 }

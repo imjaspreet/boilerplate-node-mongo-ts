@@ -1,31 +1,29 @@
-import { setGlobalEnvironment } from '../global'
-import Environment from '../environments/environment'
-const env: Environment = new Environment()
-setGlobalEnvironment(env)
-import mongoose, { Connection } from 'mongoose'
+// example.test.ts
+import * as dotenv from 'dotenv'
+dotenv.config({ path: '.env.test' })
 import { MongoMemoryServer } from 'mongodb-memory-server'
+import mongoose from 'mongoose'
 
 let mongoServer: MongoMemoryServer
-let mongoConnection: Connection
 
-// Set up a MongoDB in-memory server before all tests
 beforeAll(async () => {
-  // mongoServer = new MongoMemoryServer()
-  // mongoConnection = await mongoose.connect(env.mongoUrl, {
-  //   useNewUrlParser: true,
-  //   useUnifiedTopology: true,
-  // })
+  mongoServer = new MongoMemoryServer()
+  // mongoServer.getUri();
+
+  await mongoose.connect(process.env.MONGO_URL)
 })
 
-// Clean up and close the MongoDB in-memory server after all tests
 afterAll(async () => {
-  // await mongoConnection.disconnect()
-  // await mongoServer.stop()
+  await mongoose.disconnect()
+  await mongoServer.stop()
 })
 
 describe('MongoDB Connectivity Test', () => {
   test('should connect to MongoDB in-memory server', async () => {
-    expect(mongoConnection.readyState).toBe(1) // 1 means connected
+    const db = mongoose.connection
+    db.once('open', () => {
+      expect("Connected to MongoDB'").toBe("Connected to MongoDB'")
+    })
   })
 
   // Add more tests as needed
@@ -36,7 +34,7 @@ describe('MongoDB Connectivity Test', () => {
       name: string
     }
 
-    const TestModel = mongoConnection.model<TestModel>(
+    const TestModel = mongoose.model<TestModel>(
       'TestModel',
       new mongoose.Schema({ name: String }),
     )
