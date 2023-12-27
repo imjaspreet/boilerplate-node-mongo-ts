@@ -11,22 +11,22 @@ import {
 } from '../services/auths'
 export const signup = async (req: Request, res: Response): Promise<void> => {
   const user = await register(req.body)
-  res.status(httpStatus.CREATED).send(user)
+  res.status(httpStatus.CREATED).send({ isSuccess: true, data: user })
 }
 
 export const login = async (req: Request, res: Response): Promise<void> => {
   const user = await accountLogin(req.body)
-  res.status(httpStatus.OK).send(user)
+  res.status(httpStatus.OK).send({ isSuccess: true, data: user })
 }
 
 export const verify = async (req: Request, res: Response): Promise<void> => {
   const user = await verification(req.body.id, req.body.code)
-  res.status(httpStatus.OK).send(user)
+  res.status(httpStatus.OK).send({ isSuccess: true, data: user })
 }
 
 export const forgot = async (req: Request, res: Response): Promise<void> => {
   const user = await forgotPassword(req.body)
-  res.status(httpStatus.OK).send(user)
+  res.status(httpStatus.OK).send({ isSuccess: true, data: user })
 }
 
 export const resendOtp = async (req: Request, res: Response): Promise<void> => {
