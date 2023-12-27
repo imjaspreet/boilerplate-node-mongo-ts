@@ -1,18 +1,17 @@
-import mongoose from 'mongoose'
-import app from './app'
-
 import { setGlobalEnvironment } from './global'
+import app from './app'
 import Environment from './environments/environment'
+import createLogger from './helpers/logger'
+
+const logger = createLogger('Index.ts')
 
 const env: Environment = new Environment()
 setGlobalEnvironment(env)
 
 let server: any
-mongoose.connect(env.mongodb.url).then(() => {
-  console.log('Connected to MongoDB')
-  server = app.listen(env.port, () => {
-    console.log(`Listening to port ${env.port}`)
-  })
+
+server = app.listen(env.port, () => {
+  logger.info(`Listening to port ${env.port}`)
 })
 
 const exitHandler = () => {
