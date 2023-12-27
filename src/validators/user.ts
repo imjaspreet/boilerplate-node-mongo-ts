@@ -4,14 +4,14 @@ import { NewCreatedUser } from '../interfaces/user'
 
 const createUserBody: Record<keyof NewCreatedUser, any> = {
   code: Joi.string(),
-  status: Joi.string().default(null),
+  status: Joi.string(),
   email: Joi.string().required().email().lowercase(),
   password: Joi.string().required().custom(password),
   authMethod: Joi.string()
     .required()
     .valid('google', 'facebook', 'apple', 'email'),
-  name: Joi.string().required().lowercase(),
-  role: Joi.string().required().valid('user', 'admin', 'guest'),
+  name: Joi.string().lowercase(),
+  role: Joi.string().valid('user', 'admin', 'guest').default('user'),
   language: Joi.string().default('english'),
 }
 
