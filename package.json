@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@types/jsonwebtoken": "^9.0.5",
+    "@types/winston": "^2.4.4",
     "bcrypt": "^5.1.1",
     "config": "^3.3.9",
     "cors": "^2.8.5",
@@ -54,6 +55,7 @@
     "mongoose": "^8.0.3",
     "underscore": "^1.13.6",
     "validator": "^13.11.0",
+    "winston": "^3.11.0",
     "xss-clean": "^0.1.4"
   }
 }
