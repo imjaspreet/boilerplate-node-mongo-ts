@@ -2,6 +2,7 @@ import { setGlobalEnvironment } from './global'
 import app from './app'
 import Environment from './environments/environment'
 import createLogger from './helpers/logger'
+import mongoose from 'mongoose'
 
 const logger = createLogger('Index.ts')
 
@@ -10,8 +11,10 @@ setGlobalEnvironment(env)
 
 let server: any
 
-server = app.listen(env.port, () => {
-  logger.info(`Listening to port ${env.port}`)
+mongoose.connect(env.mongodb.url).then(() => {
+  server = app.listen(env.port, () => {
+    logger.info(`Listening to port ${env.port}`)
+  })
 })
 
 const exitHandler = () => {
