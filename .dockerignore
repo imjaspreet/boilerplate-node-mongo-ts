@@ -1,0 +1,21 @@
+# .dockerignore
+
+# Ignore node_modules, as we'll install dependencies in the Dockerfile
+node_modules
+
+# Ignore TypeScript source files, as we'll include the compiled JavaScript
+src/**/*.ts
+
+# Ignore development and test-related files
+*.spec.ts
+*.test.ts
+*.config.js
+jest.config.js
+tsconfig.json
+tsconfig.*.json
+.dockerignore
+.dockerfile
+.dockerignore
+.editorconfig
+.git
+.gitignore
