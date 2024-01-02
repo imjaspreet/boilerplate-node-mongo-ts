@@ -4,6 +4,7 @@ import {
   IUserDoc,
   IUserWithPassword,
   IUserSocialLogin,
+  IAuthModel,
 } from 'interfaces/user'
 import User from '../models/user'
 import ApiError from '../utils/error/ApiError'
@@ -19,9 +20,7 @@ export const register = async (
   return await User.create(userBody)
 }
 
-export const accountLogin = async (
-  userBody: IUserWithPassword,
-): Promise<unknown> => {
+export const accountLogin = async (userBody: IUserDoc): Promise<unknown> => {
   const user: IUserDoc = await User.findOne({ email: userBody.email })
   if (!user) throw new ApiError(httpStatus.NOT_FOUND, 'account not found')
   if (!user.isEmailVerified || user.status == 'pending') {
@@ -36,8 +35,8 @@ export const accountLogin = async (
     fcmToken: userBody.fcmToken,
   }
   const session = await createSession(user, userModelData)
-
-  return { ...user, ...session }
+  user.session = session
+  return user as IAuthModel
 }
 
 export const verification = async (
@@ -102,7 +101,7 @@ export const socialLoginAccount = async (
   const existingUser: IUserSocialLogin = await User.findOne({
     email: body.email,
   })
-  if (existingUser) await validateUser(existingUser)
+  if (existingUser) await validateUser(existingUser as IUserDoc)
   await socialCheck(body, existingUser)
 
   if (existingUser && existingUser.authMethod !== 'email') {

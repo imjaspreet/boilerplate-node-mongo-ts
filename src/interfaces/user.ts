@@ -18,6 +18,10 @@ export interface IUser {
 }
 
 export interface IUserDoc extends IUser, Document {
+  fcmToken: any
+  deviceType: any
+  deviceId: any
+  session: ISession
   isPasswordMatch(password: string): Promise<boolean>
 }
 
