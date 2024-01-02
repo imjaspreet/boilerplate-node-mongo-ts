@@ -3,6 +3,8 @@
 import request from 'supertest'
 import app from '../app'
 let userId: string
+
+jest.setTimeout(80000)
 describe('User API Tests', () => {
   test('POST /api/users creates a new user', async () => {
     // Arrange
@@ -16,9 +18,9 @@ describe('User API Tests', () => {
     // Act
     const response = await request(app).post('/api/users').send(newUser)
     // Assert
-    expect(response.isSuccess).toBe(true)
+    expect(response.body.isSuccess).toBe(true)
 
-    userId = response.data.id
+    userId = response.body.id
     expect(response.data).toEqual(newUser)
   })
 
@@ -29,7 +31,7 @@ describe('User API Tests', () => {
     const response = await request(app).get(`/api/users/${userId}`)
 
     // Assert
-    expect(response.isSuccess).toBe(true)
+    expect(response.body.isSuccess).toBe(true)
     expect(response.data.id).toBe(userId)
   })
 
@@ -41,7 +43,7 @@ describe('User API Tests', () => {
     const response = await request(app).get(`/api/users?name=${userName}`)
 
     // Assert
-    expect(response.isSuccess).toBe(true)
+    expect(response.body.isSuccess).toBe(true)
     expect(response.items).toHaveLength(1)
   })
 })

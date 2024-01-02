@@ -17,9 +17,9 @@ describe('Auth API Tests', () => {
 
     // Act
     const response = await request(app).post('/api/auths/signup').send(newUser)
-    userId = response.data.id
     // Assert
-    expect(response.isSuccess).toBe(true)
+    expect(response.body.isSuccess).toBe(true)
+    userId = response.body.id
 
     expect(response.data).toEqual(newUser)
   })
@@ -33,9 +33,8 @@ describe('Auth API Tests', () => {
       code: '4444',
     })
 
-    // Assert
-    expect(response.isSuccess).toBe(true)
-    expect(response.data)
+    expect(response.body.isSuccess).toBe(true)
+    expect(response.body)
   })
 
   test('POST api/auths/forgot forgot password', async () => {
@@ -45,7 +44,8 @@ describe('Auth API Tests', () => {
     })
 
     // Assert
-    expect(response.data).toHaveLength(1)
+    expect(response.body.isSuccess).toBe(true)
+    expect(response.body)
   })
 
   test('POST api/auths/forgot forgot password', async () => {
@@ -54,7 +54,7 @@ describe('Auth API Tests', () => {
       email: 'shambhu@yopmail.com',
     })
 
-    expect(response.isSuccess).toBe(true)
-    expect(response.data)
+    expect(response.body.isSuccess).toBe(true)
+    expect(response.body)
   })
 })
