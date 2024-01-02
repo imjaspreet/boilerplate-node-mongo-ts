@@ -1,4 +1,3 @@
-// example.test.ts
 import * as dotenv from 'dotenv'
 dotenv.config({ path: '.env.test' })
 import { MongoMemoryServer } from 'mongodb-memory-server'
