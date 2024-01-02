@@ -2,6 +2,7 @@ import Joi from 'joi'
 import { password, objectId } from './custom.validation'
 import { NewCreatedUser } from '../interfaces/user'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createUserBody: Record<keyof NewCreatedUser, any> = {
   code: Joi.string(),
   status: Joi.string().default('pending'),

@@ -40,7 +40,7 @@ export const verify = async (req: Request, res: Response): Promise<void> => {
     const user = await verification(req.body.userId, req.body.code)
     res.status(httpStatus.OK).send({
       isSuccess: true,
-      data: toAuthModel(user as unknown as toUserModel),
+      message: user,
     })
   } catch (error) {
     res.send({ isSuccess: false, error })
