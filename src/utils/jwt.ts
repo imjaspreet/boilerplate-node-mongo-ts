@@ -39,7 +39,7 @@ export const getRefreshToken = (user: User): string => {
 }
 
 export const verifyAccessToken = (token: string): unknown => {
-  return jwt.verify(token, global.environment.auth.refreshKey)
+  return jwt.verify(token, global.environment.auth.secretKey)
 }
 
 export const verifyRefreshToken = (token: string): IUserDoc['id'] => {

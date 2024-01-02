@@ -1,7 +1,4 @@
-import {
-  validateToken,
-  validateTokenOptional,
-} from './../middleware/auth.middleware'
+import * as authMiddleware from './../middleware/auth.middleware'
 import express, { Router } from 'express'
 import validate from '../middleware/validate.middleware'
 import * as userController from '../api/users'
@@ -13,27 +10,37 @@ router
   .route('/')
   .post(
     validate(userValidation.createUser),
-    validateToken,
+    authMiddleware.validateToken,
     userController.create,
   )
 router
   .route('/:id')
   .put(
     validate(userValidation.createUser),
-    validateToken,
+    authMiddleware.validateToken,
     userController.update,
   )
 router
   .route('/:id')
   .get(
     validate(userValidation.getUser),
-    validateTokenOptional,
+    authMiddleware.validateToken,
     userController.get,
   )
 router
   .route('/:id')
-  .delete(validate(userValidation.deleteUser), userController.remove)
+  .delete(
+    validate(userValidation.deleteUser),
+    authMiddleware.validateToken,
+    userController.remove,
+  )
 
-router.route('/').get(validate(userValidation.getUsers), userController.search)
+router
+  .route('/')
+  .get(
+    validate(userValidation.getUsers),
+    authMiddleware.validateToken,
+    userController.search,
+  )
 
 export default router
