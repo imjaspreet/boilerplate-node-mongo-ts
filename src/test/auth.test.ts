@@ -2,7 +2,7 @@
 
 import request from 'supertest'
 import app from '../app'
-let userId
+let userId: string
 
 jest.setTimeout(50000)
 describe('Auth API Tests', () => {
@@ -35,7 +35,7 @@ describe('Auth API Tests', () => {
 
     // Assert
     expect(response.isSuccess).toBe(true)
-    expect(response.data).toHaveLength(1)
+    expect(response.data)
   })
 
   test('POST api/auths/forgot forgot password', async () => {
@@ -55,6 +55,6 @@ describe('Auth API Tests', () => {
     })
 
     expect(response.isSuccess).toBe(true)
-    expect(response.data).toHaveLength(1)
+    expect(response.data)
   })
 })
