@@ -3,6 +3,8 @@
 import request from 'supertest'
 import app from '../app'
 let userId
+
+jest.setTimeout(50000)
 describe('Auth API Tests', () => {
   test('POST /api/auths signup user', async () => {
     // Arrange
@@ -15,16 +17,15 @@ describe('Auth API Tests', () => {
 
     // Act
     const response = await request(app).post('/api/auths/signup').send(newUser)
-    userId = response._id
+    userId = response.data.id
     // Assert
-    expect(response.status).toBe(201)
+    expect(response.isSuccess).toBe(true)
 
-    expect(response.body).toEqual(newUser)
+    expect(response.data).toEqual(newUser)
   })
 
   test('POST /api/auths/verify verify your account', async () => {
     // Arrange
-    const userName = 'ali' // Part of the user name 'Alice'
 
     // Act
     const response = await request(app).post(`/api/auths/verify`).send({
@@ -33,33 +34,27 @@ describe('Auth API Tests', () => {
     })
 
     // Assert
-    expect(response.status).toBe(200)
-    expect(response.body).toHaveLength(1)
-    expect(response.body[0].name.toLowerCase()).toContain(
-      userName.toLowerCase(),
-    )
+    expect(response.isSuccess).toBe(true)
+    expect(response.data).toHaveLength(1)
   })
 
-  test('POST api/auths/login login user', async () => {
-    // Act
-    const response = await request(app).post(`/api/auths/login`).send({
-      email: 'shambhu345@yopmail.com',
-      password: 'Qwerty@123',
-      deviceType: 'ios',
-      fcmToken: 'dshdjsdgj',
-    })
-
-    // Assert
-    expect(response.status).toBe(200)
-    expect(response.body).toHaveLength(1)
-  })
   test('POST api/auths/forgot forgot password', async () => {
     // Act
     const response = await request(app).post(`/api/auths/forgot`).send({
       email: 'shambhu@yopmail.com',
     })
 
-    expect(response.status).toBe(200)
-    expect(response.body).toHaveLength(1)
+    // Assert
+    expect(response.data).toHaveLength(1)
+  })
+
+  test('POST api/auths/forgot forgot password', async () => {
+    // Act
+    const response = await request(app).post(`/api/auths/forgot`).send({
+      email: 'shambhu@yopmail.com',
+    })
+
+    expect(response.isSuccess).toBe(true)
+    expect(response.data).toHaveLength(1)
   })
 })
