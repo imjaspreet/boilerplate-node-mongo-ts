@@ -4,7 +4,7 @@ import { NewCreatedUser } from '../interfaces/user'
 
 const createUserBody: Record<keyof NewCreatedUser, any> = {
   code: Joi.string(),
-  status: Joi.string().default(null),
+  status: Joi.string().default('pending'),
   email: Joi.string().required().email().lowercase(),
   password: Joi.string().required().custom(password),
   authMethod: Joi.string()
