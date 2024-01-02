@@ -2,7 +2,7 @@
 
 import request from 'supertest'
 import app from '../app'
-
+let userId
 describe('Auth API Tests', () => {
   test('POST /api/auths signup user', async () => {
     // Arrange
@@ -15,9 +15,10 @@ describe('Auth API Tests', () => {
 
     // Act
     const response = await request(app).post('/api/auths/signup').send(newUser)
-
+    userId = response._id
     // Assert
     expect(response.status).toBe(201)
+
     expect(response.body).toEqual(newUser)
   })
 
@@ -27,7 +28,7 @@ describe('Auth API Tests', () => {
 
     // Act
     const response = await request(app).post(`/api/auths/verify`).send({
-      userId: '658c1175f668a659fd9e7945',
+      userId,
       code: '4444',
     })
 

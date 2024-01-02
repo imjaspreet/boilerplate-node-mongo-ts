@@ -51,7 +51,7 @@ export const forgot = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await forgotPassword(req.body)
     res
-      .status(httpStatus.OK)
+      .status(httpStatus.CREATED)
       .send({ isSuccess: true, data: toModel(user as unknown as toUserModel) })
   } catch (error) {
     res.send({ isSuccess: false, error })
