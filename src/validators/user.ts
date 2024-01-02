@@ -32,7 +32,7 @@ export const getUsers = {
 
 export const getUser = {
   params: Joi.object().keys({
-    userId: Joi.string().custom(objectId),
+    id: Joi.string().custom(objectId),
   }),
 }
 
@@ -98,5 +98,23 @@ export const updatePassword = {
   body: Joi.object().keys({
     password: Joi.string().required(),
     newPassword: Joi.string().required(),
+  }),
+}
+
+export const socialLogin = {
+  body: Joi.object().keys({
+    authMethod: Joi.string()
+      .required()
+      .valid('email', 'google', 'facebook', 'apple', 'twitter'),
+    name: Joi.string(),
+    email: Joi.string().required().email().lowercase(),
+    deviceId: Joi.string().optional(),
+    googleId: Joi.string().optional(),
+    facebookId: Joi.string().optional(),
+    appleId: Joi.string().optional(),
+    imgUrl: Joi.string(),
+    status: Joi.string(),
+    deviceType: Joi.string().optional().valid('web', 'android', 'ios'),
+    role: Joi.string().default('user'),
   }),
 }

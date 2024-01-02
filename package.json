@@ -57,6 +57,7 @@
     "jsonwebtoken": "^9.0.2",
     "moment": "^2.29.4",
     "mongoose": "^8.0.3",
+    "supertest": "^6.3.3",
     "underscore": "^1.13.6",
     "validator": "^13.11.0",
     "winston": "^3.11.0",

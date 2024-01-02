@@ -8,12 +8,17 @@ import {
   resetPassword,
   resendCode,
   changePassword,
+  socialLoginAccount,
 } from '../services/auths'
+import { toModel, toAuthModel } from '../mappers/user'
+import { IAuthModel, toUserModel } from 'interfaces/user'
 export const signup = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await register(req.body)
 
-    res.status(httpStatus.CREATED).send({ isSuccess: true, data: user })
+    res
+      .status(httpStatus.CREATED)
+      .send({ isSuccess: true, data: toModel(user as toUserModel) })
   } catch (error) {
     res.send({ isSuccess: false, error })
   }
@@ -22,7 +27,9 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await accountLogin(req.body)
-    res.status(httpStatus.OK).send({ isSuccess: true, data: user })
+    res
+      .status(httpStatus.OK)
+      .send({ isSuccess: true, data: toAuthModel(user as IAuthModel) })
   } catch (error) {
     res.send({ isSuccess: false, error })
   }
@@ -31,7 +38,10 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 export const verify = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await verification(req.body.userId, req.body.code)
-    res.status(httpStatus.OK).send({ isSuccess: true, data: user })
+    res.status(httpStatus.OK).send({
+      isSuccess: true,
+      data: toAuthModel(user as unknown as toUserModel),
+    })
   } catch (error) {
     res.send({ isSuccess: false, error })
   }
@@ -40,7 +50,9 @@ export const verify = async (req: Request, res: Response): Promise<void> => {
 export const forgot = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await forgotPassword(req.body)
-    res.status(httpStatus.OK).send({ isSuccess: true, data: user })
+    res
+      .status(httpStatus.OK)
+      .send({ isSuccess: true, data: toModel(user as unknown as toUserModel) })
   } catch (error) {
     res.send({ isSuccess: false, error })
   }
@@ -77,4 +89,14 @@ export const updatePassword = async (
   } catch (error) {
     res.send({ isSuccess: false, error })
   }
+}
+
+export const socialLogin = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  const user = await socialLoginAccount(req.body)
+  res
+    .status(httpStatus.OK)
+    .send({ isSuccess: true, data: toAuthModel(user as unknown as IAuthModel) })
 }

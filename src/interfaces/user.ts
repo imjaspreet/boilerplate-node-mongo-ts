@@ -1,5 +1,6 @@
 import mongoose, { Model, Document } from 'mongoose'
 import { QueryResult } from '../helpers/paginate'
+import { ISession } from './session'
 
 export interface IUser {
   name: string
@@ -9,8 +10,11 @@ export interface IUser {
   isEmailVerified: boolean
   authMethod: string
   language: string
+  // imgUrl: string
   status: string
   code: string
+  // createdAt: Date
+  // updatedAt: Date
 }
 
 export interface IUserDoc extends IUser, Document {
@@ -44,4 +48,21 @@ export interface IUserWithPassword extends IUser {
   deviceId: string
   deviceType: string
   fcmToken: string
+}
+
+export interface IUserSocialLogin extends IUserDoc {
+  deviceId?: string
+  deviceType?: string
+  fcmToken?: string
+  session?: ISession
+}
+
+export interface IAuthModel extends IUserDoc {
+  session?: ISession
+}
+
+export interface toUserModel extends IUserDoc {
+  imgUrl: string
+  createdAt: Date
+  updatedAt: Date
 }

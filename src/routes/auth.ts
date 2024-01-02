@@ -33,4 +33,8 @@ router
   .route('/update/password/:id')
   .put(validate(userValidation.updatePassword), authController.updatePassword)
 
+router
+  .route('/social/login')
+  .post(validate(userValidation.socialLogin), authController.socialLogin)
+
 export default router

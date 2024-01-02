@@ -1,5 +1,10 @@
 import httpStatus from 'http-status'
-import { NewRegisteredUser, IUserDoc, IUserWithPassword } from 'interfaces/user'
+import {
+  NewRegisteredUser,
+  IUserDoc,
+  IUserWithPassword,
+  IUserSocialLogin,
+} from 'interfaces/user'
 import User from '../models/user'
 import ApiError from '../utils/error/ApiError'
 import bcrypt from 'bcrypt'
@@ -89,4 +94,86 @@ export const changePassword = async (
   user.password = newPassword
   await user.save()
   return 'password updated successfully'
+}
+
+export const socialLoginAccount = async (
+  body: IUserSocialLogin,
+): Promise<void> => {
+  const existingUser: IUserSocialLogin = await User.findOne({
+    email: body.email,
+  })
+  if (existingUser) await validateUser(existingUser)
+  await socialCheck(body, existingUser)
+
+  if (existingUser && existingUser.authMethod !== 'email') {
+    const key = `${existingUser.authMethod}Id`
+    if (existingUser[key] === body[key]) {
+      existingUser.deviceId = body.deviceId
+      existingUser.deviceType = body.deviceType
+      const session = await createSession(
+        existingUser,
+        body as IUserWithPassword,
+      )
+      existingUser.session = session
+      existingUser
+    }
+  } else {
+    const newUser: IUserSocialLogin = await User.create({
+      ...body,
+      isEmailVerified: true,
+      status: 'active',
+    })
+    newUser.deviceId = body.deviceId
+    newUser.deviceType = body.deviceType
+    const session = await createSession(newUser, body as IUserWithPassword)
+    newUser.session = session
+    newUser
+  }
+}
+const socialCheck = async (body, existingUser) => {
+  //apple first time provide email then not second time
+  if (!existingUser && body.authMethod == 'apple' && body.appleId) {
+    existingUser = await User.findOne({ appleId: body.appleId })
+    if (existingUser) {
+      await validateUser(existingUser)
+      return existingUser
+    }
+  }
+  //incase facebook account not created with email address
+  else if (!existingUser && body.authMethod == 'facebook' && body.facebookId) {
+    existingUser = await User.findOne({ facebookId: body.facebookId })
+    if (existingUser) {
+      await validateUser(existingUser)
+      return existingUser
+    }
+  }
+  return
+}
+
+const validateUser = async (user: IUserDoc): Promise<void> => {
+  if (!user.isEmailVerified && user.status === 'pending') {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      'This user is not verified yet!',
+    )
+  }
+  if (user.status === 'inactive') {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      'Your account has been inactive. Please contact your admin.',
+    )
+  }
+  if (user.status === 'deleted') {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      'Your account has been deleted. Please contact your admin.',
+    )
+  }
+  if (user.status === 'blocked') {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      'Your account has been blocked. Please contact your admin.',
+    )
+  }
+  return
 }

@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema<IUserDoc, IUserModel>(
   },
 )
 
-// // add plugin that converts mongoose to json
+// add plugin that converts mongoose to json
 userSchema.plugin(toJSON)
 userSchema.plugin(paginate)
 
@@ -69,12 +69,14 @@ userSchema.static(
 userSchema.method(
   'isPasswordMatch',
   async function (password: string): Promise<boolean> {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const user = this
     return bcrypt.compare(password, user.password)
   },
 )
 
 userSchema.pre('save', async function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this
   if (user.isModified('password')) {
     user.password = await bcrypt.hash(user.password, 10)
