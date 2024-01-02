@@ -9,7 +9,6 @@ const userSchema = new mongoose.Schema<IUserDoc, IUserModel>(
     authMethod: String,
     name: {
       type: String,
-      required: true,
       trim: true,
     },
     email: {

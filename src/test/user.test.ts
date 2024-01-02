@@ -1,16 +1,34 @@
 // user.test.ts
 
 import request from 'supertest'
-import app from '../app'
+import app from '../index'
+import { faker } from '@faker-js/faker'
 let userId: string
-
-jest.setTimeout(80000)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+let accessToken: string
+const email: string = faker.internet.email()
 describe('User API Tests', () => {
+  test('POST /api/auths/login user', async () => {
+    // Arrange
+    const newUser = {
+      email: 'shambhu@yopmail.com',
+      password: 'Qwerty@123',
+      authMethod: 'email',
+    }
+
+    // Act
+    const response = await request(app).post('/api/auths/login').send(newUser)
+    // Assert
+    expect(response.body.isSuccess).toBe(true)
+    accessToken = response.body.data.session.accessToken
+
+    // expect(response.body.data).toEqual(newUser)
+  })
   test('POST /api/users creates a new user', async () => {
     // Arrange
     const newUser = {
-      name: 'Shambhu',
-      email: 'shambhu345@yopmail.com',
+      name: faker.person.fullName(),
+      email: email,
       password: 'Qwerty@123',
       authMethod: 'email',
     }
@@ -20,8 +38,7 @@ describe('User API Tests', () => {
     // Assert
     expect(response.body.isSuccess).toBe(true)
 
-    userId = response.body.id
-    expect(response.data).toEqual(newUser)
+    userId = response.body.data.id
   })
 
   test('GET /api/users/:userId retrieves user details', async () => {

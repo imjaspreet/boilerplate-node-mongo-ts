@@ -19,7 +19,7 @@ class Environment implements IEnvironment {
   }
 
   constructor(NODE_ENV?: string) {
-    const env: string = NODE_ENV || process.env.NODE_ENV || Environments.DEV
+    const env: string = NODE_ENV || process.env.NODE_ENV
     const port: string | undefined | number = process.env.PORT || 3000
     this.setEnvironment(env)
     this.port = Number(port)

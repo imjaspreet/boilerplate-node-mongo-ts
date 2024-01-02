@@ -43,3 +43,5 @@ process.on('SIGTERM', () => {
     server.close()
   }
 })
+
+export default app

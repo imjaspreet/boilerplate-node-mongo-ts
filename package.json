@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec ts-node src/index.ts",
+    "start": "cross-env NODE_ENV=dev nodemon --exec ts-node src/index.ts ",
     "dev": "node dist/index.js",
     "build": "tsc",
     "prepare": "husky install",
-    "test": "jest"
+    "test": "cross-env NODE_ENV=test jest "
   },
   "jest": {
     "preset": "ts-jest",
@@ -21,6 +21,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^8.3.1",
     "@types/bcrypt": "^5.0.2",
     "@types/config": "^3.3.3",
     "@types/cors": "^2.8.17",
@@ -30,6 +31,7 @@
     "@types/validator": "^13.11.7",
     "@typescript-eslint/eslint-plugin": "^6.16.0",
     "@typescript-eslint/parser": "^6.16.0",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "eslint": "^8.56.0",
     "husky": "^8.0.3",
