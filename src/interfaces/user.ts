@@ -17,6 +17,15 @@ export interface IUser {
   // updatedAt: Date
 }
 
+export interface IAuthUser {
+  email: string
+  password: string
+  role: string
+  authMethod: string
+  language: string
+  status: string
+  code: string
+}
 export interface IUserDoc extends IUser, Document {
   fcmToken?: string
   deviceType?: string

@@ -2,12 +2,13 @@ import express, { Router } from 'express'
 import validate from '../middleware/validate.middleware'
 import * as authController from '../api/auths'
 import * as userValidation from '../validators/user'
+import * as authValidation from '../validators/auth'
 
 const router: Router = express.Router()
 
 router
   .route('/signup')
-  .post(validate(userValidation.createUser), authController.signup)
+  .post(validate(authValidation.createUser), authController.signup)
 
 router
   .route('/login')
