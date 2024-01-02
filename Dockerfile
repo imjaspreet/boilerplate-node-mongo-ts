@@ -35,7 +35,7 @@ RUN npm install
 RUN npm install -g pm2
 
 # Expose the port on which your app will run
-EXPOSE 3000
+EXPOSE 3023
 
 # Use PM2 as the process manager
 CMD ["pm2-runtime", "dist/index.js"]
