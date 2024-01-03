@@ -4,10 +4,9 @@ class ApiError extends Error {
   isOperational: boolean
 
   override stack?: string
-
   constructor(
-    statusCode: number,
     message: string,
+    statusCode: number,
     isOperational = true,
     stack = '',
   ) {
@@ -22,4 +21,4 @@ class ApiError extends Error {
   }
 }
 
-export default ApiError
+module.exports = ApiError
