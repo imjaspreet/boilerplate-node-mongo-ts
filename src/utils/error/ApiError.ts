@@ -5,8 +5,8 @@ class ApiError extends Error {
 
   override stack?: string
   constructor(
-    message: string,
     statusCode: number,
+    message: string,
     isOperational = true,
     stack = '',
   ) {
@@ -21,4 +21,4 @@ class ApiError extends Error {
   }
 }
 
-module.exports = ApiError
+export default ApiError
