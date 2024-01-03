@@ -7,13 +7,13 @@ stages:
 
 docker-build:
     stage: build
-    image: docker:24.0.7-cli
+    image: docker:stable
     services:
-        - docker:24.0.7-dind
+    - docker:dind
     variables:
         DOCKER_TLS_CERTDIR: "/certs"
     before_script: 
-        - echo "$DOCKER_PASS" | docker login --username "$DOCKER_USERNAME" --password-stdin $CI_REGISTRY
+        - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
     script:
         - docker build -t $IMAGE_NAME:$IMAGE_TAG .
         - docker push $IMAGE_NAME:$IMAGE_TAG
