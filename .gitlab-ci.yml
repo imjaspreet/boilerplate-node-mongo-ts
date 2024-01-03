@@ -4,6 +4,7 @@ variables:
 
 stages:
     - build
+    - deploy
 
 docker-build:
     stage: build
@@ -17,6 +18,12 @@ docker-build:
     script:
         - docker build -t $IMAGE_NAME:$IMAGE_TAG .
         - docker push $IMAGE_NAME:$IMAGE_TAG
-        - echo "Built Docker Image Successfully!"
     only:
         - dev
+
+deploy-build:
+    stage: deploy
+    script:
+    - apt-get update -qy
+    - apt-get install -y sshpass
+    - sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no root@199.192.21.220 "docker login -u $DOCKER_USERNAME -p $DOCKER_PASS && docker ps -aq | xargs docker stop | xargs docker rm && docker run -d -p 3023:3023 $IMAGE_NAME:$IMAGE_TAG"
