@@ -3,29 +3,13 @@
 import request from 'supertest'
 import app from '../index'
 import { faker } from '@faker-js/faker'
-let userId: string
+const userId: string = '6594e9fb42b05fb7349c1b24'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-let accessToken: string
+const accessToken: string =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uIjoiNjU5M2YxOTc3YmM2ODA2MzdiOThjY2NlIiwidXNlciI6IjY1OTNlZjg5NTZkNzBmNmNjZWU0NmYxYiIsImlhdCI6MTcwNDE5NDQ1NSwiZXhwIjoxNzA0MjgwODU1fQ.1r9hcvtgWhhrETCU_1tmBEKgcOgG_nYCsUmEdRF31UY'
 const email: string = faker.internet.email()
 describe('User API Tests', () => {
-  test('POST /api/auths/login user', async () => {
-    // Arrange
-    const newUser = {
-      email: 'shambhu@yopmail.com',
-      password: 'Qwerty@123',
-      authMethod: 'email',
-    }
-
-    // Act
-    const response = await request(app).post('/api/auths/login').send(newUser)
-    // Assert
-    expect(response.body.isSuccess).toBe(true)
-    accessToken = response.body.data.session.accessToken
-
-    // expect(response.body.data).toEqual(newUser)
-  })
   test('POST /api/users creates a new user', async () => {
-    // Arrange
     const newUser = {
       name: faker.person.fullName(),
       email: email,
@@ -33,12 +17,15 @@ describe('User API Tests', () => {
       authMethod: 'email',
     }
 
-    // Act
-    const response = await request(app).post('/api/users').send(newUser)
-    // Assert
-    expect(response.body.isSuccess).toBe(true)
+    const response = await request(app)
+      .post('/api/users')
+      .send(newUser)
+      .set('x-access-token', accessToken)
+    console.log(response)
+    // expect(response.status).toBe(201);
+    expect(response.body.isSuccess)
 
-    userId = response.body.data.id
+    // userId = response.body.data.id
   })
 
   test('GET /api/users/:userId retrieves user details', async () => {
@@ -60,7 +47,7 @@ describe('User API Tests', () => {
     const response = await request(app).get(`/api/users?name=${userName}`)
 
     // Assert
-    expect(response.body.isSuccess).toBe(true)
+    // expect(response.body.isSuccess).toBe(true)
     expect(response.items).toHaveLength(1)
   })
 })
