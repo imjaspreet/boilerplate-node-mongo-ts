@@ -1,15 +1,12 @@
 import * as http from 'http'
-import { setGlobalEnvironment } from './global'
 import app from './app'
-import Environment from './environments/environment'
 import createLogger from './helpers/logger'
 import mongoose from 'mongoose'
 const logger = createLogger('Index.ts')
 
-const env: Environment = new Environment()
-setGlobalEnvironment(env)
-
 let server: http.Server | undefined
+
+const env = global.environment
 
 mongoose.connect(env.mongodb.url).then(() => {
   server = app.listen(env.port, () => {

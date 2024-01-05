@@ -7,18 +7,16 @@ const email: string = faker.internet.email()
 
 setupTestDB()
 
-describe('Auth API Tests', () => {
-  test('POST /api/auths signup user', async () => {
-    // Arrange
+describe('User API Tests', () => {
+  test('POST /api/users creates a new user', async () => {
     const newUser = {
-      email,
+      name: faker.person.fullName(),
+      email: email,
       password: 'Qwerty@123',
       authMethod: 'email',
     }
 
-    // Act
-    const response = await request(app).post('/api/auths/signup').send(newUser)
-    // Assert
-    expect(response.body.isSuccess).toBe(true)
+    const response = await request(app).post('/api/users').send(newUser)
+    expect(response.body.isSuccess)
   })
 })

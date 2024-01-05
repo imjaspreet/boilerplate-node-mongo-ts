@@ -8,11 +8,10 @@
     "dev": "node dist/index.js",
     "build": "tsc",
     "prepare": "husky install",
-    "test": "cross-env NODE_ENV=test jest "
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node"
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest -i --colors --verbose --detectOpenHandles",
+    "test:ts": "cross-env NODE_OPTIONS=--experimental-vm-modules jest -i --colors --verbose --detectOpenHandles -- 'ts$'",
+    "test:js": "cross-env NODE_OPTIONS=--experimental-vm-modules jest -i --colors --verbose --detectOpenHandles -- 'js$'",
+    "test:watch": "cross-env NODE_OPTIONS=--experimental-vm-modules jest -i --watchAll"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
@@ -46,7 +45,6 @@
   },
   "dependencies": {
     "@types/jsonwebtoken": "^9.0.5",
-    "@types/winston": "^2.4.4",
     "bcrypt": "^5.1.1",
     "config": "^3.3.9",
     "cors": "^2.8.5",
@@ -62,7 +60,6 @@
     "supertest": "^6.3.3",
     "underscore": "^1.13.6",
     "validator": "^13.11.0",
-    "winston": "^3.11.0",
-    "xss-clean": "^0.1.4"
+    "winston": "^3.11.0"
   }
 }
