@@ -1,21 +1,20 @@
+import { setGlobalEnvironment } from './global'
+import Environment from './environments/environment'
 import express, { Express, Request, Response } from 'express'
 import helmet from 'helmet'
 import ExpressMongoSanitize from 'express-mongo-sanitize'
 import cors from 'cors'
 import httpStatus from 'http-status'
 // import config from './config/config';
-// import { morgan } from './modules/logger';
 // import { jwtStrategy } from './modules/auth';
 // import { authLimiter } from './modules/utils';
 import { ApiError, errorConverter, errorHandler } from './utils/error'
 import routes from './routes'
 
-const app: Express = express()
+const env: Environment = new Environment()
+setGlobalEnvironment(env)
 
-// if (config.env !== 'test') {
-//   app.use(morgan.successHandler);
-//   app.use(morgan.errorHandler);
-// }
+const app: Express = express()
 
 // set security HTTP headers
 app.use(helmet())
@@ -41,6 +40,7 @@ app.use(ExpressMongoSanitize())
 app.get('/', async (_req: Request, res: Response) => {
   return res.send({ isSuccess: true, title: 'API WORKING' })
 })
+
 // v1 api routes
 app.use('/api', routes)
 
