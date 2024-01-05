@@ -1,9 +1,7 @@
 class ApiError extends Error {
   statusCode: number
-
   isOperational: boolean
 
-  override stack?: string
   constructor(
     statusCode: number,
     message: string,
@@ -13,6 +11,12 @@ class ApiError extends Error {
     super(message)
     this.statusCode = statusCode
     this.isOperational = isOperational
+
+    Object.defineProperty(this, 'message', {
+      enumerable: true,
+      value: message,
+    })
+
     if (stack) {
       this.stack = stack
     } else {
