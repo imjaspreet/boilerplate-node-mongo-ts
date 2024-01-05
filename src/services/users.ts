@@ -85,3 +85,14 @@ export const search = async (
   const users = await User.paginate(filter, options)
   return users
 }
+
+export const deleteOne = async (id: string): Promise<string | null> => {
+  const user: IUserDoc | null = await getById(id)
+
+  if (!user) {
+    return 'User not found'
+  }
+
+  await user.deleteOne()
+  return 'User deleted successfully'
+}

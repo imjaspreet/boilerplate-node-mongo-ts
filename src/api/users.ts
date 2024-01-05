@@ -26,11 +26,9 @@ export const get = async (req: Request, res: Response) => {
     .send({ isSuccess: true, data: toModel(user as toUserModel) })
 }
 
-export const remove = async (req: Request, res: Response) => {
-  const user = await userService.updateUser(req.params.id, req.body)
-  res
-    .status(httpStatus.OK)
-    .send({ isSuccess: true, data: toModel(user as toUserModel) })
+export const remove = async (req: Request, res: Response): Promise<void> => {
+  const entity: string = await userService.deleteOne(req.params.id)
+  res.status(httpStatus.OK).send({ isSuccess: true, message: entity })
 }
 
 export const search = async (req: Request, res: Response) => {
