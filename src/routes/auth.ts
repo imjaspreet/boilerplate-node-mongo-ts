@@ -40,5 +40,5 @@ router
 
 router
   .route('/logout/:id')
-  .put(validate(userValidation.getUser), authController.logout)
+  .get(validate(userValidation.getUser), authController.logout)
 export default router
