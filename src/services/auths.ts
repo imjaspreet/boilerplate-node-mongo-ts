@@ -98,12 +98,14 @@ export const changePassword = async (
 export const socialLoginAccount = async (
   body: IUserSocialLogin,
 ): Promise<void> => {
-  const existingUser: IUserSocialLogin = await User.findOne({
+  // eslint-disable-next-line prefer-const
+  let existingUser: IUserSocialLogin = await User.findOne({
     email: body.email,
   })
   if (existingUser) await validateUser(existingUser as IUserDoc)
-  await socialCheck(body, existingUser)
-
+  if (!existingUser) {
+    await socialCheck(body, existingUser)
+  }
   if (existingUser && existingUser.authMethod !== 'email') {
     const key = `${existingUser.authMethod}Id`
     if (existingUser[key] === body[key]) {
