@@ -6,44 +6,64 @@ import { IOptions } from '../helpers/paginate'
 import { toModel, toSearchModel } from '../mappers/user'
 import { toUserModel } from 'interfaces/user'
 export const create = async (req: Request, res: Response) => {
-  const user = await userService.createUser(req.body)
-  res
-    .status(httpStatus.CREATED)
-    .send({ isSuccess: true, data: toModel(user as toUserModel) })
+  try {
+    const user = await userService.createUser(req.body)
+    res
+      .status(httpStatus.CREATED)
+      .send({ isSuccess: true, data: toModel(user as toUserModel) })
+  } catch (error) {
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error: error })
+  }
 }
 
 export const update = async (req: Request, res: Response) => {
-  const user = await userService.updateUser(req.params.id, req.body)
-  res
-    .status(httpStatus.OK)
-    .send({ isSuccess: true, data: toModel(user as toUserModel) })
+  try {
+    const user = await userService.updateUser(req.params.id, req.body)
+    res
+      .status(httpStatus.OK)
+      .send({ isSuccess: true, data: toModel(user as toUserModel) })
+  } catch (error) {
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error: error })
+  }
 }
 
 export const get = async (req: Request, res: Response) => {
-  const user = await userService.updateUser(req.params.id, req.body)
-  res
-    .status(httpStatus.OK)
-    .send({ isSuccess: true, data: toModel(user as toUserModel) })
+  try {
+    const user = await userService.updateUser(req.params.id, req.body)
+    res
+      .status(httpStatus.OK)
+      .send({ isSuccess: true, data: toModel(user as toUserModel) })
+  } catch (error) {
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error: error })
+  }
 }
 
 export const remove = async (req: Request, res: Response): Promise<void> => {
-  const entity: string = await userService.deleteOne(req.params.id)
-  res.status(httpStatus.OK).send({ isSuccess: true, message: entity })
+  try {
+    const entity: string = await userService.deleteOne(req.params.id)
+    res.status(httpStatus.OK).send({ isSuccess: true, message: entity })
+  } catch (error) {
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error: error })
+  }
 }
 
 export const search = async (req: Request, res: Response) => {
-  const filter = pick(req.query, ['name'])
-  const options: IOptions = pick(req.query, [
-    'sortBy',
-    'limit',
-    'page',
-    'projectBy',
-  ])
-  const result = await userService.search(filter, options)
-  res.send({
-    isSuccess: true,
-    items: toSearchModel(result.items),
-    totalRecord: result.totalResults,
-    PageNo: result.page,
-  })
+  try {
+    const filter = pick(req.query, ['name'])
+    const options: IOptions = pick(req.query, [
+      'sortBy',
+      'limit',
+      'page',
+      'projectBy',
+    ])
+    const result = await userService.search(filter, options)
+    res.send({
+      isSuccess: true,
+      items: toSearchModel(result.items),
+      totalRecord: result.totalResults,
+      PageNo: result.page,
+    })
+  } catch (error) {
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error: error })
+  }
 }
