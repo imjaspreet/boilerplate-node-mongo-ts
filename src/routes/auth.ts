@@ -3,7 +3,7 @@ import validate from '../middleware/validate.middleware'
 import * as authController from '../api/auths'
 import * as userValidation from '../validators/user'
 import * as authValidation from '../validators/auth'
-
+import * as authMiddleware from '../middleware/auth.middleware'
 const router: Router = express.Router()
 
 router
@@ -40,5 +40,9 @@ router
 
 router
   .route('/logout/:id')
-  .get(validate(userValidation.getUser), authController.logout)
+  .get(
+    validate(userValidation.getUser),
+    authMiddleware.validateToken,
+    authController.logout,
+  )
 export default router

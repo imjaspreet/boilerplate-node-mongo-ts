@@ -12,7 +12,7 @@ export const create = async (req: Request, res: Response) => {
       .status(httpStatus.CREATED)
       .send({ isSuccess: true, data: toModel(user as toUserModel) })
   } catch (error) {
-    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error: error })
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
   }
 }
 
@@ -23,7 +23,7 @@ export const update = async (req: Request, res: Response) => {
       .status(httpStatus.OK)
       .send({ isSuccess: true, data: toModel(user as toUserModel) })
   } catch (error) {
-    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error: error })
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
   }
 }
 
@@ -34,7 +34,7 @@ export const get = async (req: Request, res: Response) => {
       .status(httpStatus.OK)
       .send({ isSuccess: true, data: toModel(user as toUserModel) })
   } catch (error) {
-    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error: error })
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
   }
 }
 
@@ -43,7 +43,7 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
     const entity: string = await userService.deleteOne(req.params.id)
     res.status(httpStatus.OK).send({ isSuccess: true, message: entity })
   } catch (error) {
-    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error: error })
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
   }
 }
 
@@ -64,6 +64,6 @@ export const search = async (req: Request, res: Response) => {
       PageNo: result.page,
     })
   } catch (error) {
-    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error: error })
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
   }
 }

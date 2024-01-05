@@ -82,7 +82,7 @@ export const validateToken = async (
 
     next()
   } catch (err) {
-    next(err)
+    res.send({ isSuccess: false, ...err })
   }
 }
 
