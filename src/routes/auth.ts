@@ -38,4 +38,7 @@ router
   .route('/social/login')
   .post(validate(userValidation.socialLogin), authController.socialLogin)
 
+router
+  .route('/logout/:id')
+  .put(validate(userValidation.getUser), authController.logout)
 export default router

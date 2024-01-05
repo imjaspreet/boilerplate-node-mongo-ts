@@ -10,7 +10,7 @@ import User from '../models/user'
 import ApiError from '../utils/error/ApiError'
 import bcrypt from 'bcrypt'
 import { randomPin } from '../utils/number'
-import { createSession } from '../services/sessions'
+import { createSession, expireSessions } from '../services/sessions'
 export const register = async (
   userBody: NewRegisteredUser,
 ): Promise<IUserDoc> => {
@@ -93,6 +93,15 @@ export const changePassword = async (
   user.password = newPassword
   await user.save()
   return 'password updated successfully'
+}
+
+export const userLogout = async (id: string): Promise<string> => {
+  const user: IUserDoc = await User.findById(id)
+  if (!user) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Oops! User not found')
+  }
+  await expireSessions(user.id)
+  return 'User logout successfully!'
 }
 
 export const socialLoginAccount = async (

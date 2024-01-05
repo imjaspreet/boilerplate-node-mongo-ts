@@ -9,6 +9,7 @@ import {
   resendCode,
   changePassword,
   socialLoginAccount,
+  userLogout,
 } from '../services/auths'
 import { toModel, toAuthModel } from '../mappers/user'
 import { IAuthModel, toUserModel } from 'interfaces/user'
@@ -100,6 +101,18 @@ export const socialLogin = async (
     res.status(httpStatus.OK).send({
       isSuccess: true,
       data: toAuthModel(user as unknown as IAuthModel),
+    })
+  } catch (error) {
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error })
+  }
+}
+
+export const logout = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const message: string = await userLogout(req.params.id)
+    res.status(httpStatus.OK).send({
+      isSuccess: true,
+      message,
     })
   } catch (error) {
     res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error })
