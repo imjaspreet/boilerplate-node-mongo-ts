@@ -1,7 +1,8 @@
-import { IExplorer } from 'interfaces/explorer'
+import { IExplorerModel, IExplorerDoc, IExplorer } from 'interfaces/explorer'
 import mongoose from 'mongoose'
-
-const explorerSchema = new mongoose.Schema<IExplorer>(
+import paginate from '../helpers/paginate'
+import toJSON from '../helpers/toJSON'
+const explorerSchema = new mongoose.Schema<IExplorerDoc, IExplorerModel>(
   {
     latitude: Number,
     longitude: Number,
@@ -24,7 +25,8 @@ const explorerSchema = new mongoose.Schema<IExplorer>(
 )
 
 explorerSchema.index({ location: '2dsphere' })
-
+explorerSchema.plugin(toJSON)
+explorerSchema.plugin(paginate)
 const Explorer = mongoose.model<IExplorer>('Explorer', explorerSchema)
 
 export default Explorer

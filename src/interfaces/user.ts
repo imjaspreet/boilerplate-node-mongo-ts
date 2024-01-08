@@ -40,7 +40,9 @@ export interface IUserModel extends Model<IUserDoc> {
     excludeUserId?: mongoose.Types.ObjectId,
   ): Promise<boolean>
   paginate(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     filter: Record<string, any>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     options: Record<string, any>,
   ): Promise<QueryResult>
 }
