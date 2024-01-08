@@ -31,7 +31,7 @@ export const create = async (userBody: createExplorer): Promise<IExplorer> => {
 export const update = async (
   id: string,
   model: IExplorerModel,
-): Promise<IExplorer> => {
+): Promise<IExplorerModel> => {
   const entity: IExplorerModel | null = await Explorer.findById(id)
 
   if (entity) {

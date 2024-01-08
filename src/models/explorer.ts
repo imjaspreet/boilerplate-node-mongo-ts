@@ -27,6 +27,9 @@ const explorerSchema = new mongoose.Schema<IExplorerDoc, IExplorerModel>(
 explorerSchema.index({ location: '2dsphere' })
 explorerSchema.plugin(toJSON)
 explorerSchema.plugin(paginate)
-const Explorer = mongoose.model<IExplorer>('Explorer', explorerSchema)
+const Explorer = mongoose.model<IExplorer, IExplorerModel>(
+  'Explorer',
+  explorerSchema,
+)
 
 export default Explorer

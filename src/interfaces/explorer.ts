@@ -1,4 +1,4 @@
-import { Model, Document } from 'mongoose'
+import { Model, Document, SaveOptions } from 'mongoose'
 import { QueryResult } from '../helpers/paginate'
 export interface IExplorer {
   latitude: number
@@ -20,6 +20,7 @@ export interface IExplorerDoc extends IExplorer, Document {
 }
 
 export interface IExplorerModel extends Model<IExplorerDoc> {
+  save(): SaveOptions
   paginate(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     filter: Record<string, any>,
