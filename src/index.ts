@@ -15,7 +15,6 @@ mongoose.connect(env.mongodb.url).then(() => {
   })
   console.log('mongodb Connected successfully')
 })
-
 const exitHandler = () => {
   if (server) {
     server.close(() => {

@@ -187,3 +187,11 @@ const validateUser = async (user: IUserDoc): Promise<void> => {
   }
   return
 }
+
+export const createGuest = async (): Promise<any> => {
+  try {
+    return await User.create({ role: 'guest' })
+  } catch (error) {
+    throw new ApiError(httpStatus.NOT_FOUND, error)
+  }
+}

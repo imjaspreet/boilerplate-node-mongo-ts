@@ -45,4 +45,5 @@ router
     authMiddleware.validateToken,
     authController.logout,
   )
+router.route('/guest').post(authController.guest)
 export default router

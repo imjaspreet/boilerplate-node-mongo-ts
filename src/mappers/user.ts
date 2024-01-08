@@ -28,3 +28,9 @@ export const toAuthModel = (entity: IAuthModel): any => {
   }
   return model
 }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const toGuestModel = (entity: IAuthModel): any => {
+  const model = toModel(entity as toUserModel)
+
+  return model
+}
