@@ -4,7 +4,7 @@ import request from 'supertest'
 import app from '../app'
 import { faker } from '@faker-js/faker'
 const email: string = faker.internet.email()
-
+let userId: string
 setupTestDB()
 
 describe('Auth API Tests', () => {
@@ -20,5 +20,47 @@ describe('Auth API Tests', () => {
     const response = await request(app).post('/api/auths/signup').send(newUser)
     // Assert
     expect(response.body.isSuccess).toBe(true)
+    userId = response.body.data.id
   })
+
+  // test('POST verify account', async () => {
+  //   const response = await request(app)
+  //     .post('/api/auths/verify')
+  //     .send({ userId, code: '4444' })
+  //   expect(response.body.isSuccess).toBe(true)
+  // })
+
+  // test('POST login', async () => {
+  //   const response = await request(app).post('/api/auths/login').send({
+  //     email,
+  //     password: 'Qwerty@123',
+  //     deviceType: 'ios',
+  //     deviceId: '1er4ttr',
+  //   })
+  //   expect(response.body.isSuccess).toBe(true)
+  // })
+
+  // test('POST forgot password', async () => {
+  //   const response = await request(app)
+  //     .post('/api/auths/forgot')
+  //     .send({ email })
+  //   expect(response.body.isSuccess).toBe(true)
+  // })
+
+  // test('POST resend otp', async () => {
+  //   const response = await request(app).get(`/api/resend/otp/${userId}`)
+  //   expect(response.body.isSuccess).toBe(true)
+  // })
+  // test('POST reset password after verification', async () => {
+  //   const response = await request(app)
+  //     .post(`/api/auths/reset/${userId}`)
+  //     .send({ password: 'Qwerty@123' })
+  //   expect(response.body.isSuccess).toBe(true)
+  // })
+  // test('POST Change Password', async () => {
+  //   const response = await request(app)
+  //     .post('api/auths/update/password')
+  //     .send({ password: 'Qwerty@123', newPassword: 'Qwerty@123' })
+  //   expect(response.body.isSuccess).toBe(true)
+  // })
 })
