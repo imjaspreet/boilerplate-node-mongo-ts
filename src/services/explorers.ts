@@ -1,3 +1,4 @@
+import { explorer } from './../api/explorers'
 // import httpStatus from 'http-status'
 import Explorer from '../models/explorer'
 import { IOptions, QueryResult } from '../helpers/paginate'
@@ -94,4 +95,32 @@ export const deleteOne = async (id: string): Promise<string | null> => {
 
   await explorer.deleteOne()
   return 'User deleted successfully'
+}
+
+export const list = async (query, user) => {
+  const where = { user: { $ne: user.id } }
+
+  const countAggregation = [
+    { $match: where },
+    { $group: { _id: null, count: { $sum: 1 } } },
+  ]
+  const count = await Explorer.aggregate(countAggregation)
+  const items = await Explorer.aggregate([
+    { $match: where },
+    { $skip: query.skip },
+    { $limit: query.limit },
+    { $sort: query.sortBy },
+  ])
+  Explorer.aggregate([
+    {
+      $geoNear: {
+        near: { type: 'Point', coordinates: [-73.99279, 40.719296] },
+        distanceField: 'dist.calculated',
+        maxDistance: 200,
+        includeLocs: 'dist.location',
+        spherical: true,
+      },
+    },
+  ])
+  return { items, count }
 }

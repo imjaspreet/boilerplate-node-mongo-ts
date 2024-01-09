@@ -71,3 +71,24 @@ export const search = async (req: Request, res: Response) => {
     res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
   }
 }
+
+export const explorer = async (req: Request, res: Response) => {
+  try {
+    const options: IOptions = pick(req.query, [
+      'sortBy',
+      'limit',
+      'page',
+      'projectBy',
+    ])
+    const result = await ExplorerService.list(options, null)
+    res.send({
+      isSuccess: true,
+      items: explorerM.toSearchModel(result.items),
+      totalRecord: result.items,
+      PageNo: options.page,
+      limit: options.limit,
+    })
+  } catch (error) {
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
+  }
+}

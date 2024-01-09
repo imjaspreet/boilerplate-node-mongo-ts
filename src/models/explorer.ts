@@ -29,6 +29,15 @@ const explorerSchema = new mongoose.Schema<IExplorerDoc, IExplorerModel>(
 explorerSchema.index({ location: '2dsphere' })
 explorerSchema.plugin(toJSON)
 explorerSchema.plugin(paginate)
+explorerSchema.pre('save', async function (next) {
+  if (this.isModified('latitude') && this.isModified('latitude')) {
+    this.location = {
+      type: 'Point',
+      coordinates: [this.longitude, this.latitude],
+    }
+  }
+  next()
+})
 const Explorer = mongoose.model<IExplorer, IExplorerModel>(
   'Explorer',
   explorerSchema,
