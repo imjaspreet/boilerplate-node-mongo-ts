@@ -1,4 +1,3 @@
-import { explorer } from './../api/explorers'
 // import httpStatus from 'http-status'
 import Explorer from '../models/explorer'
 import { IOptions, QueryResult } from '../helpers/paginate'
