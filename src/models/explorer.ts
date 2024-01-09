@@ -14,6 +14,8 @@ const explorerSchema = new mongoose.Schema<IExplorerDoc, IExplorerModel>(
     city: String,
     country: String,
     importance: Number,
+    state: String,
+    postalCode: String,
     additionalSources: [{}],
     categories: [],
     properties: [],

@@ -3,6 +3,7 @@ import express, { Router } from 'express'
 import userRoute from '../routes/user'
 // import config from '../../config/config';
 import authRoute from '../routes/auth'
+import explorerRoute from '../routes/explorer'
 const router = express.Router()
 
 interface IRoute {
@@ -18,6 +19,10 @@ const defaultIRoute: IRoute[] = [
   {
     path: '/auths',
     route: authRoute,
+  },
+  {
+    path: '/explorers',
+    route: explorerRoute,
   },
 ]
 

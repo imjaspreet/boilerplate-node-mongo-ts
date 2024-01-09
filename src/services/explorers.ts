@@ -31,14 +31,14 @@ export const create = async (userBody: createExplorer): Promise<IExplorer> => {
 export const update = async (
   id: string,
   model: IExplorerModel,
-): Promise<IExplorerModel> => {
+): Promise<IExplorerDoc> => {
   const entity: IExplorerModel | null = await Explorer.findById(id)
 
   if (entity) {
     set(model, entity)
     await entity.save()
   }
-  return entity
+  return entity as unknown as IExplorerDoc
 }
 
 export const getById = async (id: string): Promise<IExplorerDoc | null> => {

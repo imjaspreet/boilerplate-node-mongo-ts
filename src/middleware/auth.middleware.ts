@@ -1,8 +1,7 @@
-'use strict'
 import { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
-import { verifyAccessToken, verifyRefreshToken } from '../utils/jwt'
-import { get } from '../services/sessions'
+import * as jwtService from '../utils/jwt'
+import * as sessionService from '../services/sessions'
 import ApiError from '../utils/error/ApiError'
 import User from '../models/user'
 import { ISession } from 'interfaces/session'
@@ -15,7 +14,7 @@ interface Claims {
 
 const tokenValidator = async (token: string): Promise<Claims> => {
   try {
-    return verifyAccessToken(token) as Claims
+    return jwtService.verifyAccessToken(token) as Claims
   } catch (err) {
     if (err.name === 'TokenExpiredError') {
       throw new ApiError(httpStatus.UNAUTHORIZED, 'Token Expired')
@@ -25,7 +24,7 @@ const tokenValidator = async (token: string): Promise<Claims> => {
 }
 
 const sessionValidator = async (sessionId: string) => {
-  const session = await get(sessionId)
+  const session = await sessionService.get(sessionId)
   if (!session) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Session not found')
   }
@@ -116,7 +115,7 @@ export const validateRefreshToken = async (
     })
   }
 
-  const claims = verifyRefreshToken(refreshToken) as Claims
+  const claims = jwtService.verifyRefreshToken(refreshToken) as Claims
   const user = await User.findById(claims.user)
   req.user = user
   next()

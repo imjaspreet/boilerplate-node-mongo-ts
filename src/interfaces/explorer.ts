@@ -1,11 +1,13 @@
 import { Model, Document, SaveOptions } from 'mongoose'
 import { QueryResult } from '../helpers/paginate'
 export interface IExplorer {
+  name: string
   latitude: number
   longitude: number
-  name: string
-  location: object
+  location?: object
   city: string
+  state: string
+  postalCode: string
   country: string
   importance: number
   additionalSources: Array<object>
@@ -29,4 +31,4 @@ export interface IExplorerModel extends Model<IExplorerDoc> {
   ): Promise<QueryResult>
 }
 
-export interface createExplorer extends IExplorerModel {}
+export interface createExplorer extends IExplorer {}

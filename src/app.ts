@@ -46,7 +46,7 @@ app.use('/api', routes)
 
 // send back a 404 error for any unknown api request
 app.use((_req, _res, next) => {
-  next(new ApiError(httpStatus.NOT_FOUND, 'Not found'))
+  next(new ApiError(httpStatus.NOT_FOUND, 'route not found'))
 })
 
 // convert error to ApiError, if needed
