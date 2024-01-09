@@ -72,7 +72,7 @@ export const search = async (req: Request, res: Response) => {
   }
 }
 
-export const explorer = async (req: Request, res: Response) => {
+export const list = async (req: Request, res: Response) => {
   try {
     const options: IOptions = pick(req.query, [
       'sortBy',
@@ -80,7 +80,7 @@ export const explorer = async (req: Request, res: Response) => {
       'page',
       'projectBy',
     ])
-    const result = await ExplorerService.list(options, null)
+    const result = await ExplorerService.list(options)
     res.send({
       isSuccess: true,
       items: explorerM.toSearchModel(result.items),

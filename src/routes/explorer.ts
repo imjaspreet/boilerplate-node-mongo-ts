@@ -42,5 +42,8 @@ router
     authMiddleware.validateToken,
     explorerController.search,
   )
+router
+  .route('/get/list')
+  .get(authMiddleware.validateToken, explorerController.list)
 
 export default router

@@ -96,8 +96,8 @@ export const deleteOne = async (id: string): Promise<string | null> => {
   return 'User deleted successfully'
 }
 
-export const list = async (query, user) => {
-  const where = { user: { $ne: user.id } }
+export const list = async query => {
+  const where = {}
   const maxDistance: number = query.maxDistance | 1000
   const countAggregation = [
     { $match: where },
