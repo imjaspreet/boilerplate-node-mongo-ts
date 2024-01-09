@@ -26,6 +26,17 @@ export const search = {
   query: Joi.object().keys({
     name: Joi.string(),
     city: Joi.string(),
+    sortBy: Joi.string(),
+    projectBy: Joi.string(),
+    limit: Joi.number().integer(),
+    page: Joi.number().integer(),
+  }),
+}
+
+export const list = {
+  query: Joi.object().keys({
+    name: Joi.string(),
+    city: Joi.string(),
     lat: Joi.number(),
     long: Joi.number(),
     sortBy: Joi.string(),

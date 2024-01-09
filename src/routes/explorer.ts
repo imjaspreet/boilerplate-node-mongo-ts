@@ -43,7 +43,11 @@ router
     explorerController.search,
   )
 router
-  .route('/get/list')
-  .get(authMiddleware.validateToken, explorerController.list)
+  .route('/find')
+  .get(
+    validate(ExplorerValidation.list),
+    authMiddleware.validateToken,
+    explorerController.list,
+  )
 
 export default router
