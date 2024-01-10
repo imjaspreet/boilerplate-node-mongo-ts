@@ -99,12 +99,29 @@ export const deleteOne = async (id: string): Promise<string | null> => {
 export const list = async (option, query) => {
   const where = {}
   const maxDistance: number = query.maxDistance | 1000
-  const countAggregation = [
-    { $match: where },
-    { $group: { _id: null, count: { $sum: 1 } } },
-  ]
-  const [count] = await Explorer.aggregate(countAggregation)
+  const [{ count }] = await Explorer.aggregate([
+    {
+      $geoNear: {
+        near: {
+          type: 'Point',
+          coordinates: [query.long, query.lat],
+        },
+        distanceField: 'distance',
+        maxDistance: maxDistance,
+        query: where,
+        includeLocs: 'location',
+        spherical: true,
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        count: { $sum: 1 },
+      },
+    },
+  ])
 
+  // const skip = (option.page - 1) * option.limit
   const items = await Explorer.aggregate([
     {
       $geoNear: {
@@ -114,11 +131,11 @@ export const list = async (option, query) => {
         },
         distanceField: 'distance',
         maxDistance: maxDistance,
-        query: {},
+        query: where,
         includeLocs: 'location',
         spherical: true,
       },
     },
   ])
-  return { items, count: count.count }
+  return { items, count }
 }

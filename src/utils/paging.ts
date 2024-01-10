@@ -12,8 +12,8 @@ interface PagingOptions {
 }
 
 export const query = (req: Request): Model => {
-  let query = req.query || {}
-  let model: Model = {}
+  const query = req.query || {}
+  const model: Model = {}
 
   Object.getOwnPropertyNames(query).forEach(key => {
     const value = query[key]
@@ -22,7 +22,7 @@ export const query = (req: Request): Model => {
       return
     }
 
-    let parts = key.split('-')
+    const parts = key.split('-')
     let index = 0
     let obj = model
 
