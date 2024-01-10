@@ -96,14 +96,14 @@ export const deleteOne = async (id: string): Promise<string | null> => {
   return 'User deleted successfully'
 }
 
-export const list = async query => {
+export const list = async (option, query) => {
   const where = {}
   const maxDistance: number = query.maxDistance | 1000
   const countAggregation = [
     { $match: where },
     { $group: { _id: null, count: { $sum: 1 } } },
   ]
-  const count = await Explorer.aggregate(countAggregation)
+  const [count] = await Explorer.aggregate(countAggregation)
 
   const items = await Explorer.aggregate([
     {
@@ -116,11 +116,9 @@ export const list = async query => {
         maxDistance: maxDistance,
         query: {},
         includeLocs: 'location',
-
         spherical: true,
       },
-      $limit: 10,
     },
   ])
-  return { items, count }
+  return { items, count: count.count }
 }

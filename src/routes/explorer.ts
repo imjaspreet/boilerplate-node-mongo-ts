@@ -5,6 +5,13 @@ import * as explorerController from '../api/explorers'
 import * as ExplorerValidation from '../validators/explorer'
 
 const router: Router = express.Router()
+router
+  .route('/find')
+  .get(
+    validate(ExplorerValidation.list),
+    authMiddleware.validateToken,
+    explorerController.list,
+  )
 
 router
   .route('/')
@@ -41,13 +48,6 @@ router
     validate(ExplorerValidation.search),
     authMiddleware.validateToken,
     explorerController.search,
-  )
-router
-  .route('/find')
-  .get(
-    validate(ExplorerValidation.list),
-    authMiddleware.validateToken,
-    explorerController.list,
   )
 
 export default router

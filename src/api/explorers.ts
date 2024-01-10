@@ -80,11 +80,11 @@ export const list = async (req: Request, res: Response) => {
       'page',
       'projectBy',
     ])
-    const result = await ExplorerService.list(options)
+    const result = await ExplorerService.list(options, req.query)
     res.send({
       isSuccess: true,
       items: explorerM.toSearchModel(result.items),
-      totalRecord: result.items,
+      totalRecord: result.count,
       PageNo: options.page,
       limit: options.limit,
     })

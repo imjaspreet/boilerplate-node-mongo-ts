@@ -17,6 +17,7 @@ export interface IExplorer {
 }
 
 export interface IExplorerDoc extends IExplorer, Document {
+  distance?: number
   createdAt?: string
   updatedAt?: string
 }

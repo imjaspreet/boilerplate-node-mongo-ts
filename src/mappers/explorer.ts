@@ -13,6 +13,7 @@ export const toModel = (entity: IExplorerDoc): any => {
     additionalSources: entity.additionalSources,
     categories: entity.categories,
     properties: entity.properties,
+    distance: entity.distance,
     foreignSources: entity.foreignSources,
     createdAt: entity.createdAt,
     updatedAt: entity.updatedAt,
