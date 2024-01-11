@@ -12,6 +12,9 @@ router
     authMiddleware.validateToken,
     explorerController.list,
   )
+router
+  .route('/point')
+  .get(authMiddleware.validateToken, explorerController.point)
 
 router
   .route('/')

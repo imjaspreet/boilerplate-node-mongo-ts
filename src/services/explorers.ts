@@ -78,7 +78,7 @@ export const get = async (
  * @returns {Promise<QueryResult>}
  */
 export const search = async (
-  filter: Record<string, any>,
+  filter: Record<string, object>,
   options: IOptions,
 ): Promise<QueryResult> => {
   const explorers = await Explorer.paginate(filter, options)
@@ -137,5 +137,6 @@ export const list = async (option, query) => {
       },
     },
   ])
+  //need to implement code for get lists locations
   return { items, count }
 }
