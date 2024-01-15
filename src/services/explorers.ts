@@ -1,5 +1,6 @@
 // import httpStatus from 'http-status'
 import Explorer from '../models/explorer'
+import * as explorerM from '../mappers/explorer'
 import { IOptions, QueryResult } from '../helpers/paginate'
 import {
   IExplorer,
@@ -7,7 +8,7 @@ import {
   IExplorerModel,
   createExplorer,
 } from 'interfaces/explorer'
-
+import * as fetch from '../providers/fetch'
 const set = <T>(model: T, entity: T): T => {
   Object.assign(entity, model)
   return entity
@@ -137,6 +138,22 @@ export const list = async (option, query) => {
       },
     },
   ])
-  //need to implement code for get lists locations
+  if (items.length == 0) {
+    findLocation(query.long, query.lat, option, query)
+  }
   return { items, count }
+}
+
+const findLocation = async (
+  lon: Float32Array,
+  lat: Float32Array,
+  option: object,
+  query: object,
+) => {
+  const entities: object = await fetch.get(
+    `http://localhost:5050/api/POIs?lon=${lon}&lat=${lat}`,
+    {},
+  )
+  await Explorer.insertMany(explorerM.toCreateArrayModel(entities))
+  return await list(option, query)
 }

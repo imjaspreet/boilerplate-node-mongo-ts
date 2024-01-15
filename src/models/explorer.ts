@@ -20,6 +20,9 @@ const explorerSchema = new mongoose.Schema<IExplorerDoc, IExplorerModel>(
     categories: [],
     properties: [],
     foreignSources: [],
+    title: String,
+    description: String,
+    shortDescription: String,
   },
   {
     timestamps: true,

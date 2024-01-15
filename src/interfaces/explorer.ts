@@ -19,6 +19,9 @@ export interface IExplorer {
 export interface IExplorerDoc extends IExplorer, Document {
   foreign_sources?: Array<object>
   additional_sources?: Array<object>
+  title?: string
+  shortDescription?: string
+  description?: string
   distance?: number
   createdAt?: string
   updatedAt?: string
