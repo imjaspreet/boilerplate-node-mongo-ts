@@ -12,14 +12,19 @@ const setupTestDB = () => {
   })
 
   beforeEach(async () => {
+    // await Promise.all(
+    //   Object.values(mongoose.connection.collections).map(async collection =>
+    //     collection.deleteMany({}),
+    //   ),
+    // )
+  })
+
+  afterAll(async () => {
     await Promise.all(
       Object.values(mongoose.connection.collections).map(async collection =>
         collection.deleteMany({}),
       ),
     )
-  })
-
-  afterAll(async () => {
     await mongoose.disconnect()
   })
 }
