@@ -8,6 +8,7 @@ const createUserBody: Record<keyof NewCreatedUser, any> = {
   status: Joi.string().default('pending'),
   email: Joi.string().required().email().lowercase(),
   password: Joi.string().required().custom(password),
+  guestId: Joi.string(),
   authMethod: Joi.string()
     .required()
     .valid('google', 'facebook', 'apple', 'email'),

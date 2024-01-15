@@ -10,8 +10,8 @@ export interface IUser {
   isEmailVerified: boolean
   authMethod: string
   language: string
-  guestId?: string
   status: string
+  guestId?: string
   code: string
 }
 
