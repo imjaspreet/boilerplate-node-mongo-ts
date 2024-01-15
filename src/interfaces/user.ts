@@ -10,11 +10,9 @@ export interface IUser {
   isEmailVerified: boolean
   authMethod: string
   language: string
-  // imgUrl: string
+  guestId?: string
   status: string
   code: string
-  // createdAt: Date
-  // updatedAt: Date
 }
 
 export interface IAuthUser {
@@ -77,6 +75,7 @@ export interface IAuthModel extends IUserDoc {
 }
 
 export interface toUserModel extends IUserDoc {
+  guestId?: string
   imgUrl: string
   createdAt: Date
   updatedAt: Date

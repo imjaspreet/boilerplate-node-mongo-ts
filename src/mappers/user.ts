@@ -5,6 +5,7 @@ import SessionM from './session'
 export const toModel = (entity: toUserModel): any => {
   const model = {
     id: entity._id,
+    guestId: entity.guestId,
     name: entity.name,
     imgUrl: entity.imgUrl,
     email: entity.email,

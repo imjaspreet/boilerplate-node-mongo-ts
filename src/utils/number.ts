@@ -1,3 +1,5 @@
+import * as crypto from 'crypto'
+
 /**
  * Generates a random PIN of the specified length.
  * @param length The length of the PIN.
@@ -37,3 +39,10 @@ export const getRandom = (length: number): number => {
     Math.pow(10, length - 1) + Math.random() * 9 * Math.pow(10, length - 1),
   )
 }
+
+export const generateUniqueHash = () =>
+  crypto
+    .createHash('sha256')
+    .update('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    .digest('hex')
+    .substring(0, 16)

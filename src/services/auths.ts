@@ -9,7 +9,7 @@ import {
 import User from '../models/user'
 import ApiError from '../utils/error/ApiError'
 import bcrypt from 'bcrypt'
-import { randomPin } from '../utils/number'
+import { randomPin, generateUniqueHash } from '../utils/number'
 import { createSession, expireSessions } from '../services/sessions'
 export const register = async (
   userBody: NewRegisteredUser,
@@ -190,7 +190,7 @@ const validateUser = async (user: IUserDoc): Promise<void> => {
 
 export const createGuest = async (): Promise<any> => {
   try {
-    return await User.create({ role: 'guest' })
+    return await User.create({ role: 'guest', guestId: generateUniqueHash() })
   } catch (error) {
     throw new ApiError(httpStatus.NOT_FOUND, error)
   }

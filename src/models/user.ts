@@ -34,6 +34,10 @@ const userSchema = new mongoose.Schema<IUserDoc, IUserModel>(
       enum: ['active', 'blocked', 'inactive', 'pending', 'deleted'],
       default: 'pending',
     },
+    guestId: {
+      type: String,
+      trim: true,
+    },
   },
   {
     timestamps: true,
