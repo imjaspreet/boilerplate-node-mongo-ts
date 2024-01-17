@@ -17,6 +17,11 @@ class Environment implements IEnvironment {
   public mongodb: {
     url: string
   }
+  public aws: {
+    accessKeyId: string
+    secretAccessKey: string
+    region: string
+  }
 
   constructor(NODE_ENV?: string) {
     const env: string = NODE_ENV || process.env.NODE_ENV
@@ -34,6 +39,11 @@ class Environment implements IEnvironment {
       refreshKey: String(process.env.REFRESH_KEY),
       refreshPeriod: String(process.env.REFRESH_PERIOD),
       sessionType: String(process.env.SESSION_TYPE),
+    }
+    this.aws = {
+      accessKeyId: String(process.env.AWS_ACCESS_KEY_ID),
+      secretAccessKey: String(process.env.AWS_SECRET_ACCESS_KEY),
+      region: String(process.env.REGION),
     }
   }
 

@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "@types/jsonwebtoken": "^9.0.5",
+    "aws-sdk": "^2.1537.0",
     "bcrypt": "^5.1.1",
     "config": "^3.3.9",
     "cors": "^2.8.5",

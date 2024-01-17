@@ -11,11 +11,15 @@ import ApiError from '../utils/error/ApiError'
 import bcrypt from 'bcrypt'
 import { randomPin, generateUniqueHash } from '../utils/number'
 import { createSession, expireSessions } from '../services/sessions'
+import { sendForgotOTP, sendOTPonEmail } from '../utils/email'
 export const register = async (
   userBody: NewRegisteredUser,
 ): Promise<IUserDoc> => {
   if (await User.isEmailTaken(userBody.email))
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken')
+
+  userBody.code = String(randomPin())
+  sendOTPonEmail(userBody.email, userBody.code)
 
   return await User.create(userBody)
 }
@@ -58,6 +62,7 @@ export const forgotPassword = async (userBody: IUserDoc): Promise<IUserDoc> => {
   const user: IUserDoc = await User.findOne({ email: userBody.email })
   if (!user) throw new ApiError(httpStatus.NOT_FOUND, 'account not found')
   user.code = String(randomPin())
+  sendForgotOTP(user.email, user.code)
   return await user.save()
 }
 
@@ -188,9 +193,9 @@ const validateUser = async (user: IUserDoc): Promise<void> => {
   return
 }
 
-export const createGuest = async (): Promise<any> => {
+export const createGuest = async (): Promise<void> => {
   try {
-    return await User.create({ role: 'guest', guestId: generateUniqueHash() })
+    await User.create({ role: 'guest', guestId: generateUniqueHash() })
   } catch (error) {
     throw new ApiError(httpStatus.NOT_FOUND, error)
   }
