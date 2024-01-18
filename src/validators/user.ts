@@ -50,6 +50,17 @@ export const updateUser = {
     })
     .min(1),
 }
+export const updateUserData = {
+  params: Joi.object().keys({
+    userId: Joi.required().custom(objectId),
+  }),
+  body: Joi.object()
+    .keys({
+      name: Joi.string().required().lowercase(),
+      language: Joi.string().default('english'),
+    })
+    .min(1),
+}
 
 export const deleteUser = {
   params: Joi.object().keys({

@@ -53,13 +53,13 @@ describe('Auth API Tests', () => {
     const response = await request(app).get(`/api/auths/resend/otp/${userId}`)
     expect(response.body.isSuccess).toBe(true)
   })
-  test('POST reset password after verification', async () => {
+  test('PUT reset password after verification', async () => {
     const response = await request(app)
       .put(`/api/auths/reset/${userId}`)
       .send({ password: 'Qwerty@123' })
     expect(response.body.isSuccess).toBe(true)
   })
-  test('POST Change Password', async () => {
+  test('PUT Change Password', async () => {
     const response = await request(app)
       .put(`/api/auths/update/password/${userId}`)
       .send({ password: 'Qwerty@123', newPassword: 'Qwerty@123' })
@@ -73,3 +73,5 @@ describe('Auth API Tests', () => {
     expect(response.body.isSuccess).toBe(true)
   })
 })
+
+export const token = accessToken

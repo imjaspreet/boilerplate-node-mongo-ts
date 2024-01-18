@@ -16,7 +16,7 @@ router
 router
   .route('/:id')
   .put(
-    validate(userValidation.createUser),
+    validate(userValidation.updateUserData),
     authMiddleware.validateToken,
     userController.update,
   )
