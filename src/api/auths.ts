@@ -115,7 +115,10 @@ export const logout = async (req: Request, res: Response): Promise<void> => {
 export const guest = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await AuthService.createGuest()
-    res.send({ isSuccess: true, data: toGuestModel(user) })
+    res.send({
+      isSuccess: true,
+      data: toGuestModel(user as unknown as IAuthModel),
+    })
   } catch (error) {
     res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
   }

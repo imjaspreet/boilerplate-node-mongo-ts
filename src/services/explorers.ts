@@ -7,7 +7,7 @@ import {
   IExplorerDoc,
   IExplorerModel,
   createExplorer,
-  // textServiceArray,
+  TextServiceArray,
   // textService,
 } from 'interfaces/explorer'
 import * as fetch from '../providers/fetch'
@@ -152,7 +152,7 @@ const findLocation = async (
   option: object,
   query: object,
 ) => {
-  const entities: textServiceArray = await fetch.get(
+  const entities: TextServiceArray | unknown = await fetch.get(
     `http://localhost:5050/api/POIs?lon=${lon}&lat=${lat}`,
     {},
   )
