@@ -38,3 +38,16 @@ export interface IExplorerModel extends Model<IExplorerDoc> {
 }
 
 export interface createExplorer extends IExplorer {}
+
+export interface TextService {
+  name: string
+  city: string
+  country: string
+  latitude: number
+  longitude: number
+  importance: number
+}
+
+export interface TextServiceArray {
+  entities: TextService[]
+}
