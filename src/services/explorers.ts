@@ -8,7 +8,7 @@ import {
   IExplorerModel,
   createExplorer,
   TextServiceArray,
-  // textService,
+  // TextService,
 } from 'interfaces/explorer'
 import * as fetch from '../providers/fetch'
 const set = <T>(model: T, entity: T): T => {
@@ -162,18 +162,18 @@ const findLocation = async (
   return await list(option, query)
 }
 
-// const textService = async (entities: textServiceArray) => {
-//   const result = entities.map(async (item: textService) => {
+// const textService = async (entities: [TextService]) => {
+//   const result = entities.map(async (item: TextService) => {
 //     const response: object = await fetch.get(
-//       ` http://localhost:5051/api/text?name=${item.name}&city=${item.city}&country=${item.country}&lon=${item.longitude}&lat=${item.latitude}&adventurePointImportance=${item.importance}`,
+//       `http://localhost:5051/api/text?name=${item.name}&city=${item.city}&country=${item.country}&lon=${item.longitude}&lat=${item.latitude}&adventurePointImportance=${item.importance}`,
 //       {},
 //     )
 //     return response
 //   })
 //   return result
 // }
-// const shortDescription = async (entities: textServiceArray) => {
-//   const result = entities.map(async (item: textService) => {
+// const shortDescription = async (entities: [TextService]) => {
+//   const result = entities.map(async (item: TextService) => {
 //     const response: object = await fetch.get(
 //       ` (http://localhost:5050/api/description?name=${item.name}&city=${item.city}&country=${item.country}`,
 //       {},
