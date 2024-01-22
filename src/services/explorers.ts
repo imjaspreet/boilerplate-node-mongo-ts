@@ -102,7 +102,7 @@ export const deleteOne = async (id: string): Promise<string | null> => {
 export const list = async (option, query) => {
   const where = {}
   const maxDistance: number = query.maxDistance | 1000
-  const [{ count }] = await Explorer.aggregate([
+  const result = await Explorer.aggregate([
     {
       $geoNear: {
         near: {
@@ -123,6 +123,9 @@ export const list = async (option, query) => {
       },
     },
   ])
+
+  // Check if the result is not found (null or undefined)
+  const count = result.length > 0 ? result[0].count : 0
 
   // const skip = (option.page - 1) * option.limit
   const items = await Explorer.aggregate([
