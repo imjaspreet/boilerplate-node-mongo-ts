@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema<IUserDoc, IUserModel>(
     email: {
       type: String,
       // required: true,
-      unique: true,
+      // unique: true,
       trim: true,
       lowercase: true,
     },
