@@ -92,7 +92,7 @@ export const validateTokenOptional = (
 ) => {
   const token =
     req.body.token || req.query.token || req.headers['x-access-token']
-  if (!token) return validateToken(req, res, next)
+  if (token) return validateToken(req, res, next)
 
   req.sessionId = null
   req.userId = null
