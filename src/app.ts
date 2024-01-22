@@ -38,7 +38,7 @@ app.use(ExpressMongoSanitize())
 // }
 
 app.get('/', async (_req: Request, res: Response) => {
-  return res.send({ isSuccess: true, title: 'API WORKING' })
+  return res.send({ isSuccess: true, title: 'MyTuur API' })
 })
 
 // v1 api routes
