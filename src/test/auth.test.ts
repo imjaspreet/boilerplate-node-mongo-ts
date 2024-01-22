@@ -5,7 +5,7 @@ import app from '../app'
 import { faker } from '@faker-js/faker'
 const email: string = faker.internet.email()
 let userId: string
-let accessToken: string
+export let accessToken: string
 setupTestDB()
 
 describe('Auth API Tests', () => {
@@ -73,5 +73,4 @@ describe('Auth API Tests', () => {
     expect(response.body.isSuccess).toBe(true)
   })
 })
-
-export const token = accessToken
+export default accessToken

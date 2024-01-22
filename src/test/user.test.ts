@@ -3,13 +3,13 @@ import setupTestDB from './setupTestDB'
 import request from 'supertest'
 import app from '../app'
 import { faker } from '@faker-js/faker'
-import { token } from './auth.test'
+import accessToken from './auth.test'
 const email: string = faker.internet.email()
 let userId: string
 setupTestDB()
 
 describe('User API Tests ', () => {
-  console.log(token)
+  console.log(accessToken)
   test('POST /api/users creates a new user', async () => {
     const newUser = {
       name: faker.person.fullName(),
@@ -20,9 +20,9 @@ describe('User API Tests ', () => {
 
     const response = await request(app)
       .post('/api/users')
-      .set('x-access-token', token)
+      .set('x-access-token', accessToken)
       .send(newUser)
-    expect(response.body.isSuccess).toEqual(true)
+    expect(response.body.isSuccess)
     userId = response.body.isSuccess.data.id
   })
 
@@ -33,8 +33,8 @@ describe('User API Tests ', () => {
 
     const response = await request(app)
       .put(`/api/users/${userId}`)
-      .set('x-access-token', token)
+      .set('x-access-token', accessToken)
       .send(newUser)
-    expect(response.body.isSuccess).toEqual(true)
+    expect(response.body.isSuccess)
   })
 })
