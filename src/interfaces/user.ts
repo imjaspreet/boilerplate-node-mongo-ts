@@ -75,6 +75,7 @@ export interface IAuthModel extends IUserDoc {
 }
 
 export interface toUserModel extends IUserDoc {
+  id?: string
   guestId?: string
   imgUrl: string
   createdAt: Date

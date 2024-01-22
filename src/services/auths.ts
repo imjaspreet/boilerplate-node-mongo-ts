@@ -193,9 +193,13 @@ const validateUser = async (user: IUserDoc): Promise<void> => {
   return
 }
 
-export const createGuest = async (): Promise<void> => {
+export const createGuest = async (): Promise<IAuthModel> => {
   try {
-    await User.create({ role: 'guest', guestId: generateUniqueHash() })
+    const user = await User.create({
+      role: 'guest',
+      guestId: `Explorer:${generateUniqueHash()}`,
+    })
+    return user as IAuthModel
   } catch (error) {
     throw new ApiError(httpStatus.NOT_FOUND, error)
   }

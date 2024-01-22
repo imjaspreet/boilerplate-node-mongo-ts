@@ -6,6 +6,7 @@ import * as authValidation from '../validators/auth'
 import * as authMiddleware from '../middleware/auth.middleware'
 const router: Router = express.Router()
 
+router.route('/guest').post(authController.guest)
 router
   .route('/signup')
   .post(validate(authValidation.createUser), authController.signup)
@@ -45,5 +46,5 @@ router
     authMiddleware.validateTokenOptional,
     authController.logout,
   )
-router.route('/guest').post(authController.guest)
+
 export default router
