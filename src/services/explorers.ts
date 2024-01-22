@@ -140,27 +140,27 @@ export const list = async (option, query) => {
       },
     },
   ])
-  if (items.length == 0) {
-    findLocation(query.long, query.lat, option, query)
-  }
+  // if (items.length == 0) {
+  //   findLocation(query.long, query.lat, option, query)
+  // }
   return { items, count }
 }
 
-const findLocation = async (
-  lon: Float32Array,
-  lat: Float32Array,
-  option: object,
-  query: object,
-) => {
-  const entities: TextServiceArray | unknown = await fetch.get(
-    `http://localhost:5050/api/POIs?lon=${lon}&lat=${lat}`,
-    {},
-  )
-  // await textService(entities)
-  // await shortDescription(entities)
-  await Explorer.insertMany(explorerM.toCreateArrayModel(entities))
-  return await list(option, query)
-}
+// const findLocation = async (
+//   lon: Float32Array,
+//   lat: Float32Array,
+//   option: object,
+//   query: object,
+// ) => {
+//   const entities: TextServiceArray | unknown = await fetch.get(
+//     `http://localhost:5050/api/POIs?lon=${lon}&lat=${lat}`,
+//     {},
+//   )
+//   // await textService(entities)
+//   // await shortDescription(entities)
+//   await Explorer.insertMany(explorerM.toCreateArrayModel(entities))
+//   return await list(option, query)
+// }
 
 // const textService = async (entities: [TextService]) => {
 //   const result = entities.map(async (item: TextService) => {
