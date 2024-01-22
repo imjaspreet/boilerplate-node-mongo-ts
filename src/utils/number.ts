@@ -43,6 +43,6 @@ export const getRandom = (length: number): number => {
 export const generateUniqueHash = () =>
   crypto
     .createHash('sha256')
-    .update('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    .update('0123456789')
     .digest('hex')
     .substring(0, 16)
