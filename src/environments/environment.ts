@@ -6,7 +6,6 @@ import IEnvironment from './environment.interface'
 
 class Environment implements IEnvironment {
   public port: number
-
   public auth: {
     secretKey: string
     secretPeriod: string
@@ -22,13 +21,14 @@ class Environment implements IEnvironment {
     secretAccessKey: string
     region: string
   }
+  public envName: string
 
   constructor(NODE_ENV?: string) {
     const env: string = NODE_ENV || process.env.NODE_ENV
     const port: string | undefined | number = process.env.PORT || 3000
     this.setEnvironment(env)
     this.port = Number(port)
-
+    this.envName = env
     this.mongodb = {
       url: String(process.env.MONGO_URL),
     }

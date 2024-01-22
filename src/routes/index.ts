@@ -1,9 +1,9 @@
 import express, { Router } from 'express'
-// import docsRoute from './swagger.route';
-import userRoute from '../routes/user'
-// import config from '../../config/config';
-import authRoute from '../routes/auth'
-import explorerRoute from '../routes/explorer'
+// import docsRoute from '../swagger.route'
+import userRoute from './user'
+import authRoute from './auth'
+import explorerRoute from './explorer'
+import recentlyRoute from './recently'
 const router = express.Router()
 
 interface IRoute {
@@ -24,6 +24,10 @@ const defaultIRoute: IRoute[] = [
     path: '/explorers',
     route: explorerRoute,
   },
+  {
+    path: '/recently',
+    route: recentlyRoute,
+  },
 ]
 
 // const devIRoute: IRoute[] = [
@@ -32,17 +36,17 @@ const defaultIRoute: IRoute[] = [
 //     path: '/docs',
 //     route: docsRoute,
 //   },
-// ];
+// ]
 
 defaultIRoute.forEach(route => {
   router.use(route.path, route.route)
 })
 
-/* istanbul ignore next */
-// if (config.env === 'development') {
-//   devIRoute.forEach((route) => {
-//     router.use(route.path, route.route);
-//   });
+// /* istanbul ignore next */
+// if (env.envName === 'dev') {
+//   devIRoute.forEach(route => {
+//     router.use(route.path, route.route)
+//   })
 // }
 
 export default router
