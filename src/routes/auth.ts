@@ -42,7 +42,7 @@ router
   .route('/logout/:id')
   .get(
     validate(userValidation.getUser),
-    authMiddleware.validateToken,
+    authMiddleware.validateTokenOptional,
     authController.logout,
   )
 router.route('/guest').post(authController.guest)
