@@ -39,7 +39,8 @@ export const sendEmail = async (
         Data: subject || 'myTuur',
       },
     },
-    Source: 'no-reply-mytuur@mytuur.com',
+    // Source: 'no-reply-mytuur@mytuur.com',
+    Source: 'aws@mytuur.com',
   }
 
   ses.sendEmail(params, (err, data) => {
