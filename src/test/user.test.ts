@@ -2,14 +2,27 @@
 import setupTestDB from './setupTestDB'
 import request from 'supertest'
 import app from '../app'
+import Session from '../models/session'
 import { faker } from '@faker-js/faker'
-import accessToken from './auth.test'
 const email: string = faker.internet.email()
 let userId: string
 setupTestDB()
 
+// const getAccessToken = async () => {
+//   const session = await Session.findOne({ status: 'active' }).sort({
+//     createdAt: -1,
+//   })
+//   const accessToken = session?.accessToken
+//   return accessToken
+// }
+
+let accessToken: string
+// beforeAll(async () => {
+//   accessToken = await getAccessToken()
+//   console.log(accessToken)
+// })
+
 describe('User API Tests ', () => {
-  console.log(accessToken)
   test('POST /api/users creates a new user', async () => {
     const newUser = {
       name: faker.person.fullName(),
@@ -17,7 +30,7 @@ describe('User API Tests ', () => {
       password: 'Qwerty@123',
       authMethod: 'email',
     }
-
+    // accessToken = await getAccessToken()
     const response = await request(app)
       .post('/api/users')
       .set('x-access-token', accessToken)
