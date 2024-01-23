@@ -53,7 +53,7 @@ app.use('/api', routes)
 app.use((_req, res, next) => {
   res.send({
     isSuccess: false,
-    message: 'Not found',
+    message: 'Route not found',
     code: httpStatus.NOT_FOUND,
   })
   next()
