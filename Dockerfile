@@ -39,3 +39,4 @@ EXPOSE 3023
 
 # Use PM2 as the process manager
 CMD ["pm2-runtime", "dist/index.js"]
+
