@@ -9,6 +9,7 @@ import httpStatus from 'http-status'
 // import { jwtStrategy } from './modules/auth';
 // import { authLimiter } from './modules/utils';
 import { ApiError, errorConverter, errorHandler } from './utils/error'
+import expressListRoutes from 'express-list-routes'
 import routes from './routes'
 
 const env: Environment = new Environment()
@@ -41,9 +42,13 @@ app.get('/', async (_req: Request, res: Response) => {
   return res.send({ isSuccess: true, title: 'MyTuur API' })
 })
 
+app.get('/list', async (_req: Request, res: Response) => {
+  return res.send({ isSuccess: true, title: 'MyTuur API' })
+})
 // v1 api routes
 app.use('/api', routes)
 
+expressListRoutes(routes)
 // send back a 404 error for any unknown api request
 app.use((_req, _res, next) => {
   next(new ApiError(httpStatus.NOT_FOUND, 'route not found'))
