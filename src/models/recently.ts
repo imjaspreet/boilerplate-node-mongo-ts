@@ -19,6 +19,7 @@ recentlySchema.plugin(paginate)
 const Explorer = mongoose.model<IRecently, IRecentlyModel>(
   'Recently',
   recentlySchema,
+  'recently',
 )
 
 export default Explorer
