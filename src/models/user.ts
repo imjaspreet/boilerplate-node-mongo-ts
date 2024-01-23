@@ -34,6 +34,7 @@ const userSchema = new mongoose.Schema<IUserDoc, IUserModel>(
       enum: ['active', 'blocked', 'inactive', 'pending', 'deleted'],
       default: 'pending',
     },
+    role: String,
     guestId: {
       type: String,
       trim: true,
