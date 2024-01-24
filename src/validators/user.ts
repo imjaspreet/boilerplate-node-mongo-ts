@@ -120,7 +120,7 @@ export const socialLogin = {
       .required()
       .valid('email', 'google', 'facebook', 'apple', 'twitter'),
     name: Joi.string(),
-    email: Joi.string().required().email().lowercase(),
+    email: Joi.string().email().lowercase(),
     deviceId: Joi.string().optional(),
     googleId: Joi.string().optional(),
     facebookId: Joi.string().optional(),
