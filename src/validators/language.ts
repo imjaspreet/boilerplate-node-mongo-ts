@@ -1,10 +1,11 @@
 import Joi from 'joi'
-import { createRecently } from '../interfaces/recently'
+import { createLanguage } from '../interfaces/language'
 import { objectId } from './custom.validation'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const createModel: Record<keyof createRecently, any> = {
-  user: Joi.string(),
-  explorer: Joi.string(),
+const createModel: Record<keyof createLanguage, any> = {
+  name: Joi.string().required(),
+  shortName: Joi.string().required(),
+  json: Joi.object(),
 }
 
 export const createData = {
@@ -30,12 +31,11 @@ export const update = {
   params: Joi.object().keys({
     id: Joi.required().custom(objectId),
   }),
-  body: Joi.object()
-    .keys({
-      user: Joi.string(),
-      explorer: Joi.string(),
-    })
-    .min(1),
+  body: Joi.object().keys({
+    name: Joi.string().required(),
+    shortName: Joi.string().required(),
+    json: Joi.object(),
+  }),
 }
 
 export const deleteOne = {

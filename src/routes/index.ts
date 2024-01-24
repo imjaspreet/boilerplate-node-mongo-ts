@@ -4,6 +4,7 @@ import userRoute from './user'
 import authRoute from './auth'
 import explorerRoute from './explorer'
 import recentlyRoute from './recently'
+import languageRoute from './language'
 const router = express.Router()
 
 interface IRoute {
@@ -27,6 +28,10 @@ const defaultIRoute: IRoute[] = [
   {
     path: '/recently',
     route: recentlyRoute,
+  },
+  {
+    path: '/languages',
+    route: languageRoute,
   },
 ]
 
