@@ -96,7 +96,7 @@ export const socialLogin = async (
       data: toAuthModel(user as unknown as IAuthModel),
     })
   } catch (error) {
-    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error: error })
   }
 }
 

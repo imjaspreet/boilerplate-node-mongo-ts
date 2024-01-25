@@ -29,6 +29,9 @@ const userSchema = new mongoose.Schema<IUserDoc, IUserModel>(
       default: false,
     },
     code: String,
+    googleId: String,
+    facebookId: String,
+    appleId: String,
     status: {
       type: String,
       enum: ['active', 'blocked', 'inactive', 'pending', 'deleted'],

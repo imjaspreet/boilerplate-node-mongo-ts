@@ -111,7 +111,7 @@ export const userLogout = async (id: string): Promise<string> => {
 
 export const socialLoginAccount = async (
   body: IUserSocialLogin,
-): Promise<void> => {
+): Promise<any> => {
   // eslint-disable-next-line prefer-const
   let existingUser: IUserSocialLogin = await User.findOne({
     email: body.email,
@@ -130,7 +130,20 @@ export const socialLoginAccount = async (
         body as IUserWithPassword,
       )
       existingUser.session = session
-      existingUser
+      return existingUser
+    } else if (existingUser[key] !== body[key]) {
+      const newKey = `${body.authMethod}Id`
+      existingUser[newKey] = body[newKey]
+      existingUser.deviceId = body.deviceId
+      existingUser.deviceType = body.deviceType
+      existingUser.authMethod = body.authMethod
+      await existingUser.save()
+      const session = await createSession(
+        existingUser,
+        body as IUserWithPassword,
+      )
+      existingUser.session = session
+      return existingUser
     }
   } else {
     const newUser: IUserSocialLogin = await User.create({
@@ -142,7 +155,7 @@ export const socialLoginAccount = async (
     newUser.deviceType = body.deviceType
     const session = await createSession(newUser, body as IUserWithPassword)
     newUser.session = session
-    newUser
+    return newUser
   }
 }
 const socialCheck = async (body, existingUser) => {
