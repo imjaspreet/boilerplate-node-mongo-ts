@@ -29,6 +29,9 @@ export interface IUserDoc extends IUser, Document {
   deviceType?: string
   deviceId?: string
   session?: ISession
+  googleId?: string
+  facebookId?: string
+  appleId?: string
   isPasswordMatch(password: string): Promise<boolean>
 }
 
