@@ -1,6 +1,7 @@
 import { IAuthModel, toUserModel } from './../interfaces/user'
 import _ from 'underscore'
 import SessionM from './session'
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const toModel = (entity: toUserModel): any => {
   const model = {
