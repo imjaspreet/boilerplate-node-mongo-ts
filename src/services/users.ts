@@ -79,6 +79,7 @@ export const get = async (
  * @returns {Promise<QueryResult>}
  */
 export const search = async (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   filter: Record<string, any>,
   options: IOptions,
 ): Promise<QueryResult> => {
