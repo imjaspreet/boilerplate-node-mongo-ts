@@ -111,20 +111,26 @@ export const userLogout = async (id: string): Promise<string> => {
 
 export const socialLoginAccount = async (
   body: IUserSocialLogin,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> => {
   // eslint-disable-next-line prefer-const
-  let existingUser: IUserSocialLogin = await User.findOne({
-    email: body.email,
-  })
-  if (existingUser) await validateUser(existingUser as IUserDoc)
+  let existingUser: IUserSocialLogin
+  if (body.email) {
+    existingUser = await User.findOne({
+      email: body.email,
+    })
+    if (existingUser) await validateUser(existingUser as IUserDoc)
+  }
   if (!existingUser) {
-    await socialCheck(body, existingUser)
+    existingUser = await socialCheck(body, existingUser)
   }
   if (existingUser && existingUser.authMethod !== 'email') {
     const key = `${existingUser.authMethod}Id`
     if (existingUser[key] === body[key]) {
       existingUser.deviceId = body.deviceId
       existingUser.deviceType = body.deviceType
+      // existingUser.isEmailVerified = true
+      await existingUser.save()
       const session = await createSession(
         existingUser,
         body as IUserWithPassword,
@@ -135,6 +141,7 @@ export const socialLoginAccount = async (
       const newKey = `${body.authMethod}Id`
       existingUser[newKey] = body[newKey]
       existingUser.deviceId = body.deviceId
+      existingUser.isEmailVerified = true
       existingUser.deviceType = body.deviceType
       existingUser.authMethod = body.authMethod
       await existingUser.save()
@@ -143,7 +150,7 @@ export const socialLoginAccount = async (
         body as IUserWithPassword,
       )
       existingUser.session = session
-      return existingUser
+      return existingUser.save()
     }
   } else {
     const newUser: IUserSocialLogin = await User.create({
@@ -179,12 +186,12 @@ const socialCheck = async (body, existingUser) => {
 }
 
 const validateUser = async (user: IUserDoc): Promise<void> => {
-  if (!user.isEmailVerified && user.status === 'pending') {
-    throw new ApiError(
-      httpStatus.UNAUTHORIZED,
-      'This user is not verified yet!',
-    )
-  }
+  // if (!user.isEmailVerified && user.status === 'pending') {
+  //   throw new ApiError(
+  //     httpStatus.UNAUTHORIZED,
+  //     'This user is not verified yet!',
+  //   )
+  // }
   if (user.status === 'inactive') {
     throw new ApiError(
       httpStatus.UNAUTHORIZED,
