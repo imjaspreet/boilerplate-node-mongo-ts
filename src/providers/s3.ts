@@ -14,7 +14,7 @@ const s3bucket = new AWS.S3({
   region: global.environment.aws.region,
 })
 
-export const deleteImage = async url => {
+export const deleteImage = async (url: string) => {
   const params = {
     Bucket: `${awsConfig.Bucket}`,
     Key: `${url.substring(url.lastIndexOf('/') + 1)}`,
@@ -23,7 +23,11 @@ export const deleteImage = async url => {
   return data
 }
 
-export const uploadToS3 = async (file, id) => {
+export const uploadToS3 = async (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  file: { originalname: string; buffer: any; type: any },
+  id: string,
+) => {
   const params = {
     Bucket: `${awsConfig.Bucket}`,
     Key: `${id}${file.originalname.substr(file.originalname.lastIndexOf('.'))}`,

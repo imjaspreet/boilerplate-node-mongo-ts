@@ -101,53 +101,59 @@ export const deleteOne = async (id: string): Promise<string | null> => {
 }
 
 export const list = async (option, query) => {
-  const where = {}
-  const maxDistance: number = query.maxDistance | 1000
-  const result = await Explorer.aggregate([
-    {
-      $geoNear: {
-        near: {
-          type: 'Point',
-          coordinates: [query.long, query.lat],
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const where = {}
+    const maxDistance: number = query.maxDistance | 1000
+    const result = await Explorer.aggregate([
+      {
+        $geoNear: {
+          near: {
+            type: 'Point',
+            coordinates: [query.long, query.lat],
+          },
+          distanceField: 'distance',
+          maxDistance: maxDistance,
+          query: where,
+          includeLocs: 'location',
+          spherical: true,
         },
-        distanceField: 'distance',
-        maxDistance: maxDistance,
-        query: where,
-        includeLocs: 'location',
-        spherical: true,
       },
-    },
-    {
-      $group: {
-        _id: null,
-        count: { $sum: 1 },
-      },
-    },
-  ])
-
-  // Check if the result is not found (null or undefined)
-  const count = result.length > 0 ? result[0].count : 0
-
-  // const skip = (option.page - 1) * option.limit
-  const items = await Explorer.aggregate([
-    {
-      $geoNear: {
-        near: {
-          type: 'Point',
-          coordinates: [query.long, query.lat],
+      {
+        $group: {
+          _id: null,
+          count: { $sum: 1 },
         },
-        distanceField: 'distance',
-        maxDistance: maxDistance,
-        query: where,
-        includeLocs: 'location',
-        spherical: true,
       },
-    },
-  ])
-  if (items.length == 0) {
-    findLocation(query.long, query.lat, option, query)
+    ])
+
+    // Check if the result is not found (null or undefined)
+    const count = result.length > 0 ? result[0].count : 0
+
+    // const skip = (option.page - 1) * option.limit
+    const items = await Explorer.aggregate([
+      {
+        $geoNear: {
+          near: {
+            type: 'Point',
+            coordinates: [query.long, query.lat],
+          },
+          distanceField: 'distance',
+          maxDistance: maxDistance,
+          query: where,
+          includeLocs: 'location',
+          spherical: true,
+        },
+      },
+    ])
+
+    if (items.length == 0) {
+      findLocation(query.long, query.lat, option, query)
+    }
+    return { items, count }
+  } catch (error) {
+    throw error
   }
-  return { items, count }
 }
 
 const findLocation = async (
