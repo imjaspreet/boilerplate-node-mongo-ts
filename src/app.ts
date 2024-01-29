@@ -10,7 +10,7 @@ import multer from 'multer'
 // import { jwtStrategy } from './modules/auth';
 // import { authLimiter } from './modules/utils';
 import { errorConverter, errorHandler } from './utils/error'
-import expressListRoutes from 'express-list-routes'
+// import expressListRoutes from 'express-list-routes';
 import routes from './routes'
 
 const env: Environment = new Environment()
@@ -51,7 +51,7 @@ app.get('/list', async (_req: Request, res: Response) => {
 // v1 api routes
 app.use('/api', routes)
 
-expressListRoutes(routes)
+// expressListRoutes(routes);
 // send back a 404 error for any unknown api request
 app.use((_req, res, next) => {
   res.send({
