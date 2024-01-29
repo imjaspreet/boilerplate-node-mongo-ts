@@ -6,10 +6,9 @@ const env: Environment = new Environment()
 setGlobalEnvironment(env)
 
 const awsConfig = {
-  bucketName: global.environment.aws.bucket,
+  Bucket: global.environment.aws.bucket,
 }
 const s3bucket = new AWS.S3({
-  // bucket: global.environment.aws.bucket,
   accessKeyId: global.environment.aws.accessKeyId,
   secretAccessKey: global.environment.aws.secretAccessKey,
   region: global.environment.aws.region,
@@ -17,7 +16,7 @@ const s3bucket = new AWS.S3({
 
 export const deleteImage = async url => {
   const params = {
-    Bucket: `${awsConfig.bucketName}`,
+    Bucket: `${awsConfig.Bucket}`,
     Key: `${url.substring(url.lastIndexOf('/') + 1)}`,
   }
   const data = await s3bucket.deleteObject(params).promise()
@@ -26,7 +25,7 @@ export const deleteImage = async url => {
 
 export const uploadToS3 = async (file, id) => {
   const params = {
-    Bucket: `${awsConfig.bucketName}`,
+    Bucket: `${awsConfig.Bucket}`,
     Key: `${id}${file.originalname.substr(file.originalname.lastIndexOf('.'))}`,
     Body: file.buffer,
     ContentType: file.type,
