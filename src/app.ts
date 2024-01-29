@@ -5,16 +5,17 @@ import helmet from 'helmet'
 import ExpressMongoSanitize from 'express-mongo-sanitize'
 import cors from 'cors'
 import httpStatus from 'http-status'
+import multer from 'multer'
 // import config from './config/config';
 // import { jwtStrategy } from './modules/auth';
 // import { authLimiter } from './modules/utils';
 import { errorConverter, errorHandler } from './utils/error'
-// import expressListRoutes from 'express-list-routes'
+import expressListRoutes from 'express-list-routes'
 import routes from './routes'
 
 const env: Environment = new Environment()
 setGlobalEnvironment(env)
-
+const upload = multer({ storage: multer.memoryStorage() })
 const app: Express = express()
 
 // set security HTTP headers
@@ -37,6 +38,8 @@ app.use(ExpressMongoSanitize())
 // if (global.environment.getCurrentEnvironment() === 'production') {
 //   app.use('/v1/auth', authLimiter);
 // }
+//media Uploads
+app.use(upload.any())
 
 app.get('/', async (_req: Request, res: Response) => {
   return res.send({ isSuccess: true, title: 'MyTuur API' })
@@ -48,7 +51,7 @@ app.get('/list', async (_req: Request, res: Response) => {
 // v1 api routes
 app.use('/api', routes)
 
-// expressListRoutes(routes)
+expressListRoutes(routes)
 // send back a 404 error for any unknown api request
 app.use((_req, res, next) => {
   res.send({
