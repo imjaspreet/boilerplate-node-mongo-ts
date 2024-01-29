@@ -20,6 +20,11 @@ class Environment implements IEnvironment {
     accessKeyId: string
     secretAccessKey: string
     region: string
+  }
+  public s3: {
+    accessKeyId: string
+    secretAccessKey: string
+    region: string
     bucket: string
   }
   public envName: string
@@ -44,6 +49,11 @@ class Environment implements IEnvironment {
     this.aws = {
       accessKeyId: String(process.env.AWS_ACCESS_KEY_ID),
       secretAccessKey: String(process.env.AWS_SECRET_ACCESS_KEY),
+      region: String(process.env.REGION),
+    }
+    this.s3 = {
+      accessKeyId: String(process.env.S3_AWS_ACCESS_KEY_ID),
+      secretAccessKey: String(process.env.S3_AWS_SECRET_ACCESS_KEY),
       region: String(process.env.REGION),
       bucket: String(process.env.BUCKET),
     }

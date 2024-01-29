@@ -6,12 +6,12 @@ const env: Environment = new Environment()
 setGlobalEnvironment(env)
 
 const awsConfig = {
-  Bucket: global.environment.aws.bucket,
+  Bucket: global.environment.s3.bucket,
 }
 const s3bucket = new AWS.S3({
-  accessKeyId: global.environment.aws.accessKeyId,
-  secretAccessKey: global.environment.aws.secretAccessKey,
-  region: global.environment.aws.region,
+  accessKeyId: global.environment.s3.accessKeyId,
+  secretAccessKey: global.environment.s3.secretAccessKey,
+  region: global.environment.s3.region,
 })
 
 export const deleteImage = async (url: string) => {
