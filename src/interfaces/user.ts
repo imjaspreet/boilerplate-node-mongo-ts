@@ -25,6 +25,7 @@ export interface IAuthUser {
   code: string
 }
 export interface IUserDoc extends IUser, Document {
+  userId?: string
   fcmToken?: string
   deviceType?: string
   deviceId?: string

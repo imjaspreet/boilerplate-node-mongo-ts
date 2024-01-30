@@ -45,10 +45,9 @@ export const verifyUser = async (
 ): Promise<void> => {
   try {
     const user = await AuthService.verifyUser(req.body)
-    res.status(httpStatus.OK).send({
-      isSuccess: true,
-      message: user,
-    })
+    res
+      .status(httpStatus.OK)
+      .send({ isSuccess: true, data: toAuthModel(user as IAuthModel) })
   } catch (error) {
     res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
   }

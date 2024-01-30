@@ -59,7 +59,7 @@ export const verification = async (
 }
 
 export const verifyUser = async (body: IUserDoc): Promise<IUserDoc> => {
-  const user: IUserDoc = await User.findById(body.id)
+  const user: IUserDoc = await User.findById(body.userId)
   if (!user) throw new ApiError(httpStatus.NOT_FOUND, 'account not found')
   if (user.code !== body.code.toString() && body.code !== '4444') {
     throw new ApiError(httpStatus.NOT_FOUND, 'account not found')
