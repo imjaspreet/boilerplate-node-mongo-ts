@@ -52,14 +52,13 @@ export const updateUser = {
 }
 export const updateUserData = {
   params: Joi.object().keys({
-    userId: Joi.required().custom(objectId),
+    id: Joi.required().custom(objectId),
   }),
-  body: Joi.object()
-    .keys({
-      name: Joi.string().required().lowercase(),
-      language: Joi.string().default('english'),
-    })
-    .min(1),
+  body: Joi.object().keys({
+    name: Joi.string().lowercase(),
+    email: Joi.string().email().lowercase(),
+    language: Joi.string().default('english'),
+  }),
 }
 
 export const deleteUser = {
