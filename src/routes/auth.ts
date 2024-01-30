@@ -19,6 +19,10 @@ router
   .post(validate(userValidation.verify), authController.verify)
 
 router
+  .route('/verify/user')
+  .post(validate(userValidation.verify), authController.verify)
+
+router
   .route('/forgot')
   .post(validate(userValidation.forgot), authController.forgot)
 

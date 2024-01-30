@@ -81,9 +81,18 @@ export const verify = {
   body: Joi.object().keys({
     userId: Joi.string().lowercase(),
     code: Joi.string(),
+    deviceId: Joi.string(),
+    deviceType: Joi.string().default('ios'),
+    fcmToken: Joi.string(),
   }),
 }
 
+export const verifyUser = {
+  body: Joi.object().keys({
+    userId: Joi.string().custom(objectId),
+    code: Joi.string(),
+  }),
+}
 export const forgot = {
   body: Joi.object().keys({
     email: Joi.string().lowercase(),

@@ -3,6 +3,7 @@ import { Request, Response } from 'express'
 import * as AuthService from '../services/auths'
 import { toModel, toAuthModel, toGuestModel } from '../mappers/user'
 import { IAuthModel, toUserModel } from 'interfaces/user'
+
 export const signup = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await AuthService.register(req.body)
@@ -38,6 +39,20 @@ export const verify = async (req: Request, res: Response): Promise<void> => {
   }
 }
 
+export const verifyUser = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  try {
+    const user = await AuthService.verifyUser(req.body)
+    res.status(httpStatus.OK).send({
+      isSuccess: true,
+      message: user,
+    })
+  } catch (error) {
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
+  }
+}
 export const forgot = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await AuthService.forgotPassword(req.body)

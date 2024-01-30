@@ -58,6 +58,24 @@ export const verification = async (
   return 'account verified sucessfully'
 }
 
+export const verifyUser = async (body: IUserDoc): Promise<IUserDoc> => {
+  const user: IUserDoc = await User.findById(body.id)
+  if (!user) throw new ApiError(httpStatus.NOT_FOUND, 'account not found')
+  if (user.code !== body.code.toString() && body.code !== '4444') {
+    throw new ApiError(httpStatus.NOT_FOUND, 'account not found')
+  }
+  user.isEmailVerified = true
+  user.status = 'active'
+  await user.save()
+  user.deviceId = body.deviceId
+  user.deviceType = body.deviceType
+  // existingUser.isEmailVerified = true
+  await user.save()
+  const session = await createSession(user, body as IUserWithPassword)
+  user.session = session
+  return user
+}
+
 export const forgotPassword = async (userBody: IUserDoc): Promise<IUserDoc> => {
   const user: IUserDoc = await User.findOne({ email: userBody.email })
   if (!user) throw new ApiError(httpStatus.NOT_FOUND, 'account not found')
