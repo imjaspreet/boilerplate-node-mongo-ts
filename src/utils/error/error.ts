@@ -7,6 +7,7 @@ import httpStatus from 'http-status'
 import ApiError from './ApiError'
 
 export const errorConverter = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   err: any,
   _req: Request,
   _res: Response,
@@ -43,6 +44,7 @@ export const errorHandler = (
   res.locals['errorMessage'] = err.message
 
   const response = {
+    isSuccess: false,
     code: statusCode,
     message,
     ...(global.environment.getCurrentEnvironment() === 'development' && {
