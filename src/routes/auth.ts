@@ -20,7 +20,7 @@ router
 
 router
   .route('/verify/user')
-  .post(validate(userValidation.verify), authController.verify)
+  .post(validate(userValidation.verify), authController.verifyUser)
 
 router
   .route('/forgot')
