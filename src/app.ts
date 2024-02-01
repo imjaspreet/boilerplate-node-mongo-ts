@@ -48,7 +48,10 @@ app.get('/list', async (_req: Request, res: Response) => {
 // v1 api routes
 app.use('/api', routes)
 
-expressListRoutes(routes)
+app.get('/api-docs', async (_req: Request, res: Response) => {
+  return res.send({ isSuccess: true, routes: expressListRoutes(routes) })
+})
+
 // send back a 404 error for any unknown api request
 app.use((_req, res, next) => {
   res.send({
