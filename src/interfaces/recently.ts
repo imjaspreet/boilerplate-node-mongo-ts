@@ -5,10 +5,15 @@ import { IExplorer } from './explorer'
 export interface IRecently {
   explorer: IExplorer
   user: toUserModel
+  time: Date
+  isView: boolean
+  isLike: boolean
 }
 
 export interface IRecentlyDoc extends IRecently, Document {
   id?: string
+  explorerId?: string
+  userId?: string
   createdAt?: string
   updatedAt?: string
 }
@@ -23,4 +28,7 @@ export interface IRecentlyModel extends Model<IRecentlyDoc> {
   ): Promise<QueryResult>
 }
 
-export interface createRecently extends IRecently {}
+export interface createRecently {
+  explorerId: string
+  userId: string
+}

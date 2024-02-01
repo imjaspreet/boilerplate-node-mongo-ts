@@ -2,12 +2,19 @@ import * as authMiddleware from './../middleware/auth.middleware'
 import express, { Router } from 'express'
 import validate from '../middleware/validate.middleware'
 import * as RecentlyController from '../api/recently'
-import * as RecentlyValidation from '../validators/explorer'
+import * as RecentlyValidation from '../validators/recently'
 
 const router: Router = express.Router()
 
 router
   .route('/')
+  .post(
+    validate(RecentlyValidation.createData),
+    authMiddleware.validateToken,
+    RecentlyController.create,
+  )
+router
+  .route('/mark/favorite')
   .post(
     validate(RecentlyValidation.createData),
     authMiddleware.validateToken,

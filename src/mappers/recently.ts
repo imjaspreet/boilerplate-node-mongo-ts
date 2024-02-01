@@ -10,12 +10,15 @@ export const toModel = (entity: IRecentlyDoc) => {
     id: entity._id,
     explorer: null,
     user: null,
+    time: entity.time,
+    isLike: entity.isLike,
+    isView: entity.isView,
     createdAt: entity.createdAt,
     updatedAt: entity.updatedAt,
   }
 
   if (entity.user) {
-    model.user = UserM.toModel(entity.user as toUserModel)
+    model.user = UserM.toSmallModel(entity.user as toUserModel)
   }
 
   if (entity.explorer) {

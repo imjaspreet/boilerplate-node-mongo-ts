@@ -22,6 +22,20 @@ export const toModel = (entity: toUserModel): any => {
   }
   return model
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const toSmallModel = (entity: toUserModel): any => {
+  const model = {
+    id: entity._id,
+    guestId: entity.guestId,
+    name: entity.name,
+    imgUrl: entity.imgUrl,
+    email: entity.email,
+    language: entity.language,
+    role: entity.role,
+  }
+  return model
+}
 export const toSearchModel = entities => {
   return _.map(entities, toModel)
 }

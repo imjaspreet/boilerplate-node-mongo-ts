@@ -3,8 +3,8 @@ import { createRecently } from '../interfaces/recently'
 import { objectId } from './custom.validation'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createModel: Record<keyof createRecently, any> = {
-  user: Joi.string(),
-  explorer: Joi.string(),
+  userId: Joi.string(),
+  explorerId: Joi.string(),
 }
 
 export const createData = {

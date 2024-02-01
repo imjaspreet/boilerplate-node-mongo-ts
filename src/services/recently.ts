@@ -6,7 +6,12 @@ import {
   IRecentlyModel,
   createRecently,
 } from 'interfaces/recently'
-
+/**
+ *
+ * @param model
+ * @param entity
+ * @returns
+ */
 const set = <T>(model: T, entity: T): T => {
   Object.assign(entity, model)
   return entity
@@ -20,7 +25,10 @@ const set = <T>(model: T, entity: T): T => {
 export const create = async (
   userBody: createRecently,
 ): Promise<IRecentlyDoc> => {
-  return await Recently.create(userBody)
+  return await Recently.create({
+    ...userBody,
+    isView: true,
+  })
 }
 
 /**
@@ -95,4 +103,13 @@ export const deleteOne = async (id: string): Promise<string | null> => {
 
   await explorer.deleteOne()
   return 'Recently view deleted successfully'
+}
+
+export const favorite = async (
+  userBody: createRecently,
+): Promise<IRecentlyDoc> => {
+  return await Recently.create({
+    ...userBody,
+    isLike: true,
+  })
 }

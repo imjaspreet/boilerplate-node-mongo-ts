@@ -72,3 +72,15 @@ export const search = async (req: Request, res: Response) => {
     res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
   }
 }
+
+export const markFavorite = async (req: Request, res: Response) => {
+  try {
+    const entity = await RecentlyService.favorite(req.body)
+    res.status(httpStatus.CREATED).send({
+      isSuccess: true,
+      data: recentlyM.toModel(entity as IRecentlyDoc),
+    })
+  } catch (error) {
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
+  }
+}
