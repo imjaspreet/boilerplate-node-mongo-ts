@@ -38,7 +38,7 @@ export const get = async (req: Request, res: Response) => {
       data: recentlyM.toModel(entity as unknown as IRecentlyDoc),
     })
   } catch (error) {
-    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error: error })
   }
 }
 
@@ -47,7 +47,7 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
     const entity: string = await RecentlyService.deleteOne(req.params.id)
     res.status(httpStatus.OK).send({ isSuccess: true, message: entity })
   } catch (error) {
-    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error: error })
   }
 }
 
@@ -69,7 +69,7 @@ export const search = async (req: Request, res: Response) => {
       limit: options.limit,
     })
   } catch (error) {
-    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error: error })
   }
 }
 
@@ -81,6 +81,6 @@ export const markFavorite = async (req: Request, res: Response) => {
       data: recentlyM.toModel(entity as IRecentlyDoc),
     })
   } catch (error) {
-    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error: error })
   }
 }
