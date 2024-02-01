@@ -161,13 +161,13 @@ export const list = async (option, query) => {
       },
     ])
 
-    // for (const item of items) {
-    //   const result = await textService(item)
-    //   await Explorer.updateOne(
-    //     { _id: item._id },
-    //     { $set: { description: result } },
-    //   )
-    // }
+    for (const item of items) {
+      const result = await textService(item)
+      await Explorer.updateOne(
+        { _id: item._id },
+        { $set: { description: result } },
+      )
+    }
 
     if (items.length == 0) {
       findLocation(query.long, query.lat, option, query)

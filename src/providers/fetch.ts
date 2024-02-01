@@ -9,11 +9,10 @@ import * as Axios from 'axios'
 export const get = async (apiUrl: string, headers: any) => {
   try {
     const response = await Axios.default.get(apiUrl, headers)
-    const data = await response.data
     if (response.status === 200) {
-      return
+      return response.data
     } else {
-      throw new Error(data?.error?.message || 'Request failed')
+      throw new Error(response.data?.error?.message || 'Request failed')
     }
   } catch (error) {
     throw error.message
