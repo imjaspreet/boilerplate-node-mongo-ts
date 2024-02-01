@@ -34,7 +34,7 @@ export const updateUser = async (
   model: UpdateUserBody,
 ): Promise<IUserDoc> => {
   const entity: IUserDoc | null = await User.findById(id)
-
+  await updateEmail(model, id)
   if (entity) {
     set(model, entity)
     await entity.save()
@@ -96,4 +96,19 @@ export const deleteOne = async (id: string): Promise<string | null> => {
 
   await user.deleteOne()
   return 'User deleted successfully'
+}
+
+const updateEmail = async (model: UpdateUserBody, id: string) => {
+  if (model.email) {
+    const user: IUserDoc | null = await User.findOne({
+      email: model.email,
+      _id: { $ne: id },
+    })
+    if (user)
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        'Email already taken by other user',
+      )
+  }
+  return model
 }
