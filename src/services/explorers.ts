@@ -16,7 +16,7 @@ import {
   TextServiceArray,
   // TextService,
 } from 'interfaces/explorer'
-import * as fetch from '../providers/fetch'
+import { get as fetch } from '../providers/fetch'
 
 const url = global.environment.microServiceUrl
 
@@ -161,11 +161,13 @@ export const list = async (option, query) => {
       },
     ])
 
-    for (const item of items) {
-      // item.shortDescription = await shortDescription(item)
-      item.description = await textService(item)
-      await item.save()
-    }
+    // for (const item of items) {
+    //   const result = await textService(item)
+    //   await Explorer.updateOne(
+    //     { _id: item._id },
+    //     { $set: { description: result } },
+    //   )
+    // }
 
     if (items.length == 0) {
       findLocation(query.long, query.lat, option, query)
@@ -183,8 +185,8 @@ const findLocation = async (
   query: object,
 ) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const entities: TextServiceArray | any = await fetch.get(
-    `${url}/api/POIs?lon=${lon}&lat=${lat}`,
+  const entities: TextServiceArray | any = await fetch(
+    `${url}:5001/api/POIs?lon=${lon}&lat=${lat}`,
     {},
   )
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -195,15 +197,16 @@ const findLocation = async (
 }
 
 const textService = async (item: TextService) => {
-  const result = await fetch.get(
-    `${url}:5002/api/text?name=${item.name}&city=${item.city}&country=${item.country}&lon=${item.longitude}&lat=${item.latitude}&adventurePointImportance=${item.importance}`,
+  const newUrl: string = `${url}:5002`
+  const result = await fetch(
+    `${newUrl}/api/text?name=${item.name}&city=${item.city}&country=${item.country}&lon=${item.longitude}&lat=${item.latitude}&adventurePointImportance=${item.importance}`,
     {},
   )
   return result
 }
 
 // const shortDescription = async (item: TextService) => {
-//   const result = await fetch.get(
+//   const result = await fetch(
 //     `${url}:5004/api/description?name=${item.name}&city=${item.city}&country=${item.country}`,
 //     {},
 //   )

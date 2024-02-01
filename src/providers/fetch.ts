@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
+import * as Axios from 'axios'
 /**
  *
  * @param {string} apiUrl
@@ -8,10 +8,10 @@
  */
 export const get = async (apiUrl: string, headers: any) => {
   try {
-    const response = await fetch(apiUrl, { method: 'GET', headers })
-    const data = await response.json()
-    if (response.ok) {
-      return data
+    const response = await Axios.default.get(apiUrl, headers)
+    const data = await response.data
+    if (response.status === 200) {
+      return
     } else {
       throw new Error(data?.error?.message || 'Request failed')
     }
