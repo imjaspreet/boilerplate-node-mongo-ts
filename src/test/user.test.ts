@@ -8,19 +8,14 @@ const email: string = faker.internet.email()
 let userId: string
 setupTestDB()
 
-// const getAccessToken = async () => {
-//   const session = await Session.findOne({ status: 'active' }).sort({
-//     createdAt: -1,
-//   })
-//   const accessToken = session?.accessToken
-//   return accessToken
-// }
+const getAccessToken = async () => {
+  const session = await Session.findOne({ status: 'active' }).sort({
+    createdAt: -1,
+  })
+  return session?.accessToken || undefined
+}
 
-let accessToken: string
-// beforeAll(async () => {
-//   accessToken = await getAccessToken()
-//   console.log(accessToken)
-// })
+const accessToken: any = getAccessToken()
 
 describe('User API Tests ', () => {
   test('POST /api/users creates a new user', async () => {
@@ -48,6 +43,18 @@ describe('User API Tests ', () => {
       .put(`/api/users/${userId}`)
       .set('x-access-token', accessToken)
       .send(newUser)
+    expect(response.body.isSuccess)
+  })
+  test('GET /api/users/id get a user', async () => {
+    const response = await request(app)
+      .get(`/api/users/${userId}`)
+      .set('x-access-token', accessToken)
+    expect(response.body.isSuccess)
+  })
+  test('GET /api/users get all users', async () => {
+    const response = await request(app)
+      .get('/api/users')
+      .set('x-access-token', accessToken)
     expect(response.body.isSuccess)
   })
 })

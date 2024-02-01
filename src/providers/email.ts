@@ -45,7 +45,7 @@ export const sendEmail = async (
 
   ses.sendEmail(params, (err, data) => {
     if (err) {
-      console.error('Error sending email:', err)
+      console.log('Error sending email:', err)
     } else {
       console.log('Email sent successfully:', data)
     }
