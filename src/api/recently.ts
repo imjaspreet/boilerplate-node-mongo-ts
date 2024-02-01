@@ -53,7 +53,7 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
 
 export const search = async (req: Request, res: Response) => {
   try {
-    const filter = pick(req.query, ['name'])
+    const filter = pick(req.query, ['user', 'isView', 'isLike'])
     const options: IOptions = pick(req.query, [
       'sortBy',
       'limit',
