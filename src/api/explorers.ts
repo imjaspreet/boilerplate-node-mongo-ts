@@ -92,7 +92,7 @@ export const list = async (req: Request, res: Response) => {
       limit: options.limit,
     })
   } catch (error) {
-    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error: error })
   }
 }
 
