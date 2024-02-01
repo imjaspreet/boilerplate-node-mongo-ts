@@ -28,6 +28,7 @@ class Environment implements IEnvironment {
     bucket: string
   }
   public envName: string
+  public microServiceUrl: string
 
   constructor(NODE_ENV?: string) {
     const env: string = NODE_ENV || process.env.NODE_ENV
@@ -57,8 +58,8 @@ class Environment implements IEnvironment {
       region: String(process.env.REGION),
       bucket: String(process.env.BUCKET),
     }
+    this.microServiceUrl = String(process.env.MICRO_SERVICE_URL)
   }
-
   public getCurrentEnvironment(): string {
     let environment: string = process.env.NODE_ENV || Environments.DEV
 

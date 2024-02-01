@@ -1,3 +1,8 @@
+import { setGlobalEnvironment } from '../global'
+import Environment from '../environments/environment'
+const env: Environment = new Environment()
+setGlobalEnvironment(env)
+
 import { TextService } from './../interfaces/explorer'
 // import httpStatus from 'http-status'
 import Explorer from '../models/explorer'
@@ -12,6 +17,15 @@ import {
   // TextService,
 } from 'interfaces/explorer'
 import * as fetch from '../providers/fetch'
+
+const url = global.environment.microServiceUrl
+
+/**
+ * Set user object
+ * @param {IUserModel} model
+ * @param {IUser} entity
+ * @returns {IUser}
+ */
 const set = <T>(model: T, entity: T): T => {
   Object.assign(entity, model)
   return entity
@@ -147,6 +161,12 @@ export const list = async (option, query) => {
       },
     ])
 
+    for (const item of items) {
+      // item.shortDescription = await shortDescription(item)
+      item.description = await textService(item)
+      await item.save()
+    }
+
     if (items.length == 0) {
       findLocation(query.long, query.lat, option, query)
     }
@@ -164,7 +184,7 @@ const findLocation = async (
 ) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const entities: TextServiceArray | any = await fetch.get(
-    `http://13.50.197.125:5001/api/POIs?lon=${lon}&lat=${lat}`,
+    `${url}/api/POIs?lon=${lon}&lat=${lat}`,
     {},
   )
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -174,25 +194,18 @@ const findLocation = async (
   return await list(option, query)
 }
 
-const textService = async (entities: [TextService]) => {
-  const result = entities.map(async (item: TextService) => {
-    const response: object = await fetch.get(
-      `http://13.50.197.125:5002/api/text?name=${item.name}&city=${item.city}&country=${item.country}&lon=${item.longitude}&lat=${item.latitude}&adventurePointImportance=${item.importance}`,
-      {},
-    )
-    return response
-  })
+const textService = async (item: TextService) => {
+  const result = await fetch.get(
+    `${url}:5002/api/text?name=${item.name}&city=${item.city}&country=${item.country}&lon=${item.longitude}&lat=${item.latitude}&adventurePointImportance=${item.importance}`,
+    {},
+  )
   return result
 }
 
-// const shortDescription = async (entities: [TextService]) => {
-
-//   const result = entities.map(async (item: TextService) => {
-//     const response: object = await fetch.get(
-//       ` (http://localhost:5050/api/description?name=${item.name}&city=${item.city}&country=${item.country}`,
-//       {},
-//     )
-//     return response
-//   })
+// const shortDescription = async (item: TextService) => {
+//   const result = await fetch.get(
+//     `${url}:5004/api/description?name=${item.name}&city=${item.city}&country=${item.country}`,
+//     {},
+//   )
 //   return result
 // }
