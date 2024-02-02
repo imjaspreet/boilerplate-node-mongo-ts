@@ -9,7 +9,6 @@ import multer from 'multer'
 import { errorConverter, errorHandler } from './utils/error'
 import expressListRoutes from 'express-list-routes'
 import routes from './routes'
-
 const env: Environment = new Environment()
 setGlobalEnvironment(env)
 const upload = multer({ storage: multer.memoryStorage() })
