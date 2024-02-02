@@ -9,7 +9,7 @@ router
   .route('/find')
   .get(
     validate(ExplorerValidation.list),
-    authMiddleware.validateToken,
+    authMiddleware.validateTokenOptional,
     explorerController.list,
   )
 router
