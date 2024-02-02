@@ -9,6 +9,7 @@ import multer from 'multer'
 import { errorConverter, errorHandler } from './utils/error'
 import expressListRoutes from 'express-list-routes'
 import routes from './routes'
+import path from 'path'
 const env: Environment = new Environment()
 setGlobalEnvironment(env)
 const upload = multer({ storage: multer.memoryStorage() })
@@ -51,7 +52,9 @@ app.get('/api-docs', async (_req: Request, res: Response) => {
   return res.send({ isSuccess: true, routes: expressListRoutes(routes) })
 })
 
+app.use('/', express.static(path.join(__dirname, '/public')))
 // send back a 404 error for any unknown api request
+
 app.use((_req, res, next) => {
   res.send({
     isSuccess: false,
