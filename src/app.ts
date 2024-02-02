@@ -14,6 +14,7 @@ const env: Environment = new Environment()
 setGlobalEnvironment(env)
 const upload = multer({ storage: multer.memoryStorage() })
 const app: Express = express()
+import job from './scheduler/cron'
 
 // set security HTTP headers
 app.use(helmet())
@@ -66,5 +67,5 @@ app.use(errorConverter)
 
 // handle error
 app.use(errorHandler)
-
+job.start()
 export default app
