@@ -52,14 +52,14 @@ app.get('/api-docs', async (_req: Request, res: Response) => {
 app.use('/files', express.static(path.join(__dirname, '/public')))
 // send back a 404 error for any unknown api request
 
-// app.use((_req, res, next) => {
-//   res.send({
-//     isSuccess: false,
-//     message: 'Route not found',
-//     code: httpStatus.NOT_FOUND,
-//   })
-//   next()
-// })
+app.use((_req, res, next) => {
+  res.send({
+    isSuccess: false,
+    message: 'Route not found',
+    code: httpStatus.NOT_FOUND,
+  })
+  next()
+})
 
 // convert error to ApiError, if needed
 app.use(errorConverter)
