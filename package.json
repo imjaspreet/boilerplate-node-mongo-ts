@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=dev nodemon --exec ts-node src/index.ts ",
     "dev": "node dist/index.js",
-    "build": "tsc",
+    "build": "tsc && mkdir -p dist/public && cp -r src/public/* dist/public/",
     "prepare": "husky install",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest -i --colors --verbose --detectOpenHandles",
     "test:ts": "cross-env NODE_OPTIONS=--experimental-vm-modules jest -i --colors --verbose --detectOpenHandles -- 'ts$'",
