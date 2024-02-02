@@ -7,7 +7,6 @@ const recentlySchema = new mongoose.Schema<IRecentlyDoc, IRecentlyModel>(
   {
     explorer: { type: mongoose.Schema.Types.ObjectId, ref: 'explorer' },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
-    time: { type: Date, default: Date.now },
     isLike: { type: Boolean, default: false },
     isView: { type: Boolean, default: false },
   },

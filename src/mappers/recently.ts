@@ -10,7 +10,6 @@ export const toModel = (entity: IRecentlyDoc) => {
     id: entity._id,
     explorer: null,
     user: null,
-    time: entity.time,
     isLike: entity.isLike,
     isView: entity.isView,
     createdAt: entity.createdAt,

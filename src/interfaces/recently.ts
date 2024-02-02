@@ -5,7 +5,6 @@ import { IExplorer } from './explorer'
 export interface IRecently {
   explorer: IExplorer
   user: toUserModel
-  time: Date
   isView: boolean
   isLike: boolean
 }
