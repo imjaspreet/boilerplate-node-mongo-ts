@@ -42,9 +42,6 @@ app.get('/', async (_req: Request, res: Response) => {
   return res.send({ isSuccess: true, title: 'MyTuur API' })
 })
 
-app.get('/list', async (_req: Request, res: Response) => {
-  return res.send({ isSuccess: true, title: 'MyTuur API' })
-})
 // v1 api routes
 app.use('/api', routes)
 
@@ -52,7 +49,7 @@ app.get('/api-docs', async (_req: Request, res: Response) => {
   return res.send({ isSuccess: true, routes: expressListRoutes(routes) })
 })
 
-app.use('/', express.static(path.join(__dirname, '/public')))
+app.use('/files', express.static(path.join(__dirname, '/public')))
 // send back a 404 error for any unknown api request
 
 app.use((_req, res, next) => {
