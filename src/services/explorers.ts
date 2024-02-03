@@ -162,13 +162,13 @@ export const list = async (options, query) => {
         },
       },
       {
-        $sort: options.sortBy,
+        $sort: options.sortBy || { createdAt: -1 },
       },
       {
         $limit: options.limit,
       },
       {
-        $skip: options.skip, // Replace 'skipValue' with the number of documents to skip
+        $skip: options.skip || 0,
       },
     ])
 
