@@ -109,6 +109,7 @@ export const deleteOne = async (id: string): Promise<string | null> => {
 export const favorite = async (
   userBody: createRecently,
 ): Promise<IRecentlyDoc> => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const model = RecentlyM.toFavouriteModel(userBody as any)
   return await Recently.create(model)
 }
