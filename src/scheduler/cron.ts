@@ -10,7 +10,7 @@ setGlobalEnvironment(env)
 const url = global.environment.microServiceUrl
 
 // run cron every 5 minutes
-const job1 = cron.schedule('* * * * *', async (): Promise<void> => {
+const job1 = cron.schedule('5 * * * *', async (): Promise<void> => {
   console.log('Running a task every one minute')
   try {
     const item = await Explorer.findOne({ description: null })
