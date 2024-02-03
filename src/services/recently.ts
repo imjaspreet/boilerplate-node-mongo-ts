@@ -7,7 +7,7 @@ import {
   createRecently,
 } from 'interfaces/recently'
 import * as RecentlyM from '../mappers/recently'
-const populate = [{ path: 'explorer' }]
+const populate = [{ path: 'explorer' }, { path: 'user' }]
 /**
  *
  * @param model
