@@ -31,7 +31,7 @@ router
   .route('/:id')
   .get(
     validate(RecentlyValidation.get),
-    authMiddleware.validateToken,
+    authMiddleware.validateTokenOptional,
     RecentlyController.get,
   )
 router
@@ -46,7 +46,7 @@ router
   .route('/')
   .get(
     validate(RecentlyValidation.search),
-    authMiddleware.validateToken,
+    authMiddleware.validateTokenOptional,
     RecentlyController.search,
   )
 
