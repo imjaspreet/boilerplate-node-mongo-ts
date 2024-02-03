@@ -10,14 +10,14 @@ router
   .route('/')
   .post(
     validate(RecentlyValidation.createData),
-    authMiddleware.validateToken,
+    authMiddleware.validateTokenOptional,
     RecentlyController.create,
   )
 router
   .route('/mark/favorite')
   .post(
     validate(RecentlyValidation.createData),
-    authMiddleware.validateToken,
+    authMiddleware.validateTokenOptional,
     RecentlyController.create,
   )
 router
