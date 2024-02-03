@@ -67,5 +67,5 @@ app.use(errorConverter)
 
 // handle error
 app.use(errorHandler)
-job.start()
+job()
 export default app
