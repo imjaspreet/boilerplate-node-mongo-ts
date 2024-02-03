@@ -17,6 +17,8 @@ export const search = {
     projectBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
+    isView: Joi.bool(),
+    isLike: Joi.bool(),
   }),
 }
 
