@@ -6,7 +6,7 @@ import {
   IRecentlyModel,
   createRecently,
 } from 'interfaces/recently'
-
+import * as RecentlyM from '../mappers/recently'
 const populate = [{ path: 'explorer' }]
 /**
  *
@@ -27,10 +27,9 @@ const set = <T>(model: T, entity: T): T => {
 export const create = async (
   userBody: createRecently,
 ): Promise<IRecentlyDoc> => {
-  return await Recently.create({
-    ...userBody,
-    isView: true,
-  })
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const model = RecentlyM.toViewModel(userBody as any)
+  return await Recently.create(model)
 }
 
 /**
@@ -110,8 +109,6 @@ export const deleteOne = async (id: string): Promise<string | null> => {
 export const favorite = async (
   userBody: createRecently,
 ): Promise<IRecentlyDoc> => {
-  return await Recently.create({
-    ...userBody,
-    isLike: true,
-  })
+  const model = RecentlyM.toFavouriteModel(userBody as any)
+  return await Recently.create(model)
 }

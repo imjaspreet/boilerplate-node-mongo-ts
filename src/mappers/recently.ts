@@ -29,3 +29,20 @@ export const toModel = (entity: IRecentlyDoc) => {
 export const toSearchModel = (entities: [IRecentlyDoc]) => {
   return _.map(entities, toModel)
 }
+
+export const toViewModel = (body: IRecentlyDoc) => {
+  const model = {
+    explorer: body.explorerId,
+    user: body.userId,
+    isView: true,
+  }
+  return model
+}
+export const toFavouriteModel = (body: IRecentlyDoc) => {
+  const model = {
+    explorer: body.explorerId,
+    user: body.userId,
+    isLike: true,
+  }
+  return model
+}
