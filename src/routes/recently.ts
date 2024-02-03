@@ -5,16 +5,15 @@ import * as RecentlyController from '../api/recently'
 import * as RecentlyValidation from '../validators/recently'
 
 const router: Router = express.Router()
-
 router
-  .route('/')
+  .route('/mark/favorite')
   .post(
     validate(RecentlyValidation.createData),
     authMiddleware.validateTokenOptional,
-    RecentlyController.create,
+    RecentlyController.markFavorite,
   )
 router
-  .route('/mark/favorite')
+  .route('/')
   .post(
     validate(RecentlyValidation.createData),
     authMiddleware.validateTokenOptional,

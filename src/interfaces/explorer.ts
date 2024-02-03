@@ -10,7 +10,6 @@ export interface IExplorer {
   postalCode: string
   country: string
   importance: number
-  isFavourite?: boolean
   additionalSources: Array<object>
   categories: Array<string>
   properties: Array<string>
@@ -22,6 +21,7 @@ export interface IExplorerDoc extends IExplorer, Document {
   additional_sources?: Array<object>
   title?: string
   shortDescription?: string
+  isFavourite?: boolean
   description?: string
   distance?: number
   createdAt?: string

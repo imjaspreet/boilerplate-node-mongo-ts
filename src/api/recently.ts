@@ -82,7 +82,7 @@ export const markFavorite = async (req: Request, res: Response) => {
     const entity = await RecentlyService.favorite(req.body)
     res.status(httpStatus.CREATED).send({
       isSuccess: true,
-      data: recentlyM.toModel(entity as IRecentlyDoc),
+      message: entity,
     })
   } catch (error) {
     res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error: error })
