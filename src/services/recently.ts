@@ -106,10 +106,14 @@ export const deleteOne = async (id: string): Promise<string | null> => {
   return 'Recently view deleted successfully'
 }
 
-export const favorite = async (
-  userBody: createRecently,
-): Promise<IRecentlyDoc> => {
+export const favorite = async (userBody: createRecently): Promise<string> => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const model = RecentlyM.toFavouriteModel(userBody as any)
-  return await Recently.create(model)
+  const found: IRecentlyDoc = await Recently.findOne(model)
+  if (found) {
+    await Recently.deleteOne({ _id: found._id })
+    return 'Mark as unfavorite'
+  }
+  await Recently.create(model)
+  return 'Mark as favorite'
 }
