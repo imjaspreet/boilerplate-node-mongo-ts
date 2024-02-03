@@ -5,8 +5,8 @@ import toJSON from '../helpers/toJSON'
 
 const recentlySchema = new mongoose.Schema<IRecentlyDoc, IRecentlyModel>(
   {
-    explorer: { type: mongoose.Schema.Types.ObjectId, ref: 'explorer' },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
+    explorer: { type: mongoose.Schema.Types.ObjectId, ref: 'Explorer' },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     isLike: { type: Boolean, default: false },
     isView: { type: Boolean, default: false },
   },

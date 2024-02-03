@@ -1,12 +1,14 @@
-import { Model, Document, SaveOptions } from 'mongoose'
+import { Model, Document, SaveOptions, Types } from 'mongoose'
 import { QueryResult } from '../helpers/paginate'
 import { toUserModel } from './user'
 import { IExplorer } from './explorer'
+
+// Define Recently schema
 export interface IRecently {
-  explorer: IExplorer
-  user: toUserModel
-  isView: boolean
+  explorer: Types.ObjectId | IExplorer
+  user: Types.ObjectId | toUserModel
   isLike: boolean
+  isView: boolean
 }
 
 export interface IRecentlyDoc extends IRecently, Document {

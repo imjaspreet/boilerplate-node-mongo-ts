@@ -60,6 +60,7 @@ export const search = async (req: Request, res: Response) => {
       'page',
       'projectBy',
     ])
+    options.populate = 'explorer,user'
     const result = await RecentlyService.search(filter, options)
     res.send({
       isSuccess: true,

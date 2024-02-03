@@ -6,6 +6,8 @@ import {
   IRecentlyModel,
   createRecently,
 } from 'interfaces/recently'
+
+const populate = [{ path: 'explorer' }]
 /**
  *
  * @param model
@@ -51,7 +53,7 @@ export const update = async (
 }
 
 export const getById = async (id: string): Promise<IRecentlyDoc | null> => {
-  return await Recently.findById(id)
+  return await Recently.findById(id).populate(populate)
 }
 
 export const getByCondition = async (condition: {
