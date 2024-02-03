@@ -10,6 +10,7 @@ export interface IExplorer {
   postalCode: string
   country: string
   importance: number
+  isFavourite?: boolean
   additionalSources: Array<object>
   categories: Array<string>
   properties: Array<string>

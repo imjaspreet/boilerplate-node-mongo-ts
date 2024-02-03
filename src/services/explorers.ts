@@ -2,9 +2,6 @@ import { setGlobalEnvironment } from '../global'
 import Environment from '../environments/environment'
 const env: Environment = new Environment()
 setGlobalEnvironment(env)
-
-import { TextService } from './../interfaces/explorer'
-// import httpStatus from 'http-status'
 import Explorer from '../models/explorer'
 import * as explorerM from '../mappers/explorer'
 import { IOptions, QueryResult } from '../helpers/paginate'
@@ -14,10 +11,10 @@ import {
   IExplorerModel,
   createExplorer,
   TextServiceArray,
-  // TextService,
+  TextService,
 } from 'interfaces/explorer'
 import { get as fetch } from '../providers/fetch'
-
+import Recently from '../models/recently'
 const url = global.environment.microServiceUrl
 
 /**
@@ -113,7 +110,12 @@ export const deleteOne = async (id: string): Promise<string | null> => {
   await explorer.deleteOne()
   return 'User deleted successfully'
 }
-
+/**
+ *
+ * @param {object} option
+ * @param {object}query
+ * @returns
+ */
 export const list = async (option, query) => {
   // eslint-disable-next-line no-useless-catch
   try {
@@ -145,7 +147,7 @@ export const list = async (option, query) => {
     const count = result.length > 0 ? result[0].count : 0
 
     // const skip = (option.page - 1) * option.limit
-    const items = await Explorer.aggregate([
+    const items: IExplorerDoc[] = await Explorer.aggregate([
       {
         $geoNear: {
           near: {
@@ -161,14 +163,16 @@ export const list = async (option, query) => {
       },
     ])
 
-    // for (const item of items) {
-    //   if (item.description) continue
-    //   const result = await textService(item)
-    //   await Explorer.updateOne(
-    //     { _id: item._id },
-    //     { $set: { description: result } },
-    //   )
-    // }
+    for (const item of items) {
+      const data = await Recently.findOne({
+        user: query.user,
+        explorer: item._id,
+      })
+      if (data) {
+        item.isFavourite = true
+      }
+    }
+
     if (items.length == 0) {
       findLocation(query.long, query.lat, option, query)
     }
