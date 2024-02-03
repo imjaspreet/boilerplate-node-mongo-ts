@@ -19,6 +19,7 @@ export const search = {
     page: Joi.number().integer(),
     isView: Joi.bool(),
     isLike: Joi.bool(),
+    userId: Joi.string(),
   }),
 }
 
