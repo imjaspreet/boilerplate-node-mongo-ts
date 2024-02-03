@@ -80,10 +80,14 @@ export const search = async (req: Request, res: Response) => {
 
 export const list = async (req: Request, res: Response) => {
   try {
+    if (req.query.userId) {
+      req.query.user = req.query.userId
+    }
     const options: IOptions = pick(req.query, [
       'sortBy',
       'limit',
       'page',
+      'skip',
       'projectBy',
     ])
     const result = await ExplorerService.list(options, req.query)

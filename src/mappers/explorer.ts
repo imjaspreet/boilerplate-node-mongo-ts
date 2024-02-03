@@ -17,7 +17,7 @@ export const toModel = (entity: IExplorerDoc) => {
     properties: entity.properties,
     distance: entity.distance,
     foreignSources: entity.foreignSources,
-    isFavourite: entity.isFavourite,
+    isFavourite: entity.isFavourite || false,
     createdAt: entity.createdAt,
     updatedAt: entity.updatedAt,
   }

@@ -112,11 +112,11 @@ export const deleteOne = async (id: string): Promise<string | null> => {
 }
 /**
  *
- * @param {object} option
+ * @param {object} options
  * @param {object}query
  * @returns
  */
-export const list = async (option, query) => {
+export const list = async (options, query) => {
   // eslint-disable-next-line no-useless-catch
   try {
     const where = {}
@@ -161,6 +161,15 @@ export const list = async (option, query) => {
           spherical: true,
         },
       },
+      {
+        $sort: options.sortBy,
+      },
+      {
+        $limit: options.limit,
+      },
+      {
+        $skip: options.skip, // Replace 'skipValue' with the number of documents to skip
+      },
     ])
 
     for (const item of items) {
@@ -174,7 +183,7 @@ export const list = async (option, query) => {
     }
 
     if (items.length == 0) {
-      findLocation(query.long, query.lat, option, query)
+      findLocation(query.long, query.lat, options, query)
     }
 
     return { items, count }
