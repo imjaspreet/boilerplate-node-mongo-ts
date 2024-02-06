@@ -3,19 +3,14 @@ import Environment from '../environments/environment'
 const env: Environment = new Environment()
 setGlobalEnvironment(env)
 import Explorer from '../models/explorer'
-import * as explorerM from '../mappers/explorer'
 import { IOptions, QueryResult } from '../helpers/paginate'
 import {
   IExplorer,
   IExplorerDoc,
   IExplorerModel,
   createExplorer,
-  TextServiceArray,
-  TextService,
 } from 'interfaces/explorer'
-import { get as fetch } from '../providers/fetch'
 import Recently from '../models/recently'
-const url = global.environment.microServiceUrl
 
 /**
  * Set user object
@@ -120,6 +115,13 @@ export const list = async (page, query) => {
   // eslint-disable-next-line no-useless-catch
   try {
     const where = {}
+    if (query.search) {
+      where['$or'] = [
+        { name: new RegExp(query.search, 'i') },
+        { city: new RegExp(query.search, 'i') },
+        { state: new RegExp(query.search, 'i') },
+      ]
+    }
     const maxDistance: number = query.maxDistance | 1000
     const result = await Explorer.aggregate([
       {

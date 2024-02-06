@@ -89,6 +89,7 @@ export const list = async (req: Request, res: Response) => {
       'page',
       'skip',
       'projectBy',
+      'search',
     ])
     const page = extractPage(req)
     const result = await ExplorerService.list(page, req.query)

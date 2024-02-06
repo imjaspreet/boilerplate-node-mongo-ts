@@ -36,6 +36,7 @@ export const search = {
 export const list = {
   query: Joi.object().keys({
     name: Joi.string(),
+    search: Joi.string(),
     city: Joi.string(),
     lat: Joi.number(),
     long: Joi.number(),
