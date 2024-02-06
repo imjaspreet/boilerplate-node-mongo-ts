@@ -68,20 +68,20 @@ export const extract = (req: Request): PagingOptions | null => {
     limit = Number(req.query.limit)
   }
 
-  let offset = 0
+  let skip = 0
   let pageNo = 1
-  if (req.query.offset !== undefined) {
-    offset = Number(req.query.offset)
-    pageNo = Math.floor(offset / limit) + 1
+  if (req.query.skip !== undefined) {
+    skip = Number(req.query.offset)
+    pageNo = Math.floor(skip / limit) + 1
   } else if (req.query.pageNo !== undefined) {
     pageNo = Number(req.query.pageNo)
-    offset = limit * (pageNo - 1)
+    skip = limit * (pageNo - 1)
   }
 
   return {
     sort: String(req.query.sort) || 'createdAt',
     pageNo: pageNo,
     limit: limit,
-    skip: offset,
+    skip: skip,
   }
 }
