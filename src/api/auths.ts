@@ -12,7 +12,7 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
       .status(httpStatus.CREATED)
       .send({ isSuccess: true, data: toModel(user as toUserModel) })
   } catch (error) {
-    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error })
   }
 }
 
@@ -23,7 +23,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       .status(httpStatus.OK)
       .send({ isSuccess: true, data: toAuthModel(user as IAuthModel) })
   } catch (error) {
-    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error })
   }
 }
 
@@ -35,7 +35,7 @@ export const verify = async (req: Request, res: Response): Promise<void> => {
       message: user,
     })
   } catch (error) {
-    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error })
   }
 }
 
@@ -49,7 +49,7 @@ export const verifyUser = async (
       .status(httpStatus.OK)
       .send({ isSuccess: true, data: toAuthModel(user as IAuthModel) })
   } catch (error) {
-    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error })
   }
 }
 export const forgot = async (req: Request, res: Response): Promise<void> => {
@@ -59,7 +59,7 @@ export const forgot = async (req: Request, res: Response): Promise<void> => {
       .status(httpStatus.CREATED)
       .send({ isSuccess: true, data: toModel(user as unknown as toUserModel) })
   } catch (error) {
-    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error })
   }
 }
 
@@ -68,7 +68,7 @@ export const resendOtp = async (req: Request, res: Response): Promise<void> => {
     const entity = await AuthService.resendCode(req.params.id)
     res.status(httpStatus.OK).send({ isSuccess: true, message: entity })
   } catch (error) {
-    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error })
   }
 }
 export const reset = async (req: Request, res: Response): Promise<void> => {
@@ -79,7 +79,7 @@ export const reset = async (req: Request, res: Response): Promise<void> => {
     )
     res.status(httpStatus.OK).send({ isSuccess: true, message: user })
   } catch (error) {
-    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error })
   }
 }
 
@@ -95,7 +95,7 @@ export const updatePassword = async (
     )
     res.status(httpStatus.OK).send({ isSuccess: true, message: user })
   } catch (error) {
-    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error })
   }
 }
 
@@ -122,7 +122,7 @@ export const logout = async (req: Request, res: Response): Promise<void> => {
       message,
     })
   } catch (error) {
-    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error })
   }
 }
 
@@ -134,6 +134,6 @@ export const guest = async (req: Request, res: Response): Promise<void> => {
       data: toGuestModel(user as unknown as IAuthModel),
     })
   } catch (error) {
-    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, ...error })
+    res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error })
   }
 }

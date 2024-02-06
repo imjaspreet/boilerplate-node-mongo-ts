@@ -47,12 +47,12 @@ export const errorHandler = (
     isSuccess: false,
     code: statusCode,
     message,
-    ...(global.environment.getCurrentEnvironment() === 'development' && {
+    ...(global.environment.getCurrentEnvironment() === 'dev' && {
       stack: err.stack,
     }),
   }
 
-  if (global.environment.getCurrentEnvironment() === 'development') {
+  if (global.environment.getCurrentEnvironment() === 'dev') {
     // logger.error(err);
   }
 
