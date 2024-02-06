@@ -7,6 +7,7 @@ import * as explorerM from '../mappers/explorer'
 import { IExplorerDoc } from 'interfaces/explorer'
 import * as fetch from '../providers/fetch'
 import Explorer from '../models/explorer'
+import { extractPage } from '../utils/paging'
 export const create = async (req: Request, res: Response) => {
   try {
     const entity = await ExplorerService.create(req.body)
@@ -89,8 +90,8 @@ export const list = async (req: Request, res: Response) => {
       'skip',
       'projectBy',
     ])
-
-    const result = await ExplorerService.list(options, req.query)
+    const page = extractPage(req)
+    const result = await ExplorerService.list(page, req.query)
     res.send({
       isSuccess: true,
       items: explorerM.toSearchModel(result.items),

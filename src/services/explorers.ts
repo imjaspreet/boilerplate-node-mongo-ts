@@ -112,11 +112,11 @@ export const deleteOne = async (id: string): Promise<string | null> => {
 }
 /**
  *
- * @param {object} options
+ * @param {object} page
  * @param {object}query
  * @returns
  */
-export const list = async (options, query) => {
+export const list = async (page, query) => {
   // eslint-disable-next-line no-useless-catch
   try {
     const where = {}
@@ -146,7 +146,109 @@ export const list = async (options, query) => {
     // Check if the result is not found (null or undefined)
     const count = result.length > 0 ? result[0].count : 0
 
-    // const skip = (option.page - 1) * option.limit
+    let items: IExplorerDoc[]
+    if (page) {
+      items = await findWithPagination(page, query, maxDistance)
+    } else {
+      items = await find(page, query, maxDistance)
+    }
+    for (const item of items) {
+      const data = await Recently.findOne({
+        user: query.user,
+        explorer: item._id,
+      })
+      if (data) {
+        item.isFavourite = true
+      }
+    }
+
+    return { items, count }
+  } catch (error) {
+    throw error
+  }
+}
+
+// const findLocation = async (
+//   lon: Float32Array,
+//   lat: Float32Array,
+//   option: object,
+//   query: object,
+// ) => {
+//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//   const entities: TextServiceArray | any = await fetch(
+//     `${url}:5001/api/POIs?lon=${lon}&lat=${lat}`,
+//     {},
+//   )
+//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//   const data: any = await textService(entities)
+//   //   // await shortDescription(entities)
+//   await Explorer.insertMany(explorerM.toCreateArrayModel(data))
+//   return await list(option, query)
+// }
+
+// const textService = async (item: TextService) => {
+//   const newUrl: string = `${url}:5002`
+//   const result = await fetch(
+//     `${newUrl}/api/text?name=${item.name}&city=${item.city}&country=${item.country}&lon=${item.longitude}&lat=${item.latitude}&adventurePointImportance=${item.importance}`,
+//     {},
+//   )
+//   return result
+// }
+
+// const shortDescription = async (item: TextService) => {
+//   const result = await fetch(
+//     `${url}:5004/api/description?name=${item.name}&city=${item.city}&country=${item.country}`,
+//     {},
+//   )
+//   return result
+// }
+/**
+ *
+ * @param {object} page
+ * @param {object}query
+ * @param {number} maxDistance
+ * @returns
+ */
+const findWithPagination = async (page, query, maxDistance) => {
+  const where = {}
+  const items: IExplorerDoc[] = await Explorer.aggregate([
+    {
+      $geoNear: {
+        near: {
+          type: 'Point',
+          coordinates: [query.long, query.lat],
+        },
+        distanceField: 'distance',
+        maxDistance: maxDistance,
+        query: where,
+        includeLocs: 'location',
+        spherical: true,
+      },
+    },
+    {
+      $sort: page.sortBy || { createdAt: -1 },
+    },
+    {
+      $limit: page.limit,
+    },
+    {
+      $skip: page.skip || 0,
+    },
+  ])
+  return items
+}
+
+/**
+ *
+ * @param {any} page
+ * @param {object}query
+ * @param {number} maxDistance
+ * @returns
+ */
+const find = async (page, query, maxDistance) => {
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const where = {}
     const items: IExplorerDoc[] = await Explorer.aggregate([
       {
         $geoNear: {
@@ -162,67 +264,11 @@ export const list = async (options, query) => {
         },
       },
       {
-        $sort: options.sortBy || { createdAt: -1 },
-      },
-      {
-        $limit: options.limit,
-      },
-      {
-        $skip: options.skip || 0,
+        $sort: page ? page.sortBy : { createdAt: -1 },
       },
     ])
-
-    for (const item of items) {
-      const data = await Recently.findOne({
-        user: query.user,
-        explorer: item._id,
-      })
-      if (data) {
-        item.isFavourite = true
-      }
-    }
-
-    if (items.length == 0) {
-      findLocation(query.long, query.lat, options, query)
-    }
-
-    return { items, count }
+    return items
   } catch (error) {
     throw error
   }
 }
-
-const findLocation = async (
-  lon: Float32Array,
-  lat: Float32Array,
-  option: object,
-  query: object,
-) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const entities: TextServiceArray | any = await fetch(
-    `${url}:5001/api/POIs?lon=${lon}&lat=${lat}`,
-    {},
-  )
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const data: any = await textService(entities)
-  //   // await shortDescription(entities)
-  await Explorer.insertMany(explorerM.toCreateArrayModel(data))
-  return await list(option, query)
-}
-
-const textService = async (item: TextService) => {
-  const newUrl: string = `${url}:5002`
-  const result = await fetch(
-    `${newUrl}/api/text?name=${item.name}&city=${item.city}&country=${item.country}&lon=${item.longitude}&lat=${item.latitude}&adventurePointImportance=${item.importance}`,
-    {},
-  )
-  return result
-}
-
-// const shortDescription = async (item: TextService) => {
-//   const result = await fetch(
-//     `${url}:5004/api/description?name=${item.name}&city=${item.city}&country=${item.country}`,
-//     {},
-//   )
-//   return result
-// }

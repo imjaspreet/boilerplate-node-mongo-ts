@@ -29,26 +29,26 @@ const job1 = cron.schedule('5 * * * *', async (): Promise<void> => {
   }
 })
 
-const job2 = cron.schedule('* * * * *', async (): Promise<void> => {
-  console.log('Running a task every one minute')
-  try {
-    const item = await Explorer.findOne({ shortDescription: null })
+// const job2 = cron.schedule('* * * * *', async (): Promise<void> => {
+//   console.log('Running a task every one minute')
+//   try {
+//     const item = await Explorer.findOne({ shortDescription: null })
 
-    if (item) {
-      const newUrl: string = `${url}:5004`
-      const result: string = await fetch(
-        `${newUrl}/api/description?name=${item.name}&city=${item.city}&country=${item.country}`,
-        {},
-      )
+//     if (item) {
+//       const newUrl: string = `${url}:5004`
+//       const result: string = await fetch(
+//         `${newUrl}/api/description?name=${item.name}&city=${item.city}&country=${item.country}`,
+//         {},
+//       )
 
-      await Explorer.findByIdAndUpdate(item._id, { shortDescription: result })
-    }
-  } catch (error) {
-    console.log('Error:', error)
-  }
-})
+//       await Explorer.findByIdAndUpdate(item._id, { shortDescription: result })
+//     }
+//   } catch (error) {
+//     console.log('Error:', error)
+//   }
+// })
 
 export default function job() {
   job1.start()
-  job2.start()
+  // job2.start()
 }

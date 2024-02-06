@@ -1,87 +1,43 @@
 import { Request } from 'express'
 
-interface Model {
-  [key: string]: any
+interface SortOptions {
+  [key: string]: number
 }
 
-interface PagingOptions {
-  sort: string
+interface ExtractPageOptions {
+  sort?: SortOptions
+  pageNo?: number
+  limit?: number
+  serverPaging?: boolean | string
+}
+
+interface PaginationOptions {
+  sort: SortOptions
   pageNo: number
   limit: number
   skip: number
 }
 
-export const query = (req: Request): Model => {
-  const query = req.query || {}
-  const model: Model = {}
+export const extractPage = (req: Request): PaginationOptions | null => {
+  const {
+    sort = { createdAt: -1 },
+    pageNo = 1,
+    limit = 10,
+    serverPaging = true,
+  }: ExtractPageOptions = req.query
 
-  Object.getOwnPropertyNames(query).forEach(key => {
-    const value = query[key]
+  delete req.query.serverPaging
+  delete req.query.pageNo
+  delete req.query.limit
 
-    if (!value) {
-      return
-    }
-
-    const parts = key.split('-')
-    let index = 0
-    let obj = model
-
-    for (const part of parts) {
-      if (index === parts.length - 1) {
-        obj[part] = value
-      } else {
-        obj[part] = obj[part] || {}
-      }
-
-      obj = obj[part]
-      index++
-    }
-  })
-
-  return model
-}
-
-export const extract = (req: Request): PagingOptions | null => {
-  let serverPaging: boolean | undefined = Boolean(req.query.serverPaging)
-
-  if (serverPaging === undefined) {
-    if (
-      req.query.pageNo !== undefined ||
-      req.query.pageSize !== undefined ||
-      req.query.limit !== undefined
-    ) {
-      serverPaging = true
-    }
-  } else {
-    serverPaging = serverPaging == true ? true : serverPaging
-  }
-
-  if (serverPaging === false || req.query.noPaging) {
+  if (!serverPaging || serverPaging === 'false') {
     return null
   }
 
-  let limit = 10
-  if (req.query.pageSize) {
-    limit = Number(req.query.pageSize)
-  }
-  if (req.query.limit) {
-    limit = Number(req.query.limit)
-  }
-
-  let skip = 0
-  let pageNo = 1
-  if (req.query.skip !== undefined) {
-    skip = Number(req.query.offset)
-    pageNo = Math.floor(skip / limit) + 1
-  } else if (req.query.pageNo !== undefined) {
-    pageNo = Number(req.query.pageNo)
-    skip = limit * (pageNo - 1)
-  }
-
   return {
-    sort: String(req.query.sort) || 'createdAt',
-    pageNo: pageNo,
+    sort,
+    pageNo,
     limit: limit,
-    skip: skip,
+    skip: limit * (pageNo - 1),
   }
 }
