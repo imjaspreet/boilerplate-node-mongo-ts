@@ -6,6 +6,7 @@ import Session from '../models/session'
 import { faker } from '@faker-js/faker'
 const email: string = faker.internet.email()
 let userId: string
+let accessToken: string
 setupTestDB()
 
 const getAccessToken = async () => {
@@ -15,10 +16,9 @@ const getAccessToken = async () => {
   return session?.accessToken || undefined
 }
 
-const accessToken: any = getAccessToken()
-
 describe('User API Tests ', () => {
   test('POST /api/users creates a new user', async () => {
+    accessToken = await getAccessToken()
     const newUser = {
       name: faker.person.fullName(),
       email: email,
