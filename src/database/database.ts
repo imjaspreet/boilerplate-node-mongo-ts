@@ -1,9 +1,6 @@
 import mongoose from 'mongoose'
 
-/**
- * @param {string} MONGO_URI
- */
-const connectToDatabase = async (MONGO_URI): Promise<void> => {
+const connectToDatabase = async (MONGO_URI: string): Promise<void> => {
   try {
     mongoose.connect(MONGO_URI)
 
