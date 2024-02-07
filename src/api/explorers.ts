@@ -97,8 +97,8 @@ export const list = async (req: Request, res: Response) => {
       isSuccess: true,
       items: explorerM.toSearchModel(result.items),
       totalRecord: result.count,
-      pageNo: 0,
-      limit: 0,
+      pageNo: 1,
+      limit: result.count,
     }
     if (page && page.limit) {
       response.limit = page.limit
