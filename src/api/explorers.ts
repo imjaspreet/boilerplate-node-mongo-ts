@@ -97,14 +97,8 @@ export const list = async (req: Request, res: Response) => {
       isSuccess: true,
       items: explorerM.toSearchModel(result.items),
       totalRecord: result.count,
-      pageNo: 1,
-      limit: result.count,
-    }
-    if (page && page.limit) {
-      response.limit = page.limit
-    }
-    if (page && page.pageNo) {
-      response.pageNo = page.pageNo
+      pageNo: page?.pageNo || 1,
+      limit: page?.limit || result.count,
     }
 
     res.send(response)
