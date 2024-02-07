@@ -118,8 +118,8 @@ export const list = async (page, query) => {
     if (query.search) {
       where['$or'] = [
         { name: new RegExp(query.search, 'i') },
-        { city: new RegExp(query.search, 'i') },
-        { state: new RegExp(query.search, 'i') },
+        // { city: new RegExp(query.search, 'i') },
+        // { state: new RegExp(query.search, 'i') },
       ]
     }
     const maxDistance: number = query.maxDistance | 1000
