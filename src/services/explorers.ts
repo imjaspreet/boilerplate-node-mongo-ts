@@ -158,6 +158,7 @@ export const list = async (page, query) => {
       const data = await Recently.findOne({
         user: query.user,
         explorer: item._id,
+        isLike: true,
       })
       if (data) {
         item.isFavourite = true
