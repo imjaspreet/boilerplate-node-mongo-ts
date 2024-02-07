@@ -97,8 +97,8 @@ export const list = async (req: Request, res: Response) => {
       isSuccess: true,
       items: explorerM.toSearchModel(result.items),
       totalRecord: result.count,
-      PageNo: page.pageNo,
-      limit: options.limit,
+      PageNo: page && page.pageNo,
+      limit: options && options.limit,
     })
   } catch (error) {
     res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error: error })
