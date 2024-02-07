@@ -83,14 +83,14 @@ export const list = async (req: Request, res: Response) => {
     if (req.query.userId) {
       req.query.user = req.query.userId
     }
-    const options: IOptions = pick(req.query, [
-      'sortBy',
-      'limit',
-      'page',
-      'skip',
-      'projectBy',
-      'search',
-    ])
+    // const options: IOptions = pick(req.query, [
+    //   'sortBy',
+    //   'limit',
+    //   'page',
+    //   'skip',
+    //   'projectBy',
+    //   'search',
+    // ])
     const page = extractPage(req)
     const result = await ExplorerService.list(page, req.query)
     res.send({
@@ -98,7 +98,7 @@ export const list = async (req: Request, res: Response) => {
       items: explorerM.toSearchModel(result.items),
       totalRecord: result.count,
       PageNo: page && page.pageNo,
-      limit: options && options.limit,
+      limit: page && page.limit,
     })
   } catch (error) {
     res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error: error })
