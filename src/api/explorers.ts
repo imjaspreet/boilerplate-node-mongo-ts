@@ -93,13 +93,21 @@ export const list = async (req: Request, res: Response) => {
     // ])
     const page = extractPage(req)
     const result = await ExplorerService.list(page, req.query)
-    res.send({
+    const response = {
       isSuccess: true,
       items: explorerM.toSearchModel(result.items),
       totalRecord: result.count,
-      PageNo: page && page.pageNo,
-      limit: page && page.limit,
-    })
+      pageNo: 0,
+      limit: 0,
+    }
+    if (page && page.limit) {
+      response.limit = page.limit
+    }
+    if (page && page.pageNo) {
+      response.pageNo = page.pageNo
+    }
+
+    res.send(response)
   } catch (error) {
     res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error: error })
   }
