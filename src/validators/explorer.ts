@@ -46,6 +46,7 @@ export const list = {
     userId: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
+    pageNo: Joi.number().integer(),
     serverPaging: Joi.bool().default(true),
   }),
 }

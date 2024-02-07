@@ -97,7 +97,7 @@ export const list = async (req: Request, res: Response) => {
       isSuccess: true,
       items: explorerM.toSearchModel(result.items),
       totalRecord: result.count,
-      PageNo: options.page,
+      PageNo: page.pageNo,
       limit: options.limit,
     })
   } catch (error) {

@@ -122,7 +122,7 @@ export const list = async (page, query) => {
         // { state: new RegExp(query.search, 'i') },
       ]
     }
-    const maxDistance: number = query.maxDistance | 1000
+    const maxDistance: number = query.maxDistance | 10000
     const result = await Explorer.aggregate([
       {
         $geoNear: {
@@ -214,7 +214,8 @@ export const list = async (page, query) => {
  */
 const findWithPagination = async (page, query, maxDistance) => {
   const where = {}
-  const items: IExplorerDoc[] = await Explorer.aggregate([
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const pipeline: any = [
     {
       $geoNear: {
         near: {
@@ -232,12 +233,14 @@ const findWithPagination = async (page, query, maxDistance) => {
       $sort: page.sortBy || { createdAt: -1 },
     },
     {
-      $limit: page.limit,
-    },
-    {
       $skip: page.skip || 0,
     },
-  ])
+    {
+      $limit: page.limit,
+    },
+  ]
+
+  const items = await Explorer.aggregate(pipeline)
   return items
 }
 
