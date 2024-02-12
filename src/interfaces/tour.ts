@@ -1,5 +1,6 @@
-import { Model, Document, SaveOptions } from 'mongoose'
+import { Model, Document, SaveOptions, Types } from 'mongoose'
 import { QueryResult } from '../helpers/paginate'
+import { IExplorerDoc } from './explorer'
 export interface ITour {
   name: string
   latitude: number
@@ -14,6 +15,7 @@ export interface ITour {
   categories: Array<string>
   properties: Array<string>
   foreignSources: Array<object>
+  explorers: Types.ObjectId[] | IExplorerDoc[]
 }
 
 export interface ITourDoc extends ITour, Document {

@@ -11,6 +11,9 @@ import {
   createExplorer,
 } from 'interfaces/explorer'
 import Recently from '../models/recently'
+import { ApiError } from 'utils/error'
+import httpStatus from 'http-status'
+import Tour from 'models/tour'
 
 /**
  * Set user object
@@ -26,10 +29,25 @@ const set = <T>(model: T, entity: T): T => {
 /**
  * Create a explorer
  * @param {createExplorer} userBody
- * @returns {Promise<IExplorer>}
+ * @returns {Promise<IExplorerDoc>}
  */
-export const create = async (userBody: createExplorer): Promise<IExplorer> => {
-  return await Explorer.create(userBody)
+export const create = async (
+  userBody: createExplorer,
+): Promise<IExplorerDoc> => {
+  const explorer = await Explorer.findOne({
+    latitude: userBody.latitude,
+    longitude: userBody.longitude,
+    tour: userBody.tour,
+  })
+  if (explorer) {
+    throw new ApiError(httpStatus.CONFLICT, 'Spot already exist')
+  }
+  const entity: IExplorerDoc = await Explorer.create(userBody)
+  const tour = await Tour.findById(userBody.tour)
+  if (tour) {
+    tour.explorers.push(entity._id)
+  }
+  return entity as IExplorerDoc
 }
 
 /**

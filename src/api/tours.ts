@@ -1,5 +1,5 @@
 import httpStatus from 'http-status'
-import * as TourService from '../services/explorers'
+import * as TourService from '../services/tours'
 import { Request, Response } from 'express'
 import pick from '../utils/pick'
 import { IOptions } from '../helpers/paginate'

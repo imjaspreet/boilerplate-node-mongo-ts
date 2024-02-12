@@ -10,7 +10,7 @@ import Explorer from '../models/explorer'
 import { extractPage } from '../utils/paging'
 export const create = async (req: Request, res: Response) => {
   try {
-    const entity = await ExplorerService.create(req.body)
+    const entity: IExplorerDoc = await ExplorerService.create(req.body)
     res.status(httpStatus.CREATED).send({
       isSuccess: true,
       data: explorerM.toModel(entity as IExplorerDoc),

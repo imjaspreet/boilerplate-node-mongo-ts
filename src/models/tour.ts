@@ -23,6 +23,7 @@ const tourSchema = new mongoose.Schema<ITourDoc, ITourModel>(
     title: String,
     description: String,
     shortDescription: String,
+    explorers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Explorer' }],
   },
   {
     timestamps: true,
