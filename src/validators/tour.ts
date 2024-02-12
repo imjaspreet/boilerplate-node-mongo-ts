@@ -16,6 +16,7 @@ const createModel: Record<keyof createTour, any> = {
   location: Joi.object(),
   state: Joi.string(),
   postalCode: Joi.string(),
+  explorers: Joi.array().items(Joi.string()),
 }
 
 export const createData = {

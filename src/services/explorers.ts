@@ -11,9 +11,9 @@ import {
   createExplorer,
 } from 'interfaces/explorer'
 import Recently from '../models/recently'
-import { ApiError } from 'utils/error'
+import ApiError from '../utils/error/ApiError'
 import httpStatus from 'http-status'
-import Tour from 'models/tour'
+import Tour from '../models/tour'
 
 /**
  * Set user object
