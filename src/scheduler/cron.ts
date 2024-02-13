@@ -3,7 +3,7 @@ import { setGlobalEnvironment } from '../global'
 import Environment from '../environments/environment'
 import Explorer from '../models/explorer'
 import { get as fetch } from '../providers/fetch'
-
+import * as Axios from 'axios'
 const env: Environment = new Environment()
 setGlobalEnvironment(env)
 
@@ -51,20 +51,29 @@ const job1 = cron.schedule('* * * * *', async (): Promise<void> => {
 // })
 
 const job3 = cron.schedule('* * * * *', async (): Promise<void> => {
-  console.log('Running a task every one minute')
+  console.log(' job3 Cron  Running a task every one minute')
   try {
     const item = await Explorer.findOne({
       description: { $ne: null },
-      audioFile: { germany: null },
+      'audioFile.germany': null,
     })
-
-    if (item) {
-      const newUrl: string = `${url}:5003`
-      const result: string = await fetch(`${newUrl}/api/text/`, {})
-
-      item.audioFile = { germany: result, english: null }
-      await item.save()
+    if (!item) return
+    const data = JSON.stringify({ article: item.description })
+    const newUrl: string = `${url}:5003`
+    const config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `${newUrl}/api/text`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data,
     }
+
+    const response = await Axios.default.request(config)
+
+    item.audioFile = { germany: response.data, english: null }
+    await item.save()
   } catch (error) {
     console.log('Error:', error)
   }

@@ -18,6 +18,10 @@ export interface IExplorer {
   tour: Types.ObjectId | ITourDoc
 }
 
+interface Language {
+  germany: string
+  english: string
+}
 export interface IExplorerDoc extends IExplorer, Document {
   foreign_sources?: Array<object>
   additional_sources?: Array<object>
@@ -26,7 +30,7 @@ export interface IExplorerDoc extends IExplorer, Document {
   isFavourite?: boolean
   description?: string
   distance?: number
-  audioFile: object
+  audioFile: Language
   createdAt?: string
   updatedAt?: string
 }
