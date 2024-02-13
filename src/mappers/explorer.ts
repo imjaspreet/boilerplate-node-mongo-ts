@@ -16,6 +16,7 @@ export const toModel = (entity: IExplorerDoc) => {
     categories: entity.categories && _.uniq(entity.categories),
     properties: entity.properties,
     distance: entity.distance,
+    audioFile: entity.audioFile,
     foreignSources: entity.foreignSources,
     isFavourite: entity.isFavourite || false,
     createdAt: entity.createdAt,
