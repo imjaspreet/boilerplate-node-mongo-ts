@@ -50,8 +50,8 @@ const job1 = cron.schedule('10 * * * *', async (): Promise<void> => {
 //   }
 // })
 
-const job3 = cron.schedule('* * * * *', async (): Promise<void> => {
-  console.log(' job3 Cron  Running a task every one minute')
+const job3 = cron.schedule('10 * * * *', async (): Promise<void> => {
+  // console.log(' job3 Cron  Running a task every one minute')
   try {
     const item = await Explorer.findOne({
       description: { $ne: null },
