@@ -29,6 +29,10 @@ export const create = async (
 ): Promise<IRecentlyDoc> => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const model = RecentlyM.toViewModel(userBody as any)
+  const previousView: IRecentlyDoc = await Recently.findOne(model)
+  if (previousView) {
+    await previousView.deleteOne()
+  }
   return await Recently.create(model)
 }
 
