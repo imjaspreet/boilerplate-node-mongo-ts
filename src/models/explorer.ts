@@ -24,6 +24,10 @@ const explorerSchema = new mongoose.Schema<IExplorerDoc, IExplorerModel>(
     description: String,
     tour: { type: mongoose.Schema.Types.ObjectId, ref: 'Tour' },
     shortDescription: String,
+    audioFile: {
+      germany: String,
+      english: String,
+    },
   },
   {
     timestamps: true,

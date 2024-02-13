@@ -50,7 +50,28 @@ const job1 = cron.schedule('* * * * *', async (): Promise<void> => {
 //   }
 // })
 
+const job3 = cron.schedule('* * * * *', async (): Promise<void> => {
+  console.log('Running a task every one minute')
+  try {
+    const item = await Explorer.findOne({
+      description: { $ne: null },
+      audioFile: { germany: null },
+    })
+
+    if (item) {
+      const newUrl: string = `${url}:5003`
+      const result: string = await fetch(`${newUrl}/api/text/`, {})
+
+      item.audioFile = { germany: result, english: null }
+      await item.save()
+    }
+  } catch (error) {
+    console.log('Error:', error)
+  }
+})
+
 export default function job() {
   job1.start()
   // job2.start()
+  job3.start()
 }

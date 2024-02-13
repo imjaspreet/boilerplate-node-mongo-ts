@@ -26,6 +26,7 @@ export interface IExplorerDoc extends IExplorer, Document {
   isFavourite?: boolean
   description?: string
   distance?: number
+  audioFile: object
   createdAt?: string
   updatedAt?: string
 }
