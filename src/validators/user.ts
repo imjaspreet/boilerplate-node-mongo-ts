@@ -9,6 +9,7 @@ const createUserBody: Record<keyof NewCreatedUser, any> = {
   email: Joi.string().required().email().lowercase(),
   password: Joi.string().required().custom(password),
   guestId: Joi.string(),
+  imageUrl: Joi.string(),
   authMethod: Joi.string()
     .required()
     .valid('google', 'facebook', 'apple', 'email'),

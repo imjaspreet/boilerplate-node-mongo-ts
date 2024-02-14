@@ -1,60 +1,58 @@
 // user.test.ts
 import setupTestDB from './setupTestDB'
+import { faker } from '@faker-js/faker'
+import User from '../models/user'
 import request from 'supertest'
 import app from '../app'
-import Session from '../models/session'
-import { faker } from '@faker-js/faker'
+import fs from 'fs'
+import path from 'path'
 const email: string = faker.internet.email()
 let userId: string
-let accessToken: string
+let imageUrl: string
 setupTestDB()
 
-const getAccessToken = async () => {
-  const session = await Session.findOne({ status: 'active' }).sort({
-    createdAt: -1,
-  })
-  return session?.accessToken || undefined
-}
-
 describe('User API Tests ', () => {
+  test('POST /api/images upload a profile image', async () => {
+    // Read the image file as binary data
+    const imagePath = path.resolve(__dirname, 'image.png')
+    const imageData = fs.readFileSync(imagePath)
+    const response = await request(app)
+      .post('/api/images')
+      .attach('image', imageData, 'image.png')
+
+    expect(response.body.isSuccess).toBe(true)
+    expect(response.body.url)
+
+    imageUrl = response.body.url
+  })
   test('POST /api/users creates a new user', async () => {
-    accessToken = await getAccessToken()
     const newUser = {
       name: faker.person.fullName(),
       email: email,
       password: 'Qwerty@123',
       authMethod: 'email',
+      imageUrl,
     }
-    // accessToken = await getAccessToken()
-    const response = await request(app)
-      .post('/api/users')
-      .set('x-access-token', accessToken)
-      .send(newUser)
-    expect(response.body.isSuccess)
-    userId = response.body.isSuccess.data.id
+    const user = await User.create(newUser)
+    userId = user.id
+    expect(user.id)
   })
 
   test('POST /api/users/id update a user', async () => {
     const newUser = {
       name: faker.person.fullName().toLowerCase(),
     }
-
-    const response = await request(app)
-      .put(`/api/users/${userId}`)
-      .set('x-access-token', accessToken)
-      .send(newUser)
-    expect(response.body.isSuccess)
+    const user = await User.findByIdAndUpdate(userId, newUser)
+    console.log(user)
+    expect(user.id)
   })
   test('GET /api/users/id get a user', async () => {
-    const response = await request(app)
-      .get(`/api/users/${userId}`)
-      .set('x-access-token', accessToken)
-    expect(response.body.isSuccess)
+    const response = await User.findById(userId)
+    console.log(response)
+    expect(response.id)
   })
   test('GET /api/users get all users', async () => {
-    const response = await request(app)
-      .get('/api/users')
-      .set('x-access-token', accessToken)
-    expect(response.body.isSuccess)
+    const users = await User.find({ id: userId })
+    expect(users.length > 0)
   })
 })

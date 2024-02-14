@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema<IUserDoc, IUserModel>(
       type: String,
       trim: true,
     },
+    imageUrl: String,
     email: {
       type: String,
       // required: true,

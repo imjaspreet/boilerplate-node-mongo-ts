@@ -6,6 +6,7 @@ export interface IUser {
   name: string
   email: string
   password: string
+  imageUrl: string
   role: string
   isEmailVerified: boolean
   authMethod: string
