@@ -1,10 +1,6 @@
 import Joi from 'joi'
 import { createExplorer } from '../interfaces/explorer'
-import {
-  objectId,
-  splitStringToArray,
-  ignoreEmptySearch,
-} from './custom.validation'
+import { objectId, splitStringToArray } from './custom.validation'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createModel: Record<keyof createExplorer, any> = {
   name: Joi.string().required(),
@@ -55,6 +51,7 @@ export const list = {
     pageNo: Joi.number().integer(),
     serverPaging: Joi.bool().default(true),
     categories: Joi.string().custom(splitStringToArray),
+    properties: Joi.string().custom(splitStringToArray),
   }),
 }
 

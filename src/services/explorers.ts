@@ -123,6 +123,7 @@ export const deleteOne = async (id: string): Promise<string | null> => {
   await explorer.deleteOne()
   return 'User deleted successfully'
 }
+
 /**
  *
  * @param {object} page
@@ -135,24 +136,16 @@ export const list = async (page, query) => {
     const where = {}
     if (query.search) {
       where['$or'] = [
-        {
-          name: {
-            $regex: `^${query.Search}`,
-            $options: 'i',
-          },
-        },
-        {
-          city: {
-            $regex: `^${query.Search}`,
-            $options: 'i',
-          },
-        },
-        // { state: new RegExp(query.search, 'i') },
+        { name: { $regex: query.search, $options: 'i' } },
+        { city: { $regex: query.search, $options: 'i' } },
       ]
     }
 
     if (query.categories) {
       where['categories'] = { $in: query.categories }
+    }
+    if (query.properties) {
+      where['properties'] = { $in: query.properties }
     }
     if (query.tourId) {
       where['tour'] = query.tourId
@@ -189,57 +182,13 @@ export const list = async (page, query) => {
     } else {
       items = await find(page, query, maxDistance, where)
     }
-    for (const item of items) {
-      const data = await Recently.findOne({
-        user: query.userId,
-        explorer: item._id,
-        isLike: true,
-      })
-      if (data) {
-        item.isFavourite = true
-      }
-    }
-
+    await updateFavourite(items, query)
     return { items, count }
   } catch (error) {
     throw error
   }
 }
 
-// const findLocation = async (
-//   lon: Float32Array,
-//   lat: Float32Array,
-//   option: object,
-//   query: object,
-// ) => {
-//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//   const entities: TextServiceArray | any = await fetch(
-//     `${url}:5001/api/POIs?lon=${lon}&lat=${lat}`,
-//     {},
-//   )
-//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//   const data: any = await textService(entities)
-//   //   // await shortDescription(entities)
-//   await Explorer.insertMany(explorerM.toCreateArrayModel(data))
-//   return await list(option, query)
-// }
-
-// const textService = async (item: TextService) => {
-//   const newUrl: string = `${url}:5002`
-//   const result = await fetch(
-//     `${newUrl}/api/text?name=${item.name}&city=${item.city}&country=${item.country}&lon=${item.longitude}&lat=${item.latitude}&adventurePointImportance=${item.importance}`,
-//     {},
-//   )
-//   return result
-// }
-
-// const shortDescription = async (item: TextService) => {
-//   const result = await fetch(
-//     `${url}:5004/api/description?name=${item.name}&city=${item.city}&country=${item.country}`,
-//     {},
-//   )
-//   return result
-// }
 /**
  *
  * @param {object} page
@@ -310,4 +259,21 @@ const find = async (page, query, maxDistance, where) => {
   } catch (error) {
     throw error
   }
+}
+
+const updateFavourite = async (
+  items: IExplorerDoc[],
+  query: { userId: string },
+) => {
+  for (const item of items) {
+    const data = await Recently.findOne({
+      user: query.userId,
+      explorer: item._id,
+      isLike: true,
+    })
+    if (data) {
+      item.isFavourite = true
+    }
+  }
+  return items
 }
