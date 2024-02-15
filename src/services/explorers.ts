@@ -135,11 +135,22 @@ export const list = async (page, query) => {
     const where = {}
     if (query.search) {
       where['$or'] = [
-        { name: new RegExp(query.search, 'i') },
-        { city: new RegExp(query.search, 'i') },
+        {
+          name: {
+            $regex: `^${query.Search}`,
+            $options: 'i',
+          },
+        },
+        {
+          city: {
+            $regex: `^${query.Search}`,
+            $options: 'i',
+          },
+        },
         // { state: new RegExp(query.search, 'i') },
       ]
     }
+
     if (query.categories) {
       where['categories'] = { $in: query.categories }
     }
