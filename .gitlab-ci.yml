@@ -1,29 +1,35 @@
 variables:
-    IMAGE_NAME: bcodercastle/mytuur-api
-    IMAGE_TAG: latest
+  CONTAINER_NAME: mytuur-api
+  IMAGE_NAME: bcodercastle/mytuur-api
+  IMAGE_TAG: latest
+  PORT: 3023
 
 stages:
-    - build
-    - deploy
+  - build
+  - deploy
 
 docker-build:
-    stage: build
-    image: docker:stable
-    services:
+  stage: build
+  image: docker:stable
+  services:
     - docker:dind
-    variables:
-        DOCKER_TLS_CERTDIR: "/certs"
-    before_script: 
-        - docker login -u $DOCKER_USERNAME -p $DOCKER_PASS
-    script:
-        - docker build -t $IMAGE_NAME:$IMAGE_TAG .
-        - docker push $IMAGE_NAME:$IMAGE_TAG
-    only:
-        - dev
+  variables:
+    DOCKER_TLS_CERTDIR: '/certs'
+  before_script:
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASS
+  script:
+    - docker build -t $IMAGE_NAME:$IMAGE_TAG .
+    - docker push $IMAGE_NAME:$IMAGE_TAG
+  only:
+    - dev
 
 deploy-build:
-    stage: deploy
-    script:
+  stage: deploy
+  script:
     - apt-get update -qy
     - apt-get install -y sshpass
-    - sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no root@199.192.21.220 "docker login -u $DOCKER_USERNAME -p $DOCKER_PASS && docker ps -aq | xargs docker stop | xargs docker rm && docker run -d -p 3023:3023 $IMAGE_NAME:$IMAGE_TAG"
+    - sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no
+      root@199.192.21.220 "docker login -u $DOCKER_USERNAME -p $DOCKER_PASS
+      &&  docker ps -aq --filter name=$CONTAINER_NAME && docker ps -aq | xargs
+      docker stop | xargs docker rm && docker run -d -p 3023:3023
+      $IMAGE_NAME:$IMAGE_TAG"
