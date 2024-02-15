@@ -43,6 +43,7 @@ export const toFavouriteModel = (body: IRecentlyDoc) => {
     explorer: body.explorerId,
     user: body.userId,
     isLike: true,
+    tour: body.tourId,
   }
   return model
 }

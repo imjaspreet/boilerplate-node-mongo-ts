@@ -140,6 +140,9 @@ export const list = async (page, query) => {
         // { state: new RegExp(query.search, 'i') },
       ]
     }
+    if (query.categories) {
+      where['categories'] = { $in: query.categories }
+    }
     const maxDistance: number = query.maxDistance | 10000
     const result = await Explorer.aggregate([
       {
@@ -174,7 +177,7 @@ export const list = async (page, query) => {
     }
     for (const item of items) {
       const data = await Recently.findOne({
-        user: query.user,
+        user: query.userId,
         explorer: item._id,
         isLike: true,
       })

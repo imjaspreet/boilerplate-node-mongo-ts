@@ -20,3 +20,25 @@ export const password = (value: string, helpers: CustomHelpers) => {
   }
   return value
 }
+/**
+ *
+ * @param value {string}
+ * @param helpers
+ * @returns
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const splitStringToArray = (value: string, helpers: any) => {
+  if (typeof value !== 'string') {
+    return helpers.error('invalid String')
+  }
+
+  const array = value.split(',').map(item => item.trim())
+  return array
+}
+
+export const ignoreEmptySearch = (value, helpers) => {
+  if (value === '') {
+    return value
+  }
+  return helpers.error('Invalid Value')
+}

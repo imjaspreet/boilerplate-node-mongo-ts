@@ -2,6 +2,7 @@ import { Model, Document, SaveOptions, Types } from 'mongoose'
 import { QueryResult } from '../helpers/paginate'
 import { toUserModel } from './user'
 import { IExplorer } from './explorer'
+import { ITour } from './tour'
 
 // Define Recently schema
 export interface IRecently {
@@ -9,12 +10,14 @@ export interface IRecently {
   user: Types.ObjectId | toUserModel
   isLike: boolean
   isView: boolean
+  tour: ITour
 }
 
 export interface IRecentlyDoc extends IRecently, Document {
   id?: string
   explorerId?: string
   userId?: string
+  tourId?: string
   createdAt?: string
   updatedAt?: string
 }
@@ -32,4 +35,5 @@ export interface IRecentlyModel extends Model<IRecentlyDoc> {
 export interface createRecently {
   explorerId: string
   userId: string
+  tourId: string
 }

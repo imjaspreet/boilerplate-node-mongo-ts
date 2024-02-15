@@ -5,6 +5,7 @@ import { objectId } from './custom.validation'
 const createModel: Record<keyof createRecently, any> = {
   userId: Joi.string(),
   explorerId: Joi.string(),
+  tourId: Joi.string(),
 }
 
 export const createData = {

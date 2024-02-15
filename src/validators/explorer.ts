@@ -1,6 +1,10 @@
 import Joi from 'joi'
 import { createExplorer } from '../interfaces/explorer'
-import { objectId } from './custom.validation'
+import {
+  objectId,
+  splitStringToArray,
+  ignoreEmptySearch,
+} from './custom.validation'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createModel: Record<keyof createExplorer, any> = {
   name: Joi.string().required(),
@@ -37,7 +41,7 @@ export const search = {
 export const list = {
   query: Joi.object().keys({
     name: Joi.string(),
-    search: Joi.string(),
+    search: Joi.string().custom(ignoreEmptySearch),
     city: Joi.string(),
     lat: Joi.number(),
     long: Joi.number(),
@@ -49,6 +53,7 @@ export const list = {
     page: Joi.number().integer(),
     pageNo: Joi.number().integer(),
     serverPaging: Joi.bool().default(true),
+    categories: Joi.string().custom(splitStringToArray),
   }),
 }
 

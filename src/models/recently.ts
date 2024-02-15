@@ -9,6 +9,7 @@ const recentlySchema = new mongoose.Schema<IRecentlyDoc, IRecentlyModel>(
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     isLike: { type: Boolean, default: false },
     isView: { type: Boolean, default: false },
+    tour: { type: mongoose.Schema.Types.ObjectId, ref: 'Tour' },
   },
   {
     timestamps: true,
