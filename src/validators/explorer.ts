@@ -47,6 +47,7 @@ export const list = {
     long: Joi.number(),
     sortBy: Joi.string(),
     projectBy: Joi.string(),
+    tourId: Joi.string(),
     skip: Joi.number(),
     userId: Joi.string(),
     limit: Joi.number().integer(),

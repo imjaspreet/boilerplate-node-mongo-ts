@@ -143,6 +143,9 @@ export const list = async (page, query) => {
     if (query.categories) {
       where['categories'] = { $in: query.categories }
     }
+    if (query.tourId) {
+      where['tour'] = query.tourId
+    }
     const maxDistance: number = query.maxDistance | 10000
     const result = await Explorer.aggregate([
       {
