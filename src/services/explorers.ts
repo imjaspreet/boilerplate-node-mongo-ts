@@ -174,9 +174,9 @@ export const list = async (page, query) => {
 
     let items: IExplorerDoc[]
     if (page) {
-      items = await findWithPagination(page, query, maxDistance)
+      items = await findWithPagination(page, query, maxDistance, where)
     } else {
-      items = await find(page, query, maxDistance)
+      items = await find(page, query, maxDistance, where)
     }
     for (const item of items) {
       const data = await Recently.findOne({
@@ -236,8 +236,7 @@ export const list = async (page, query) => {
  * @param {number} maxDistance
  * @returns
  */
-const findWithPagination = async (page, query, maxDistance) => {
-  const where = {}
+const findWithPagination = async (page, query, maxDistance, where) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const pipeline: any = [
     {
@@ -275,10 +274,9 @@ const findWithPagination = async (page, query, maxDistance) => {
  * @param {number} maxDistance
  * @returns
  */
-const find = async (page, query, maxDistance) => {
+const find = async (page, query, maxDistance, where) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    const where = {}
     const items: IExplorerDoc[] = await Explorer.aggregate([
       {
         $geoNear: {
