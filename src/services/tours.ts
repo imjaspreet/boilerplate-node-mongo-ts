@@ -117,6 +117,7 @@ export const list = async (page, query) => {
         // { state: new RegExp(query.search, 'i') },
       ]
     }
+
     const maxDistance: number = query.maxDistance | 10000
     const result = await Tour.aggregate([
       {
@@ -135,12 +136,35 @@ export const list = async (page, query) => {
       {
         $group: {
           _id: null,
-          count: { $sum: 1 },
+          count: {
+            $sum: 1,
+          },
         },
       },
     ])
 
-    // Check if the result is not found (null or undefined)
+    //   [
+    //   {
+    //     $geoNear: {
+    //       near: {
+    //         type: 'Point',
+    //         coordinates: [query.long, query.lat],
+    //       },
+    //       distanceField: 'distance',
+    //       maxDistance,
+    //       query: where,
+    //       includeLocs: 'location',
+    //       spherical: true,
+    //     },
+    //   },
+    //   {
+    //     $group: {
+    //       _id: null,
+    //       count: { $sum: 1 },
+    //     },
+    //   },
+    // ])
+
     const count = result.length > 0 ? result[0].count : 0
 
     let items: ITourDoc[]
@@ -223,9 +247,9 @@ const find = async (page, query, maxDistance) => {
             type: 'Point',
             coordinates: [query.long, query.lat],
           },
-          distanceField: 'distance',
-          maxDistance: maxDistance,
           query: where,
+          distanceField: 'distance',
+          maxDistance,
           includeLocs: 'location',
           spherical: true,
         },
