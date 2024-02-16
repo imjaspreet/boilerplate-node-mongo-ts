@@ -124,10 +124,10 @@ export const list = async (page, query) => {
         $geoNear: {
           near: {
             type: 'Point',
-            coordinates: [query.long, query.lat],
+            coordinates: [+query.long, +query.lat],
           },
           distanceField: 'distance',
-          maxDistance,
+          maxDistance: 1000,
           query: where,
           includeLocs: 'location',
           spherical: true,
@@ -143,35 +143,13 @@ export const list = async (page, query) => {
       },
     ])
 
-    //   [
-    //   {
-    //     $geoNear: {
-    //       near: {
-    //         type: 'Point',
-    //         coordinates: [query.long, query.lat],
-    //       },
-    //       distanceField: 'distance',
-    //       maxDistance,
-    //       query: where,
-    //       includeLocs: 'location',
-    //       spherical: true,
-    //     },
-    //   },
-    //   {
-    //     $group: {
-    //       _id: null,
-    //       count: { $sum: 1 },
-    //     },
-    //   },
-    // ])
-
     const count = result.length > 0 ? result[0].count : 0
 
     let items: ITourDoc[]
     if (page) {
-      items = await findWithPagination(page, query, maxDistance)
+      items = await findWithPagination(page, query, maxDistance, where)
     } else {
-      items = await find(page, query, maxDistance)
+      items = await find(page, query, maxDistance, where)
     }
     for (const item of items) {
       const data = await Recently.findOne({
@@ -195,20 +173,20 @@ export const list = async (page, query) => {
  * @param {object} page
  * @param {object}query
  * @param {number} maxDistance
+ * @param {object} where
  * @returns
  */
-const findWithPagination = async (page, query, maxDistance) => {
-  const where = {}
+const findWithPagination = async (page, query, maxDistance, where) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const pipeline: any = [
     {
       $geoNear: {
         near: {
           type: 'Point',
-          coordinates: [query.long, query.lat],
+          coordinates: [+query.long, +query.lat],
         },
         distanceField: 'distance',
-        maxDistance: maxDistance,
+        maxDistance,
         query: where,
         includeLocs: 'location',
         spherical: true,
@@ -234,22 +212,22 @@ const findWithPagination = async (page, query, maxDistance) => {
  * @param {any} page
  * @param {object}query
  * @param {number} maxDistance
+ * @param {object} where
  * @returns
  */
-const find = async (page, query, maxDistance) => {
+const find = async (page, query, maxDistance, where) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    const where = {}
     const items: ITourDoc[] = await Tour.aggregate([
       {
         $geoNear: {
           near: {
             type: 'Point',
-            coordinates: [query.long, query.lat],
+            coordinates: [+query.long, +query.lat],
           },
-          query: where,
           distanceField: 'distance',
           maxDistance,
+          query: where,
           includeLocs: 'location',
           spherical: true,
         },

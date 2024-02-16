@@ -7,7 +7,7 @@ const explorerSchema = new mongoose.Schema<IExplorerDoc, IExplorerModel>(
     latitude: Number,
     longitude: Number,
     location: {
-      type: { type: String, enum: ['Point'] },
+      type: { type: String, default: 'Point' },
       coordinates: { type: [Number] },
     },
     name: String,

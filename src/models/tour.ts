@@ -7,7 +7,7 @@ const tourSchema = new mongoose.Schema<ITourDoc, ITourModel>(
     latitude: Number,
     longitude: Number,
     location: {
-      type: { type: String, enum: ['Point'] },
+      type: { type: String, default: 'Point' },
       coordinates: { type: [Number] },
     },
     name: String,
