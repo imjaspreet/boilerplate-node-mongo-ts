@@ -11,6 +11,8 @@ export interface IRecently {
   isLike: boolean
   isView: boolean
   tour: ITour
+  isTourView: boolean
+  isTourLike: boolean
 }
 
 export interface IRecentlyDoc extends IRecently, Document {
