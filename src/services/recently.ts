@@ -114,10 +114,12 @@ export const favorite = async (userBody: createRecently): Promise<string> => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const model = RecentlyM.toFavouriteModel(userBody as any)
   const found: IRecentlyDoc = await Recently.findOne(model)
+
   if (found) {
     await Recently.deleteOne({ _id: found._id })
     return 'Mark as unfavorite'
+  } else {
+    await Recently.create(model)
+    return 'Mark as favorite'
   }
-  await Recently.create(model)
-  return 'Mark as favorite'
 }
