@@ -49,7 +49,7 @@ router
   .route('/')
   .get(
     validate(ExplorerValidation.search),
-    authMiddleware.validateToken,
+    authMiddleware.validateTokenOptional,
     explorerController.search,
   )
 
