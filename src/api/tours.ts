@@ -1,13 +1,12 @@
+import { ITourDoc } from './../interfaces/tour'
 import httpStatus from 'http-status'
 import * as TourService from '../services/tours'
 import { Request, Response } from 'express'
 import pick from '../utils/pick'
 import { IOptions } from '../helpers/paginate'
 import * as tourM from '../mappers/tour'
-import { ITourDoc } from 'interfaces/tour'
-import * as fetch from '../providers/fetch'
-import Tour from '../models/tour'
 import { extractPage } from '../utils/paging'
+
 export const create = async (req: Request, res: Response) => {
   try {
     const entity = await TourService.create(req.body)
@@ -105,18 +104,4 @@ export const list = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(httpStatus.NOT_FOUND).send({ isSuccess: false, error: error })
   }
-}
-
-export const point = async (req: Request, res: Response) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const entity: any = await fetch.get(
-    'http://localhost:5050/api/POIs?lon=48.398519030472855&lat=9.99245176438499',
-    {},
-  )
-  await Tour.insertMany(tourM.toCreateArrayModel(entity))
-  return res.json({
-    isSuccess: true,
-    items: entity,
-    totalRecords: entity.length,
-  })
 }

@@ -12,7 +12,6 @@ router
     authMiddleware.validateTokenOptional,
     tourController.list,
   )
-router.route('/point').get(authMiddleware.validateToken, tourController.point)
 
 router
   .route('/')
