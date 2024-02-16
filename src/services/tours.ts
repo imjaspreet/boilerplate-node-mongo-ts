@@ -127,7 +127,7 @@ export const list = async (page, query) => {
             coordinates: [query.long, query.lat],
           },
           distanceField: 'distance',
-          maxDistance: maxDistance,
+          maxDistance,
           query: where,
           includeLocs: 'location',
           spherical: true,
