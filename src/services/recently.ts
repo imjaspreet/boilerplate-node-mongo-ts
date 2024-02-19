@@ -27,8 +27,8 @@ const set = <T>(model: T, entity: T): T => {
 export const create = async (
   userBody: createRecently,
 ): Promise<IRecentlyDoc> => {
-  const existLike = await checkIfLikeItemExist(userBody)
-  if (existLike) return existLike
+  // const existLike = await checkIfLikeItemExist(userBody)
+  // if (existLike) return existLike
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const model = RecentlyM.toViewModel(userBody as any)
   const previousView: IRecentlyDoc = await Recently.findOne(model)
@@ -114,8 +114,8 @@ export const deleteOne = async (id: string): Promise<string | null> => {
 
 export const favorite = async (userBody: createRecently): Promise<string> => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const existView = await checkIfViewItemExist(userBody)
-  if (existView) return existView
+  // const existView = await checkIfViewItemExist(userBody)
+  // if (existView) return existView
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const model = RecentlyM.toFavouriteModel(userBody as any)
   const found: IRecentlyDoc = await Recently.findOne(model)
