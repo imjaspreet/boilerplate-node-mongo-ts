@@ -46,14 +46,14 @@ export const create = async (
 export const update = async (
   id: string,
   model: IRecentlyModel,
-): Promise<IRecentlyDoc> => {
+): Promise<void> => {
   const entity: IRecentlyModel | null = await Recently.findById(id)
 
   if (entity) {
     set(model, entity)
     await entity.save()
   }
-  return entity as unknown as IRecentlyDoc
+  entity
 }
 
 export const getById = async (id: string): Promise<IRecentlyDoc | null> => {
@@ -97,6 +97,7 @@ export const search = async (
   options: IOptions,
 ): Promise<QueryResult> => {
   const recently = await Recently.paginate(filter, options)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   await updateIsFavourite(recently as any, filter)
   return recently
 }
@@ -113,12 +114,6 @@ export const deleteOne = async (id: string): Promise<string | null> => {
 }
 
 export const favorite = async (userBody: createRecently): Promise<string> => {
-  // const existView = await checkIfViewItemExist(userBody)
-
-  // if (existView) {
-  //   return existView
-  // }
-
   const model = RecentlyM.toFavouriteModel(userBody as IRecentlyDoc)
   const found: IRecentlyDoc = await Recently.findOne(model)
 
@@ -137,13 +132,20 @@ export const favorite = async (userBody: createRecently): Promise<string> => {
  * @returns {Promise<void>}
  */
 const updateIsFavourite = async (
-  recently: IRecentlyDoc,
+  recently: QueryResult,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   filter: Record<string, any>,
 ): Promise<void> => {
-  if (recently.items && filter && filter.isView && filter.user) {
-    for (const item of recently.items) {
+  if (
+    (recently.items as IRecentlyDoc[]) &&
+    filter &&
+    filter.isView &&
+    filter.user
+  ) {
+    for (const item of recently.items as IRecentlyDoc[]) {
       const data: IRecentlyDoc | null = await Recently.findOne({
-        explorer: item.explorer,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        explorer: item.explorer as any,
         user: filter.user,
         isLike: true,
       }).select('_id isLike explorer')

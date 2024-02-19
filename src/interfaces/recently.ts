@@ -10,13 +10,12 @@ export interface IRecently {
   user: Types.ObjectId | toUserModel
   isLike: boolean
   isView: boolean
-  tour: ITour
+  tour: ITour | ITour
   isTourView: boolean
   isTourLike: boolean
 }
 
 export interface IRecentlyDoc extends IRecently, Document {
-  items?: any
   id?: string
   explorerId?: string
   userId?: string
