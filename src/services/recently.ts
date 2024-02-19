@@ -27,6 +27,8 @@ const set = <T>(model: T, entity: T): T => {
 export const create = async (
   userBody: createRecently,
 ): Promise<IRecentlyDoc> => {
+  const existLike = await checkIfLikeItemExist(userBody)
+  if (existLike) return existLike
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const model = RecentlyM.toViewModel(userBody as any)
   const previousView: IRecentlyDoc = await Recently.findOne(model)
@@ -112,6 +114,9 @@ export const deleteOne = async (id: string): Promise<string | null> => {
 
 export const favorite = async (userBody: createRecently): Promise<string> => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const existView = await checkIfViewItemExist(userBody)
+  if (existView) return existView
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const model = RecentlyM.toFavouriteModel(userBody as any)
   const found: IRecentlyDoc = await Recently.findOne(model)
 
@@ -122,4 +127,46 @@ export const favorite = async (userBody: createRecently): Promise<string> => {
     await Recently.create(model)
     return 'Mark as favorite'
   }
+}
+
+const checkIfLikeItemExist = async (userBody: createRecently) => {
+  const query = {
+    user: userBody.userId,
+    ...(userBody.explorerId && { explorer: userBody.explorerId }),
+    ...(userBody.tourId && { tour: userBody.tourId }),
+  }
+
+  const existView: IRecentlyDoc = await Recently.findOne({
+    ...query,
+    isLike: true,
+  })
+
+  if (existView) {
+    existView.isView = true
+    await existView.save()
+    return existView
+  }
+
+  return null
+}
+
+const checkIfViewItemExist = async (userBody: createRecently) => {
+  const query = {
+    user: userBody.userId,
+    ...(userBody.explorerId && { explorer: userBody.explorerId }),
+    ...(userBody.tourId && { tour: userBody.tourId }),
+  }
+
+  const existView: IRecentlyDoc = await Recently.findOne({
+    ...query,
+    isView: true,
+  })
+
+  if (existView) {
+    existView.isLike = true
+    await existView.save()
+    return 'Mark as favorite'
+  }
+
+  return null
 }
