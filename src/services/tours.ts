@@ -154,7 +154,7 @@ export const list = async (page, query) => {
     for (const item of items) {
       const data = await Recently.findOne({
         user: query.user,
-        Tour: item.id,
+        tour: item._id,
         isTourLike: true,
       })
       if (data) {
@@ -196,10 +196,10 @@ const findWithPagination = async (page, query, maxDistance, where) => {
       $sort: page.sortBy || { createdAt: -1 },
     },
     {
-      $skip: page.skip || 0,
+      $skip: +page.skip || 0,
     },
     {
-      $limit: page.limit,
+      $limit: +page.limit,
     },
   ]
 
