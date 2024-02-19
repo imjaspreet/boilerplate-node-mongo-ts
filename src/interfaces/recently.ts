@@ -16,6 +16,7 @@ export interface IRecently {
 }
 
 export interface IRecentlyDoc extends IRecently, Document {
+  items?: any
   id?: string
   explorerId?: string
   userId?: string

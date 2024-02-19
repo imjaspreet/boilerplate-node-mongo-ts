@@ -27,22 +27,11 @@ const set = <T>(model: T, entity: T): T => {
 export const create = async (
   userBody: createRecently,
 ): Promise<IRecentlyDoc> => {
-  // const existLike = await checkIfLikeItemExist(userBody)
-
-  // if (existLike) {
-  //   return existLike
-  // }
-
   const model = RecentlyM.toViewModel(userBody as IRecentlyDoc)
   const previousView: IRecentlyDoc = await Recently.findOne(model)
 
   if (previousView) {
-    // if (previousView.isLike) {
-    //   previousView.isView = false
-    //   await previousView.save()
-    // } else {
     await previousView.deleteOne()
-    // }
   }
 
   return await Recently.create(model)
@@ -108,6 +97,7 @@ export const search = async (
   options: IOptions,
 ): Promise<QueryResult> => {
   const recently = await Recently.paginate(filter, options)
+  await updateIsFavourite(recently as any, filter)
   return recently
 }
 
@@ -140,47 +130,26 @@ export const favorite = async (userBody: createRecently): Promise<string> => {
     return 'Mark as favorite'
   }
 }
-
-const checkIfLikeItemExist = async (userBody: createRecently) => {
-  const query = {
-    user: userBody.userId,
-    ...(userBody.explorerId && { explorer: userBody.explorerId }),
-    ...(userBody.tourId && { tour: userBody.tourId }),
+/**
+ *
+ * @param recently {IRecentlyDoc}
+ * @param filter {Record<string, any>}
+ * @returns {Promise<void>}
+ */
+const updateIsFavourite = async (
+  recently: IRecentlyDoc,
+  filter: Record<string, any>,
+): Promise<void> => {
+  if (recently.items && filter && filter.isView && filter.user) {
+    for (const item of recently.items) {
+      const data: IRecentlyDoc | null = await Recently.findOne({
+        explorer: item.explorer,
+        user: filter.user,
+        isLike: true,
+      }).select('_id isLike explorer')
+      if (data) {
+        item.isLike = true
+      }
+    }
   }
-
-  const existView: IRecentlyDoc = await Recently.findOne({
-    ...query,
-    isLike: true,
-    isView: false,
-  })
-
-  if (existView) {
-    existView.isView = true
-    await existView.save()
-    return existView
-  }
-
-  return null
-}
-
-const checkIfViewItemExist = async (userBody: createRecently) => {
-  const query = {
-    user: userBody.userId,
-    ...(userBody.explorerId && { explorer: userBody.explorerId }),
-    ...(userBody.tourId && { tour: userBody.tourId }),
-  }
-
-  const existView: IRecentlyDoc = await Recently.findOne({
-    ...query,
-    isView: true,
-    isLike: false,
-  })
-
-  if (existView) {
-    existView.isLike = true
-    await existView.save()
-    return 'Mark as favorite'
-  }
-
-  return null
 }
