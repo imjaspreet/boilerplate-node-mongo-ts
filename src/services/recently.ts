@@ -28,13 +28,23 @@ export const create = async (
   userBody: createRecently,
 ): Promise<IRecentlyDoc> => {
   // const existLike = await checkIfLikeItemExist(userBody)
-  // if (existLike) return existLike
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const model = RecentlyM.toViewModel(userBody as any)
+
+  // if (existLike) {
+  //   return existLike
+  // }
+
+  const model = RecentlyM.toViewModel(userBody as IRecentlyDoc)
   const previousView: IRecentlyDoc = await Recently.findOne(model)
+
   if (previousView) {
+    // if (previousView.isLike) {
+    //   previousView.isView = false
+    //   await previousView.save()
+    // } else {
     await previousView.deleteOne()
+    // }
   }
+
   return await Recently.create(model)
 }
 
@@ -113,15 +123,17 @@ export const deleteOne = async (id: string): Promise<string | null> => {
 }
 
 export const favorite = async (userBody: createRecently): Promise<string> => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // const existView = await checkIfViewItemExist(userBody)
-  // if (existView) return existView
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const model = RecentlyM.toFavouriteModel(userBody as any)
+
+  // if (existView) {
+  //   return existView
+  // }
+
+  const model = RecentlyM.toFavouriteModel(userBody as IRecentlyDoc)
   const found: IRecentlyDoc = await Recently.findOne(model)
 
   if (found) {
-    await Recently.deleteOne({ _id: found._id })
+    await found.deleteOne()
     return 'Mark as unfavorite'
   } else {
     await Recently.create(model)
@@ -139,6 +151,7 @@ const checkIfLikeItemExist = async (userBody: createRecently) => {
   const existView: IRecentlyDoc = await Recently.findOne({
     ...query,
     isLike: true,
+    isView: false,
   })
 
   if (existView) {
@@ -160,6 +173,7 @@ const checkIfViewItemExist = async (userBody: createRecently) => {
   const existView: IRecentlyDoc = await Recently.findOne({
     ...query,
     isView: true,
+    isLike: false,
   })
 
   if (existView) {
