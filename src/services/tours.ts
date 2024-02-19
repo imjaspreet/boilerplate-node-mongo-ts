@@ -154,7 +154,7 @@ export const list = async (page, query) => {
     for (const item of items) {
       const data = await Recently.findOne({
         user: query.user,
-        Tour: item._id,
+        Tour: item.id,
         isTourLike: true,
       })
       if (data) {
