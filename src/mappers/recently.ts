@@ -41,9 +41,9 @@ export const toViewModel = (body: IRecentlyDoc) => {
   const model = {
     explorer: body.explorerId,
     user: body.userId,
-    isView: body.explorerId ? true : false,
+    isView: body.explorerId && true,
     tour: body.tourId,
-    isTourView: body.tourId ? true : false,
+    isTourView: body.tourId && true,
   }
   return model
 }
@@ -51,9 +51,9 @@ export const toFavouriteModel = (body: IRecentlyDoc) => {
   const model = {
     explorer: body.explorerId,
     user: body.userId,
-    isLike: body.explorerId ? true : false,
+    isLike: body.explorerId && true,
     tour: body.tourId,
-    isTourLike: body.tourId ? true : false,
+    isTourLike: body.tourId && true,
   }
   return model
 }
