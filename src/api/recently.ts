@@ -56,14 +56,23 @@ export const search = async (req: Request, res: Response) => {
     if (req.query.userId) {
       req.query.user = req.query.userId
     }
-    const filter = pick(req.query, ['user', 'isView', 'isLike'])
+    if (req.query.isTourLike) {
+      req.query.explorer = null
+    }
+    const filter = pick(req.query, [
+      'user',
+      'isView',
+      'isLike',
+      'explorer',
+      'isTourLike',
+    ])
     const options: IOptions = pick(req.query, [
       'sortBy',
       'limit',
       'page',
       'projectBy',
     ])
-    options.populate = 'explorer,user'
+    options.populate = 'explorer,user,tour'
     const result = await RecentlyService.search(filter, options)
     res.send({
       isSuccess: true,

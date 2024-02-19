@@ -4,12 +4,14 @@ import { toUserModel } from 'interfaces/user'
 import * as UserM from './user'
 import * as ExplorerM from './explorer'
 import _ from 'underscore'
-
+import { ITourDoc } from 'interfaces/tour'
+import * as TourM from './tour'
 export const toModel = (entity: IRecentlyDoc) => {
   const model = {
     id: entity._id,
     explorer: null,
     user: null,
+    tour: null,
     isLike: entity.isLike,
     isView: entity.isView,
     isTourView: entity.isTourView,
@@ -24,6 +26,9 @@ export const toModel = (entity: IRecentlyDoc) => {
 
   if (entity.explorer) {
     model.explorer = ExplorerM.toModel(entity.explorer as IExplorerDoc)
+  }
+  if (entity.tour) {
+    model.tour = TourM.toModel(entity.tour as ITourDoc)
   }
 
   return model
