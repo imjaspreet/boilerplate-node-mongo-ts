@@ -5,7 +5,7 @@ import {
   IUserWithPassword,
   IUserSocialLogin,
   IAuthModel,
-} from 'interfaces/user'
+} from '../interfaces/user'
 import User from '../models/user'
 import ApiError from '../utils/error/ApiError'
 import bcrypt from 'bcrypt'

@@ -1,4 +1,4 @@
-import { IExplorerDoc } from 'interfaces/explorer'
+import { IExplorerDoc } from '../interfaces/explorer'
 import _ from 'underscore'
 export const toModel = (entity: IExplorerDoc) => {
   const model = {

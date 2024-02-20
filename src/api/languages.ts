@@ -4,7 +4,7 @@ import { Request, Response } from 'express'
 import pick from '../utils/pick'
 import { IOptions } from '../helpers/paginate'
 import * as LanguageMapper from '../mappers/language'
-import { ILanguageDoc } from 'interfaces/language'
+import { ILanguageDoc } from '../interfaces/language'
 
 export const create = async (req: Request, res: Response) => {
   try {

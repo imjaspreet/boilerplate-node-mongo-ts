@@ -1,4 +1,4 @@
-import { ITourDoc } from 'interfaces/tour'
+import { ITourDoc } from '../interfaces/tour'
 import _ from 'underscore'
 export const toModel = (entity: ITourDoc) => {
   const model = {

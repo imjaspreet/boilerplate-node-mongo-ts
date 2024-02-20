@@ -1,8 +1,4 @@
-import {
-  ILanguage,
-  ILanguageDoc,
-  ILanguageModel,
-} from './../interfaces/language'
+import { ILanguage, ILanguageDoc, ILanguageModel } from '../interfaces/language'
 import mongoose from 'mongoose'
 import paginate from '../helpers/paginate'
 import toJSON from '../helpers/toJSON'

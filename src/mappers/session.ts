@@ -1,6 +1,6 @@
 'use strict'
 
-import { ISession } from 'interfaces/session'
+import { ISession } from '../interfaces/session'
 
 const toModel = (entity: ISession): any => {
   const model = {

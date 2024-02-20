@@ -4,7 +4,7 @@ import { Request, Response } from 'express'
 import pick from '../utils/pick'
 import { IOptions } from '../helpers/paginate'
 import { toModel, toSearchModel } from '../mappers/user'
-import { toUserModel } from 'interfaces/user'
+import { toUserModel } from '../interfaces/user'
 export const create = async (req: Request, res: Response) => {
   try {
     const user = await userService.createUser(req.body)

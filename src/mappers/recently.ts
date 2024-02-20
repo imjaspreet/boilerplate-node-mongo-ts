@@ -1,10 +1,10 @@
-import { IRecentlyDoc } from 'interfaces/recently'
-import { IExplorerDoc } from 'interfaces/explorer'
-import { toUserModel } from 'interfaces/user'
+import { IRecentlyDoc } from '../interfaces/recently'
+import { IExplorerDoc } from '../interfaces/explorer'
+import { toUserModel } from '../interfaces/user'
 import * as UserM from './user'
 import * as ExplorerM from './explorer'
 import _ from 'underscore'
-import { ITourDoc } from 'interfaces/tour'
+import { ITourDoc } from '../interfaces/tour'
 import * as TourM from './tour'
 export const toModel = (entity: IRecentlyDoc) => {
   const model = {

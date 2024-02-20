@@ -1,4 +1,4 @@
-import { ITourDoc } from './../interfaces/tour'
+import { ITourDoc } from '../interfaces/tour'
 import httpStatus from 'http-status'
 import * as TourService from '../services/tours'
 import { Request, Response } from 'express'

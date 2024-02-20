@@ -4,8 +4,8 @@ import * as jwtService from '../utils/jwt'
 import * as sessionService from '../services/sessions'
 import ApiError from '../utils/error/ApiError'
 import User from '../models/user'
-import { ISession } from 'interfaces/session'
-import { IUserDoc } from 'interfaces/user'
+import { ISession } from '../interfaces/session'
+import { IUserDoc } from '../interfaces/user'
 
 interface Claims {
   session: string

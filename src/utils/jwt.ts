@@ -1,7 +1,7 @@
 import { setGlobalEnvironment } from '../global'
 import * as jwt from 'jsonwebtoken'
 import Environment from '../environments/environment'
-import { IUserDoc } from 'interfaces/user'
+import { IUserDoc } from '../interfaces/user'
 const env: Environment = new Environment()
 setGlobalEnvironment(env)
 

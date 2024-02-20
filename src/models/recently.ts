@@ -1,4 +1,4 @@
-import { IRecentlyModel, IRecentlyDoc, IRecently } from 'interfaces/recently'
+import { IRecentlyModel, IRecentlyDoc, IRecently } from '../interfaces/recently'
 import mongoose from 'mongoose'
 import paginate from '../helpers/paginate'
 import toJSON from '../helpers/toJSON'

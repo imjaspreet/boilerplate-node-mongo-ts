@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import paginate from '../helpers/paginate'
 import toJSON from '../helpers/toJSON'
-import { IUserDoc, IUserModel } from './../interfaces/user'
+import { IUserDoc, IUserModel } from '../interfaces/user'
 
 const userSchema = new mongoose.Schema<IUserDoc, IUserModel>(
   {

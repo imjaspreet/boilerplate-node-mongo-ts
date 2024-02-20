@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { ISession } from './../interfaces/session'
+import { ISession } from '../interfaces/session'
 
 const sessionSchema = new mongoose.Schema<ISession>(
   {

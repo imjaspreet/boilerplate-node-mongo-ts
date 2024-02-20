@@ -4,7 +4,7 @@ import { Request, Response } from 'express'
 import pick from '../utils/pick'
 import { IOptions } from '../helpers/paginate'
 import * as recentlyM from '../mappers/recently'
-import { IRecentlyDoc } from 'interfaces/recently'
+import { IRecentlyDoc } from '../interfaces/recently'
 
 export const create = async (req: Request, res: Response) => {
   try {

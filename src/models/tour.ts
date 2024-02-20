@@ -1,4 +1,4 @@
-import { ITour, ITourDoc, ITourModel } from 'interfaces/tour'
+import { ITour, ITourDoc, ITourModel } from '../interfaces/tour'
 import mongoose from 'mongoose'
 import paginate from '../helpers/paginate'
 import toJSON from '../helpers/toJSON'
