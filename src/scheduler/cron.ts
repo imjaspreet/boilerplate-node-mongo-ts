@@ -38,12 +38,12 @@ const job2 = cron.schedule('* * * * *', async (): Promise<void> => {
 
     if (item) {
       const newUrl: string = `${url}:5004`
-      const result: string = await fetch(
+      const result: { description: string } = await fetch(
         `${newUrl}/api/description?name=${item.name}&city=${item.city}&country=${item.country}`,
         {},
       )
-
-      await Explorer.findByIdAndUpdate(item._id, { shortDescription: result })
+      item.shortDescription = result ? result?.description : null
+      await item.save()
     }
   } catch (error) {
     console.log('Error:', error)
