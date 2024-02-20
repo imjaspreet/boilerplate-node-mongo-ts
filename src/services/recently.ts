@@ -5,7 +5,7 @@ import {
   IRecentlyDoc,
   IRecentlyModel,
   createRecently,
-} from 'interfaces/recently'
+} from '../interfaces/recently'
 import * as RecentlyM from '../mappers/recently'
 const populate = [{ path: 'explorer' }, { path: 'user' }]
 /**

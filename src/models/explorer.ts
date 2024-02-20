@@ -1,4 +1,4 @@
-import { IExplorerModel, IExplorerDoc, IExplorer } from 'interfaces/explorer'
+import { IExplorerModel, IExplorerDoc, IExplorer } from '../interfaces/explorer'
 import mongoose from 'mongoose'
 import paginate from '../helpers/paginate'
 import toJSON from '../helpers/toJSON'

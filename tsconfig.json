@@ -9,7 +9,10 @@
     "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": "./src" /* Skip type checking all .d.ts files. */
+    "baseUrl": "./src" /* Skip type checking all .d.ts files. */,
+    "paths": {
+      "@models": ["./src/models/*"]
+    }
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]

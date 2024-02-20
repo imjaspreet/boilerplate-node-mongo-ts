@@ -5,7 +5,7 @@ import {
   ILanguageDoc,
   ILanguageModel,
   createLanguage,
-} from 'interfaces/language'
+} from '../interfaces/language'
 
 const set = <T>(model: T, entity: T): T => {
   Object.assign(entity, model)

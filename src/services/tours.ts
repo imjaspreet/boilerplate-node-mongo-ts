@@ -4,7 +4,7 @@ const env: Environment = new Environment()
 setGlobalEnvironment(env)
 import Tour from '../models/tour'
 import { IOptions, QueryResult } from '../helpers/paginate'
-import { ITour, ITourDoc, ITourModel, createTour } from 'interfaces/tour'
+import { ITour, ITourDoc, ITourModel, createTour } from '../interfaces/tour'
 import Recently from '../models/recently'
 
 /**

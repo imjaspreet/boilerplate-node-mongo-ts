@@ -9,7 +9,7 @@ import {
   IExplorerDoc,
   IExplorerModel,
   createExplorer,
-} from 'interfaces/explorer'
+} from '../interfaces/explorer'
 import Recently from '../models/recently'
 import ApiError from '../utils/error/ApiError'
 import httpStatus from 'http-status'
