@@ -30,6 +30,5 @@ deploy-build:
     - apt-get install -y sshpass
     - sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no
       root@199.192.21.220 " docker login -u $DOCKER_USERNAME -p $DOCKER_PASS &&
-      docker ps -aq --filter name=$CONTAINER_NAME | xargs -r docker stop &&
-      docker ps -aq --filter name=$CONTAINER_NAME | xargs -r docker rm && docker
-      run -d -p $PORT:$PORT $IMAGE_NAME:$IMAGE_TAG "
+      docker ps -aq --filter name=$CONTAINER_NAME | xargs -r docker stop | xargs -r docker rm && docker
+      run -d -p $PORT:$PORT --name $CONTAINER_NAME $IMAGE_NAME:$IMAGE_TAG"
