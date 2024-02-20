@@ -2,7 +2,7 @@ import httpStatus from 'http-status'
 import { Request, Response } from 'express'
 import * as AuthService from '../services/auths'
 import { toModel, toAuthModel, toGuestModel } from '../mappers/user'
-import { IAuthModel, toUserModel } from 'interfaces/user'
+import { IAuthModel, toUserModel } from '../interfaces/user'
 
 export const signup = async (req: Request, res: Response): Promise<void> => {
   try {
