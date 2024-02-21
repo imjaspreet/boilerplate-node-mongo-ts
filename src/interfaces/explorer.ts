@@ -23,6 +23,7 @@ interface Language {
   english: string
 }
 export interface IExplorerDoc extends IExplorer, Document {
+  duration: number
   foreign_sources?: Array<object>
   additional_sources?: Array<object>
   title?: string

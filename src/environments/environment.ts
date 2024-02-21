@@ -27,6 +27,9 @@ class Environment implements IEnvironment {
     region: string
     bucket: string
   }
+  public mapBox: {
+    accessToken: string
+  }
   public envName: string
   public microServiceUrl: string
 
@@ -59,6 +62,9 @@ class Environment implements IEnvironment {
       bucket: String(process.env.BUCKET),
     }
     this.microServiceUrl = String(process.env.MICRO_SERVICE_URL)
+    this.mapBox = {
+      accessToken: String(process.env.MAP_BOX_ACCESS_TOKEN),
+    }
   }
   public getCurrentEnvironment(): string {
     let environment: string = process.env.NODE_ENV || Environments.DEV
@@ -83,22 +89,22 @@ class Environment implements IEnvironment {
 
   public setEnvironment(env: string): void {
     let envPath: string
-    const rootdir: string = path.resolve(__dirname, '../../')
+    const rootDir: string = path.resolve(__dirname, '../../')
     switch (env) {
       case Environments.PRODUCTION:
-        envPath = path.resolve(rootdir, EnvironmentFile.PRODUCTION)
+        envPath = path.resolve(rootDir, EnvironmentFile.PRODUCTION)
         break
       case Environments.TEST:
-        envPath = path.resolve(rootdir, EnvironmentFile.TEST)
+        envPath = path.resolve(rootDir, EnvironmentFile.TEST)
         break
       case Environments.STAGING:
-        envPath = path.resolve(rootdir, EnvironmentFile.STAGING)
+        envPath = path.resolve(rootDir, EnvironmentFile.STAGING)
         break
       case Environments.LOCAL:
-        envPath = path.resolve(rootdir, EnvironmentFile.LOCAL)
+        envPath = path.resolve(rootDir, EnvironmentFile.LOCAL)
         break
       default:
-        envPath = path.resolve(rootdir, EnvironmentFile.LOCAL)
+        envPath = path.resolve(rootDir, EnvironmentFile.LOCAL)
     }
     if (!fs.existsSync(envPath)) {
       throw new Error('.env file is missing in root directory')

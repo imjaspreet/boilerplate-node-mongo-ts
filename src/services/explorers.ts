@@ -14,6 +14,7 @@ import Recently from '../models/recently'
 import ApiError from '../utils/error/ApiError'
 import httpStatus from 'http-status'
 import Tour from '../models/tour'
+import * as distanceProvider from '../providers/distance'
 
 /**
  * Set user object
@@ -263,17 +264,37 @@ const find = async (page, query, maxDistance, where) => {
 
 const updateFavourite = async (
   items: IExplorerDoc[],
-  query: { userId: string },
+  query: { userId: string; long: number; lat: number },
 ) => {
-  for (const item of items) {
-    const data = await Recently.findOne({
+  // Prepare promises to fetch Recently and calculate distances for all items concurrently
+  const promises = items.map(async item => {
+    const recently = await Recently.findOne({
       user: query.userId,
       explorer: item._id,
       isLike: true,
     })
-    if (data) {
+
+    if (recently) {
       item.isFavourite = true
     }
-  }
+
+    return distanceProvider.getDistanceAndTime(
+      [item.longitude, item.latitude],
+      [query.long, query.lat],
+      env.mapBox.accessToken,
+    )
+  })
+
+  // Execute all promises concurrently
+  const responses = await Promise.all(promises)
+
+  // Update items with distance and duration information
+  responses.forEach((response, index) => {
+    if (response) {
+      items[index].distance = response.distance
+      items[index].duration = response.duration
+    }
+  })
+
   return items
 }

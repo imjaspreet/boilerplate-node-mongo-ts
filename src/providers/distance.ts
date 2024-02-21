@@ -36,9 +36,17 @@ export const getDistanceAndTime = async (
       [destination[0], destination[1]], // Destination coordinates [longitude, latitude]
     ]
 
-    const apiUrl = `https://api.mapbox.com/directions/v5/mapbox/driving/${coordinates[0][0]},${coordinates[0][1]};${coordinates[1][0]},${coordinates[1][1]}?geometries=geojson&access_token=${accessToken}`
+    // const apiUrl = `https://api.mapbox.com/directions/v5/mapbox/driving/${coordinates[0][0]},${coordinates[0][1]};${coordinates[1][0]},${coordinates[1][1]}?geometries=geojson&access_token=${accessToken}`
 
-    const response = await axios.get(apiUrl)
+    const response = await axios.get(
+      `https://api.mapbox.com/directions/v5/mapbox/driving/${coordinates[0][0]},${coordinates[0][1]};${coordinates[1][0]},${coordinates[1][1]}?geometries=geojson&`,
+      {
+        params: {
+          access_token: accessToken,
+        },
+      },
+    )
+    // const response = await axios.get(apiUrl)
     const route = response.data.routes[0]
     const distanceInMeters = route.distance // Distance in meters
     const distanceInKilometers: number = distanceInMeters / 1000
