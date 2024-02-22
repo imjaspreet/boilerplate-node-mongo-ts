@@ -30,6 +30,7 @@ export interface IExplorerDoc extends IExplorer, Document {
   shortDescription?: string
   isFavourite?: boolean
   description?: string
+  description_en?: string
   distance?: number
   audioFile: Language
   createdAt?: string

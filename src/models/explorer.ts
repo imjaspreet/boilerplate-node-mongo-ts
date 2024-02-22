@@ -22,6 +22,7 @@ const explorerSchema = new mongoose.Schema<IExplorerDoc, IExplorerModel>(
     foreignSources: [],
     title: String,
     description: String,
+    description_en: String,
     tour: { type: mongoose.Schema.Types.ObjectId, ref: 'Tour' },
     shortDescription: String,
     audioFile: {
