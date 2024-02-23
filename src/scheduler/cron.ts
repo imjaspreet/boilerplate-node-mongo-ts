@@ -7,8 +7,6 @@ import * as Axios from 'axios'
 const env: Environment = new Environment()
 setGlobalEnvironment(env)
 
-const url = global.environment.microServiceUrl
-
 // run cron every 5 minutes
 const job1 = cron.schedule('*/10 * * * *', async (): Promise<void> => {
   console.log('Running a task every 2 minute')
@@ -16,7 +14,7 @@ const job1 = cron.schedule('*/10 * * * *', async (): Promise<void> => {
     const item = await Explorer.findOne({ description: null })
 
     if (item) {
-      const newUrl: string = `${url}:5002`
+      const newUrl: string = `https://mytuur-services.codingcopz.in/text/`
       const result: string = await fetch(
         `${newUrl}/api/text?name=${item.name}&city=${item.city}&country=${item.country}&lon=${item.longitude}&lat=${item.latitude}&adventurePointImportance=${item.importance}`,
         {},
@@ -37,7 +35,7 @@ const job2 = cron.schedule('*/7 * * * *', async (): Promise<void> => {
     const item = await Explorer.findOne({ shortDescription: null })
 
     if (item) {
-      const newUrl: string = `${url}:5004`
+      const newUrl: string = 'https://mytuur-services.codingcopz.in/short/'
       const result: { description: string } = await fetch(
         `${newUrl}/api/description?name=${item.name}&city=${item.city}&country=${item.country}`,
         {},
@@ -59,7 +57,7 @@ const job3 = cron.schedule('*/12 * * * *', async (): Promise<void> => {
     })
     if (!item) return
     const data = JSON.stringify({ article: item.description })
-    const newUrl: string = `${url}:5003`
+    const newUrl: string = 'https://mytuur-services.codingcopz.in/audio/'
     const config = {
       method: 'get',
       maxBodyLength: Infinity,
@@ -79,8 +77,28 @@ const job3 = cron.schedule('*/12 * * * *', async (): Promise<void> => {
   }
 })
 
+// const job4 = cron.schedule('*/10 * * * *', async (): Promise<void> => {
+//   console.log('Running a task every 2 minute')
+//   try {
+//     const item = await Explorer.findOne({ description: null })
+
+//     if (item) {
+//       const result: string = await fetch(
+//         `http://localhost:5000/api/text?name=${item.name}&city=${item.city}&country=${item.country}&lon=${item.longitude}&lat=${item.latitude}&adventurePointImportance=${item.importance}`,
+//         {},
+//       )
+
+//       // await Explorer.findByIdAndUpdate(item._id, { description: result })
+//       item.description_en = result
+//       await item.save()
+//     }
+//   } catch (error) {
+//     console.log('Error:', error)
+//   }
+// })
 export default function job() {
   job1.start()
   job2.start()
   job3.start()
+  // job4.start()
 }

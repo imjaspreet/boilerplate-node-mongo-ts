@@ -10,6 +10,7 @@ export const toModel = (entity: IExplorerDoc) => {
     shortDescription: entity.shortDescription,
     country: entity.country,
     importance: entity.importance,
+    description_en: entity.description_en,
     latitude: entity.latitude,
     longitude: entity.longitude,
     additionalSources: entity.additionalSources,
@@ -49,6 +50,7 @@ export const toNewModel = (body: IExplorerDoc) => {
     },
     properties: body.properties,
     distance: body.distance,
+    description_en: body.description_en,
     foreignSources: body.foreign_sources,
   }
   return model
