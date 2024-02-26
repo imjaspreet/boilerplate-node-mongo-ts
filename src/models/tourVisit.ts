@@ -6,7 +6,7 @@ const tourVisitSchema = new mongoose.Schema<ITourVisitDoc, ITourVisitModel>(
   {
     latitude: Number,
     longitude: Number,
-    status: { Type: String, enum: ['start', 'close'], default: 'start' },
+    status: { type: String, enum: ['start', 'close'], default: 'start' },
     locationCoordinate: [{ latitude: Number, longitude: Number }],
     tour: { type: mongoose.Schema.Types.ObjectId, ref: 'Tour' },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
