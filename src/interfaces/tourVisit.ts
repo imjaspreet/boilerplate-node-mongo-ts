@@ -1,11 +1,13 @@
 import { Model, Document, SaveOptions, Types } from 'mongoose'
 import { QueryResult } from '../helpers/paginate'
 import { ITourDoc } from './tour'
+import { IUserDoc } from './user'
 export interface ITourVisit {
   latitude: number
   longitude: number
   location?: object
-  locationCode: [{ point: [] }]
+  locationCoordinate: [{ point: [] }]
+  user: Types.ObjectId | IUserDoc
   tour: Types.ObjectId | ITourDoc
 }
 
