@@ -7,6 +7,7 @@ import recentlyRoute from './recently'
 import languageRoute from './language'
 import imageRoute from './image'
 import tourRoute from './tour'
+import tourVisitRoute from './tourVisit'
 const router = express.Router()
 
 interface IRoute {
@@ -46,6 +47,10 @@ const defaultIRoute: IRoute[] = [
   {
     path: '/tours',
     route: tourRoute,
+  },
+  {
+    path: '/tourVisits',
+    route: tourVisitRoute,
   },
 ]
 

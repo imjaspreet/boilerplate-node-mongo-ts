@@ -6,7 +6,7 @@ const tourVisitSchema = new mongoose.Schema<ITourVisitDoc, ITourVisitModel>(
   {
     latitude: Number,
     longitude: Number,
-    locationCoordinate: [{ point: [] }],
+    locationCoordinate: [{ latitude: Number, longitude: Number }],
     tour: { type: mongoose.Schema.Types.ObjectId, ref: 'Tour' },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   },
@@ -19,9 +19,9 @@ const tourVisitSchema = new mongoose.Schema<ITourVisitDoc, ITourVisitModel>(
 tourVisitSchema.plugin(toJSON)
 tourVisitSchema.plugin(paginate)
 
-const Tour = mongoose.model<ITourVisitDoc, ITourVisitModel>(
+const TourVisit = mongoose.model<ITourVisitDoc, ITourVisitModel>(
   'TourVisit',
   tourVisitSchema,
 )
 
-export default Tour
+export default TourVisit

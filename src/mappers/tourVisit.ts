@@ -24,3 +24,15 @@ export const toModel = (entity: ITourVisitDoc) => {
 export const toSearchModel = entities => {
   return _.map(entities, toModel)
 }
+
+export const toNewModel = (body: ITourVisitDoc) => {
+  const model = {
+    latitude: body.latitude,
+    longitude: body.longitude,
+    location: body.location,
+    locationCoordinate: body.locationCoordinate,
+    user: body.userId,
+    tour: body.tourId,
+  }
+  return model
+}

@@ -8,8 +8,9 @@ import {
   ITourVisit,
   ITourVisitDoc,
   ITourVisitModel,
-  createTourVisit,
+  TourVisitCreate,
 } from '../interfaces/tourVisit'
+import moment from 'moment'
 
 /**
  * Set user object
@@ -28,11 +29,26 @@ const set = <T>(model: T, entity: T): T => {
  * @returns {Promise<ITourVisitDoc>}
  */
 export const create = async (
-  userBody: createTourVisit,
+  userBody: TourVisitCreate,
 ): Promise<ITourVisitDoc> => {
-  return await TourVisit.create(userBody)
+  const preVisit = await TourVisit.findOne({
+    tour: userBody.tourId,
+    user: userBody.userId,
+    createdAt: {
+      $gte: moment().format('YYYY-MM-DD'),
+      $lte: moment().format('YYYY-MM-DD'),
+    },
+  })
+  if (preVisit) {
+    preVisit.locationCoordinate.push({
+      latitude: userBody.latitude,
+      longitude: userBody.longitude,
+    })
+    await preVisit.save()
+  } else {
+    return await TourVisit.create(userBody)
+  }
 }
-
 /**
  *
  * @param id

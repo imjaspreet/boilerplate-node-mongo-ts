@@ -6,12 +6,14 @@ export interface ITourVisit {
   latitude: number
   longitude: number
   location?: object
-  locationCoordinate: [{ point: [] }]
+  locationCoordinate: object[]
   user: Types.ObjectId | IUserDoc
   tour: Types.ObjectId | ITourDoc
 }
 
 export interface ITourVisitDoc extends ITourVisit, Document {
+  userId?: string
+  tourId?: string
   distance?: number
   createdAt?: string
   updatedAt?: string
@@ -28,3 +30,8 @@ export interface ITourVisitModel extends Model<ITourVisitDoc> {
 }
 
 export interface createTourVisit extends ITourVisit {}
+export interface TourVisitCreate extends ITourVisit {
+  tourId: string
+  userId: string
+  save(): SaveOptions
+}
