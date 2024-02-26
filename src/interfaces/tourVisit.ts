@@ -29,7 +29,10 @@ export interface ITourVisitModel extends Model<ITourVisitDoc> {
   ): Promise<QueryResult>
 }
 
-export interface createTourVisit extends ITourVisit {}
+export interface createTourVisit extends ITourVisit {
+  tourId: string
+  userId: string
+}
 export interface TourVisitCreate extends ITourVisit {
   tourId: string
   userId: string

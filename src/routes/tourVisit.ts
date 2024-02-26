@@ -2,7 +2,7 @@ import * as authMiddleware from './../middleware/auth.middleware'
 import express, { Router } from 'express'
 import validate from '../middleware/validate.middleware'
 import * as tourVisitController from '../api/tourVisits'
-import * as tourVisitValidation from '../validators/tour'
+import * as tourVisitValidation from '../validators/tourVisit'
 
 const router: Router = express.Router()
 

@@ -5,10 +5,12 @@ import { objectId } from './custom.validation'
 const createModel: Record<keyof createTourVisit, any> = {
   latitude: Joi.number(),
   longitude: Joi.number(),
-  location: Joi.object(),
+  location: Joi.object().optional(),
   locationCoordinate: Joi.array(),
-  tour: Joi.string(),
-  user: Joi.string(),
+  tourId: Joi.string(),
+  userId: Joi.string(),
+  user: Joi.object().optional(),
+  tour: Joi.object().optional(),
 }
 
 export const createData = {
