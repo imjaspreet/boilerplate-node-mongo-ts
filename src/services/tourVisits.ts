@@ -34,6 +34,7 @@ export const create = async (
   const preVisit = await TourVisit.findOne({
     tour: userBody.tourId,
     user: userBody.userId,
+    status: 'active',
     createdAt: {
       $gte: moment().format('YYYY-MM-DD'),
       $lte: moment().format('YYYY-MM-DD'),

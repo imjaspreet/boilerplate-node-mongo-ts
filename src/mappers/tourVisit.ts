@@ -6,6 +6,7 @@ export const toModel = (entity: ITourVisitDoc) => {
     latitude: entity.latitude,
     longitude: entity.longitude,
     location: entity.location,
+    status: entity.status,
     locationCoordinate: entity.locationCoordinate,
     // user: null,
     // tour: null,

@@ -9,6 +9,7 @@ const createModel: Record<keyof createTourVisit, any> = {
   locationCoordinate: Joi.array(),
   tourId: Joi.string(),
   userId: Joi.string(),
+  status: Joi.string(),
   user: Joi.object().optional(),
   tour: Joi.object().optional(),
 }

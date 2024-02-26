@@ -6,6 +6,7 @@ export interface ITourVisit {
   latitude: number
   longitude: number
   location?: object
+  status: string
   locationCoordinate: object[]
   user: Types.ObjectId | IUserDoc
   tour: Types.ObjectId | ITourDoc
