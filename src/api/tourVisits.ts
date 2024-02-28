@@ -56,7 +56,10 @@ export const search = async (req: Request, res: Response) => {
     if (req.query.userId) {
       req.query.user = req.query.userId
     }
-    const filter = pick(req.query, ['name'])
+    if (req.query.tourId) {
+      req.query.tour = req.query.tourId
+    }
+    const filter = pick(req.query, ['name', 'tour', 'user'])
     const options: IOptions = pick(req.query, [
       'sortBy',
       'limit',
